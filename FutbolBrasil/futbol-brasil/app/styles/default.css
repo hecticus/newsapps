@@ -1022,7 +1022,8 @@ h6.team-name {
     }
 
 
-    #screen-block {
+    #screen-block,
+    #screen-block-landscape {
       position: absolute;
       top: 0;
       left: 0;
@@ -1031,6 +1032,10 @@ h6.team-name {
       height: 100%;
       background-color: rgba(0,0,0,0.7);
       text-align:center;
+     }
+
+     #screen-block-landscape {
+        z-index: 100 !important;
      }
 
     .h-center {
@@ -1342,4 +1347,7 @@ h6.team-name {
     top: -30px;
   }
 
+
   /*</v2>*/
+
+

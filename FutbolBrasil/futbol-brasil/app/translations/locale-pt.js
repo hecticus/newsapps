@@ -51,7 +51,7 @@
             "0" : "Sem Jogar",
             "1" : "Jogado",
             "2" : "Jogar",
-            "3" : "Fixação",
+            "3" : " ",
             "4" : "Cancelado",
             "5" : "Adiado",
             "6" : "Suspenso"
@@ -100,7 +100,8 @@
                 "TITLE" : "Esqueceu o seu nome de usuário e senha?",
                 "MESSAGE" : "Para obter as suas credenciais, por favor digite seu número de celular e clique em 'Lembrar / Obter Credenciais'",
                 "SMALL_PRINT" : "*O serviço está disponível apenas para assinantes de operadora específica"
-            }
+            },
+            "SUCCESS" : "Lembre Sucesso."
         }
     },
     "SETTINGS": {
@@ -256,6 +257,7 @@
     "LOGOUT" : "Sair",
     "READY" : "Pular tutorial",
     "NO_MATCH" : "época terminou",
-    "TITLE_NEXT_MATCH" : "Próximo"
+    "TITLE_NEXT_MATCH" : "Próximo",
+    "MSG_UNAVAILABLE_ORIENTATION" : "A orientação da vista não está disponível"
 
 }

@@ -1,14 +1,13 @@
 package models.football;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import models.HecticusModel;
+import models.FootballModel;
 import models.Language;
 import play.data.validation.Constraints;
 import play.db.ebean.Model;
 import play.libs.Json;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 
 /**
  * Created by plesse on 2/10/15.
@@ -16,7 +15,7 @@ import java.util.ArrayList;
 
 @Entity
 @Table(name="game_match_status_has_localization")
-public class GameMatchStatusHasLocalization extends HecticusModel {
+public class GameMatchStatusHasLocalization extends FootballModel {
 
     @Id
     private Integer idGameMatchStatusHasLocalization;

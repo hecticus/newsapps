@@ -102,7 +102,6 @@ angular
                     teams = JSON.parse($localStorage[KEY_TEAMS_LIST]);
                     return true;
                 } else {
-                    console.log('loadTeams. No records found for teams.');
                     teams = [];
                     return false;
                 }
@@ -131,12 +130,12 @@ angular
                 var status = false;
 
                 pushAlerts.forEach(function(pushAlert){
-                    console.log("setFavoriteTeams:",pushAlert);
+                    //console.log("setFavoriteTeams:",pushAlert);
                     pushAlert.push_alert.id_teams =  pushAlert.push_alert.id_ext;
                     arrTeams.push(pushAlert.push_alert);
                     status = status || pushAlert.status;
                });
-               
+
                //console.log("vivo status:",status);
 
                 Settings.setMtmStatus(status);
@@ -201,7 +200,7 @@ angular
                     persistFavoriteTeams(favTeams);
                     saveFavoriteTeamToServer({'add_push_alert' : [team.id_teams]}, callback);
                 }
-                
+
                 Settings.setMtmStatus(true);
             }
 
@@ -221,7 +220,7 @@ angular
                 } else {
                     console.log('removeFavoriteTeam. Team to remove not found');
                 }
-                
+
                if(favTeams.length == 0){
                     Settings.setMtmStatus(false);
                 }

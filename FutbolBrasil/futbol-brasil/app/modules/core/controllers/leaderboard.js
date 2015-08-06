@@ -13,6 +13,8 @@ angular
         function($http, $rootScope, $scope, $state, $window, Client, WebManager, Domain
             , FacebookManager, iScroll, Competitions, Notification, Moment) {
 
+
+
             var config = WebManager.getFavoritesConfig($rootScope.isFavoritesFilterActive());
 
             var _currentPage = 0;
@@ -109,8 +111,8 @@ angular
                             }
                          } else if(competition.leaderboard.length <= competition.client.index) {
                             competition.client.index = competition.client.index + 1;
-                            competition.leaderboard.push({client:'...',score:'...', index: '...'});
-                            competition.leaderboard.push(competition.client);
+                            competition.leaderboard.unshift({client:'...',score:'...', index: '...'});
+                            competition.leaderboard.unshift(competition.client);
                          }
 
 
@@ -167,8 +169,10 @@ angular
                           });
                       });
 
-                }).finally(function() {
-
+                }, function(){
+                  Notification.showNetworkErrorAlert();
+                }).finally(function(){
+                  $scope.$emit('unload');
                 });
             }
 

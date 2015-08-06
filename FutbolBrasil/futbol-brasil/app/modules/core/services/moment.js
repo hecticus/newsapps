@@ -16,7 +16,7 @@ angular
                 if(oLang){
                     return oLang.short_name.toLowerCase();
                 } else {
-                    console.log('defaultLanguage: undefined. Returning "pt"');
+                    //console.log('defaultLanguage: undefined. Returning "pt"');
                     return 'pt';
                 }
             }
@@ -54,13 +54,12 @@ angular
                },
 
                 endOf : function(_date){
-                    var _oMoment = moment().locale(getLang());
                     if (_date) {
                         var leagueTime = moment(_date,'YYYYMMDDHHmmss').format('YYYY-MM-DD HH:mm:ss');
                         var localTime  = moment.utc(leagueTime).toDate();
-                        _oMoment = moment(localTime).locale(getLang());
+                        var _oMoment = moment(localTime).locale(getLang());
                     }
-                    return _oMoment.endOf('day').fromNow();
+                    return _oMoment.endOf('d').fromNow();
                 },
 
                 /**

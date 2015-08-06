@@ -1,17 +1,28 @@
 <div id="wrapper">
     <div class="scroller">
+
+
+
         <div class="row">
 
             <div class="col-xs-12">
-                <div class="well text-center">
 
-                    <!--img class="h-logo login" src="img/tim-01.svg"  onerror="this.src='img/tim-01.png'" -->
+
+
+
+
+                <div class="well text-center">
 
                     <form name="msisdnForm" ng-submit="doMsisdnLogin()" class="form-horizontal">
                         <fieldset>
                             <div class="form-group">
 
-                                  <label for="msisdnInput" class="col-xs-12 control-label" translate>LOGIN.MSISDN_LABEL</label>
+                              <div class="alert alert-dismissable alert-success"   ng-show="flash.getMessage().length">
+                                <button type="button" class="close" data-dismiss="alert">×</button>
+                                <strong style="font-size:1.8em;">{{flash.getMessage()}}</strong>
+                              </div>
+
+                                <label for="msisdnInput" class="col-xs-12 control-label" translate>LOGIN.MSISDN_LABEL</label>
 
                                 <div class="col-xs-9 col-xs-push-1">
                                     <div class="input-group">

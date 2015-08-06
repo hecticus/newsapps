@@ -11,7 +11,7 @@ import play.libs.Json;
 /**
  * Created by alidaniel on 02/12/2015.
  */
-public class HandsetDetection extends Controller {
+public class HandsetDetection  extends Controller {
 
     public static final Integer HTML4_AJAX = 4;
     public static final Integer HTML = 3;

@@ -1,26 +1,19 @@
 package job;
 
 import akka.actor.Cancellable;
-import com.avaje.ebean.PagingList;
-import com.fasterxml.jackson.databind.node.ObjectNode;
-import models.basic.Action;
-import models.basic.Config;
-import models.clients.Client;
-import models.leaderboard.LeaderboardPush;
+import backend.HecticusThread;
+import models.Config;
 import play.db.DB;
-import play.libs.F;
-import play.libs.Json;
-import play.libs.ws.WS;
-import play.libs.ws.WSResponse;
 import utils.Utils;
 
-import java.net.URLEncoder;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
-import java.util.*;
-import java.util.concurrent.TimeUnit;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.Map;
+import java.util.TimeZone;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
@@ -29,7 +22,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public class Leaderboardnator extends HecticusThread {
 
     public Leaderboardnator() {
-        setRun(Utils.run);
         long start = System.currentTimeMillis();
         setName("Leaderboardnator-"+start);
         setInitTime(start);

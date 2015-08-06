@@ -1,7 +1,8 @@
 package controllers;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import models.basic.Config;
+import models.Config;
+import play.Logger;
 import play.libs.Json;
 import play.mvc.Http;
 import play.mvc.Result;
@@ -14,6 +15,7 @@ import utils.Utils;
 public class Secured extends Security.Authenticator {
 
     public final static String AUTH_TOKEN_HEADER = "HECTICUS-X-AUTH-TOKEN";
+    public static final String AUTH_QUERY_STRING = "api_password";
 
     /**
      * Metodo para definir la validacion del token donde se envie el md5 de autenticacion
@@ -23,7 +25,7 @@ public class Secured extends Security.Authenticator {
      */
     @Override
     public String getUsername(Http.Context ctx) {
-        boolean isSecured = Config.getIsSecured();
+        boolean isSecured = Utils.getIsSecured();
         if(isSecured) {
             Http.Request request = ctx.request();
             String realOrigin = null;
@@ -32,22 +34,20 @@ public class Secured extends Security.Authenticator {
             }
             String ipString = request.remoteAddress();
             boolean secured = true;
-
-            if ((request.host() != null && !request.host().isEmpty() && (request.host().startsWith("127.0.0.1") || request.host().startsWith("10.0.3"))) || ipString.startsWith("127.0.0.1") || ipString.startsWith("10.0.3") || (realOrigin != null && !realOrigin.isEmpty() && (realOrigin.startsWith("127.0.0.1") || realOrigin.startsWith("10.0.3")))) {
+            if (realOrigin != null && !realOrigin.isEmpty() && (realOrigin.startsWith("127.0.0.1") || realOrigin.startsWith("10."))) {
                 secured = false;
             }
-
             if (secured) {
-                String[] authTokenHeaderValues = request.headers().get(AUTH_TOKEN_HEADER);
-                if ((authTokenHeaderValues != null) && (authTokenHeaderValues.length == 1) && (authTokenHeaderValues[0] != null)) {
-                    boolean valid = validateAuthToken(authTokenHeaderValues[0]);
+                String apiPassword = getApiPassword(request);
+                if (apiPassword != null && !apiPassword.isEmpty()) {
+                    boolean valid = validateAuthToken(apiPassword);
                     if (valid) {
-                        Utils.printToLog(Secured.class, null, "Valid Token " + authTokenHeaderValues[0], false, null, "support-level-1", Config.LOGGER_INFO);
+                        Logger.of("secured").trace("ip  = " + ipString + " realOrigin = " + realOrigin + " Status: ACCEPTED, Valid Token " + apiPassword);
                         return "OK";
                     }
-                    Utils.printToLog(Secured.class, null, "Invalid Token " + authTokenHeaderValues[0], false, null, "support-level-1", Config.LOGGER_INFO);
+                    Logger.of("secured").trace("ip  = " + ipString + " realOrigin = " + realOrigin + " Status: DENIED, Invalid token = " + apiPassword);
                 } else {
-                    Utils.printToLog(Secured.class, null, "Missing Header " + AUTH_TOKEN_HEADER, false, null, "support-level-1", Config.LOGGER_INFO);
+                    Logger.of("secured").trace("ip  = " + ipString + " realOrigin = " + realOrigin + " Status: DENIED, Missing Header " + AUTH_TOKEN_HEADER + " or Query String " + AUTH_QUERY_STRING);
                 }
                 return null;
             } else {
@@ -58,16 +58,24 @@ public class Secured extends Security.Authenticator {
         }
     }
 
-    private boolean validateAuthToken(String authTokenHeaderValue) {
+    private String getApiPassword(Http.Request request) {
+        String apiPassword = request.getQueryString(AUTH_QUERY_STRING);
+        if(apiPassword == null || apiPassword.isEmpty()) {
+            apiPassword = request.getHeader(AUTH_TOKEN_HEADER);
+        }
+        return apiPassword;
+    }
+
+    private boolean validateAuthToken(String apiPassword) {
         try {
             String companyName = Config.getString("company-name");//1234
             String buildVersion = Config.getString("build-version");//9
             String serverVersion = Config.getString("server-version");//1
-            String keyCompanyName = authTokenHeaderValue.substring(0, companyName.length());//1234
-            char first = authTokenHeaderValue.charAt(companyName.length());//)
-            String keyBuildVersion = authTokenHeaderValue.substring(companyName.length() + 1, companyName.length() + 1 + buildVersion.length());//
-            char second = authTokenHeaderValue.charAt(companyName.length() + 1 + buildVersion.length());
-            String keyServerVersion = authTokenHeaderValue.substring(companyName.length() + 1 + keyBuildVersion.length() + 1);
+            String keyCompanyName = apiPassword.substring(0, companyName.length());//1234
+            char first = apiPassword.charAt(companyName.length());//)
+            String keyBuildVersion = apiPassword.substring(companyName.length() + 1, companyName.length() + 1 + buildVersion.length());//
+            char second = apiPassword.charAt(companyName.length() + 1 + buildVersion.length());
+            String keyServerVersion = apiPassword.substring(companyName.length() + 1 + keyBuildVersion.length() + 1);
             boolean valid = companyName.contentEquals(keyCompanyName) && buildVersion.contentEquals(keyBuildVersion) && serverVersion.contentEquals(keyServerVersion);
             int indexFirst = buildVersion.charAt(0) - 48;
             int indexSecond = serverVersion.charAt(0) - 48;

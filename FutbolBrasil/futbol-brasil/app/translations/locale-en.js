@@ -100,7 +100,8 @@
                 "TITLE" : "Forgot your Username and password?",
                 "MESSAGE" : "To get your credentials please type your MOBILE NUMBER and press 'Remind / Get Credentials'",
                 "SMALL_PRINT" : "*The service is only available for subscribers of the specific operator"
-            }
+            },
+            "SUCCESS" : "Remind Success."
         }
     },
     "SETTINGS": {
@@ -257,5 +258,5 @@
     "READY" : "Skip tutorial",
     "NO_MATCH" : "season finished",
     "TITLE_NEXT_MATCH" : "Next",
-    "TITLE_NEXT_MATCH" : "Next"
+    "MSG_UNAVAILABLE_ORIENTATION" : "The view orientation is unavailable"
 }

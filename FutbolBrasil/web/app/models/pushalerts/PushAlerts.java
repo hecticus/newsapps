@@ -1,12 +1,14 @@
 package models.pushalerts;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import job.TeamsSynchronizer;
 import models.HecticusModel;
 import play.data.validation.Constraints;
 import play.db.ebean.Model;
 import play.libs.Json;
 
 import javax.persistence.*;
+import java.net.URLDecoder;
 import java.util.List;
 
 /**
@@ -120,8 +122,25 @@ public class PushAlerts extends HecticusModel {
         objNode.put("id_push_alert",idPushAlert);
         objNode.put("name", name);
         objNode.put("id_ext", idExt);
-        objNode.put("short_name",shortName);
-        objNode.put("abbreviation_name",abbreviationName);
+
+        try {
+            objNode.put("official_name", URLDecoder.decode(officialName, TeamsSynchronizer.ENCODING));
+        } catch (Exception e) {
+            objNode.put("official_name", officialName);
+        }
+
+        try {
+            objNode.put("short_name", URLDecoder.decode(shortName, TeamsSynchronizer.ENCODING));
+        } catch (Exception e) {
+            objNode.put("short_name", shortName);
+        }
+
+        try {
+            objNode.put("abbreviation_name", URLDecoder.decode(abbreviationName, TeamsSynchronizer.ENCODING));
+        } catch (Exception e) {
+            objNode.put("abbreviation_name", abbreviationName);
+        }
+
         objNode.put("team_logo",teamLogo);
         objNode.put("pushable", pushable);
         return objNode;

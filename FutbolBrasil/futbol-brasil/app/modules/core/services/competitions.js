@@ -34,10 +34,10 @@ angular
             function getCompetitions(noConfig) {
                 loadCompetitions();
                 var config = WebManager.getFavoritesConfig(Client.isFavoritesFilterActive());
-                //console.log("getCompetitions-> " + Domain.competitions);
+
                 if (noConfig) config = false;
-                console.log('JSON.stringify -> ' + JSON.stringify(config));
-                return $http.get(Domain.competitions, config).then(function(response){
+
+                return $http.get(Domain.competitions(), config).then(function(response){
                     competitions = response.data.response.competitions;
                     saveCompetitions();
                     return competitions;
@@ -143,7 +143,7 @@ angular
                             return $http.get(Domain.leaderboard.personal.competition())
                                 .then(function(response){
                                     var leaderboard = response.data.response.leaderboard;
-                                    $http.get(Domain.competitions).then(function(response){
+                                    $http.get(Domain.competitions()).then(function(response){
 
                                         var allCompetitions = response.data.response.competitions;
 

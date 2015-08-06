@@ -13,7 +13,7 @@ import com.feth.play.module.pa.PlayAuthenticate;
 import com.feth.play.module.pa.providers.password.UsernamePasswordAuthProvider;
 import com.feth.play.module.pa.user.AuthUser;
 
-import models.basic.Config;
+import models.Config;
 import models.basic.Language;
 import models.news.News;
 import models.news.Resource;
@@ -179,11 +179,11 @@ public class Application extends Controller {
             String lastVersion = null;
             String lastVersionURL = null;
             if(so.equalsIgnoreCase("android")){
-                lastVersion = Config.getAndroidVersion();
-                lastVersionURL = Config.getAndroidVersionURL();
+                lastVersion = Utils.getAndroidVersion();
+                lastVersionURL = Utils.getAndroidVersionURL();
             } else {
-                lastVersion = Config.getiOSVersion();
-                lastVersionURL = Config.getiOSVersionURL();
+                lastVersion = Utils.getiOSVersion();
+                lastVersionURL = Utils.getiOSVersionURL();
             }
             if(lastVersion != null && lastVersionURL != null) {
                 int updateAvailable = 0; //There isn't update available

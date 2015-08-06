@@ -1,16 +1,18 @@
 package models.football;
 
-import com.avaje.ebean.Expr;
 import com.avaje.ebean.ExpressionList;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
-import models.HecticusModel;
+import models.Config;
+import models.FootballModel;
 import models.Language;
 import play.db.ebean.Model;
 import play.libs.Json;
+import utils.DateAndTime;
 
 import javax.persistence.*;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -18,9 +20,8 @@ import java.util.*;
  * Created by karina on 5/20/14.
  */
 @Entity
-@Table(name="game_matches",
-        uniqueConstraints = @UniqueConstraint(columnNames = {"id_competition, ext_id"}))
-public class GameMatch extends HecticusModel {
+@Table(name="game_matches", uniqueConstraints = @UniqueConstraint(columnNames = {"id_competition, ext_id"}))
+public class GameMatch extends FootballModel {
 
     public static final short NONE = 0;
     public static final short STARTED = 1;
@@ -362,10 +363,14 @@ public class GameMatch extends HecticusModel {
         return json;
     }
 
-    public ObjectNode toJsonWithCompetitions(final Language language, final Language defaultLanguage) {
+    public ObjectNode toJsonWithCompetitions(final Language language, final Language defaultLanguage, TimeZone timeZone) throws ParseException {
         ObjectNode json = Json.newObject();
         json.put("id_game_matches",idGameMatches);
-        json.put("date",date);
+        SimpleDateFormat df = new SimpleDateFormat("yyyyMMddHHmmss");
+        df.setTimeZone(timeZone);
+        Calendar gameMatchDate = new GregorianCalendar(TimeZone.getTimeZone("UTC"));
+        gameMatchDate.setTime(DateAndTime.getDate(date, date.length() == 8 ? "yyyyMMdd" : "yyyyMMddhhmmss", TimeZone.getTimeZone("UTC")));
+        json.put("date",df.format(gameMatchDate.getTime()));
         if(phase != null) {
             json.put("phase",phase.getIdPhases());
         }
@@ -379,15 +384,19 @@ public class GameMatch extends HecticusModel {
         if(result != null) {
             json.put("results", result.toJson());
         }
-        json.put("competition", competition.toJsonNoPhases(language, defaultLanguage, false));
+        json.put("competition", competition.toJsonNoPhases(language, defaultLanguage, false, null));
 
         return json;
     }
 
-    public ObjectNode toJson(final Language language, final Language defaultLanguage) {
+    public ObjectNode toJson(final Language language, final Language defaultLanguage, TimeZone timeZone) throws ParseException {
         ObjectNode json = Json.newObject();
         json.put("id_game_matches",idGameMatches);
-        json.put("date",date);
+        SimpleDateFormat df = new SimpleDateFormat("yyyyMMddHHmmss");
+        df.setTimeZone(timeZone);
+        Calendar gameMatchDate = new GregorianCalendar(TimeZone.getTimeZone("UTC"));
+        gameMatchDate.setTime(DateAndTime.getDate(date, date.length() == 8 ? "yyyyMMdd" : "yyyyMMddhhmmss", TimeZone.getTimeZone("UTC")));
+        json.put("date",df.format(gameMatchDate.getTime()));
         if(phase != null) {
             json.put("phase",phase.getIdPhases());
         }
@@ -414,12 +423,85 @@ public class GameMatch extends HecticusModel {
         return json;
     }
 
+    public ObjectNode toJsonPush(TimeZone timeZone) throws ParseException {
+        ObjectNode json = Json.newObject();
+        json.put("id_game_matches",idGameMatches);
+        SimpleDateFormat df = new SimpleDateFormat("yyyyMMddHHmmss");
+        df.setTimeZone(timeZone);
+        Calendar gameMatchDate = new GregorianCalendar(TimeZone.getTimeZone("UTC"));
+        gameMatchDate.setTime(DateAndTime.getDate(date, date.length() == 8 ? "yyyyMMdd" : "yyyyMMddhhmmss", TimeZone.getTimeZone("UTC")));
+        json.put("date",df.format(gameMatchDate.getTime()));
+        json.put("home_team",homeTeam.toJsonSimple());
+        json.put("away_team",awayTeam.toJsonSimple());
+        return json;
+    }
+
     public ObjectNode toJsonSimple() {
         ObjectNode json = Json.newObject();
         json.put("id_game_matches",idGameMatches);
         json.put("date",date);
-        json.put("home_team",homeTeam.toJsonSimple());
-        json.put("away_team",awayTeam.toJsonSimple());
+        if(homeTeam == null){
+            ObjectNode obj = Json.newObject();
+            obj.put("id_teams",0);
+            obj.put("name",homeTeamName);
+            obj.put("short_name",homeTeamName);
+            obj.put("abbreviation_name",homeTeamName);
+            obj.put("team_logo", Config.getString("team-logo-url") + 0 + ".png");
+            json.put("home_team",obj);
+        } else {
+            json.put("home_team",homeTeam.toJsonSimple());
+        }
+
+        if(awayTeam == null){
+            ObjectNode obj = Json.newObject();
+            obj.put("id_teams",0);
+            obj.put("name",awayTeamName);
+            obj.put("short_name",awayTeamName);
+            obj.put("abbreviation_name",awayTeamName);
+            obj.put("team_logo", Config.getString("team-logo-url") + 0 + ".png");
+            json.put("away_team",obj);
+        } else {
+            json.put("away_team",awayTeam.toJsonSimple());
+        }
+
+        json.put("home_team_goals",homeTeamGoals);
+        json.put("away_team_goals",awayTeamGoals);
+        json.put("status", status.toJson());
+        return json;
+    }
+
+    public ObjectNode toJsonSimple(TimeZone timeZone) throws ParseException {
+        ObjectNode json = Json.newObject();
+        json.put("id_game_matches",idGameMatches);
+        SimpleDateFormat df = new SimpleDateFormat("yyyyMMddHHmmss");
+        df.setTimeZone(timeZone);
+        Calendar gameMatchDate = new GregorianCalendar(TimeZone.getTimeZone("UTC"));
+        gameMatchDate.setTime(DateAndTime.getDate(date, date.length()==8?"yyyyMMdd":"yyyyMMddhhmmss", TimeZone.getTimeZone("UTC")));
+        json.put("date",df.format(gameMatchDate.getTime()));
+        if(homeTeam == null){
+            ObjectNode obj = Json.newObject();
+            obj.put("id_teams",0);
+            obj.put("name",homeTeamName);
+            obj.put("short_name",homeTeamName);
+            obj.put("abbreviation_name",homeTeamName);
+            obj.put("team_logo", Config.getString("team-logo-url") + 0 + ".png");
+            json.put("home_team",obj);
+        } else {
+            json.put("home_team",homeTeam.toJsonSimple());
+        }
+
+        if(awayTeam == null){
+            ObjectNode obj = Json.newObject();
+            obj.put("id_teams",0);
+            obj.put("name",awayTeamName);
+            obj.put("short_name",awayTeamName);
+            obj.put("abbreviation_name",awayTeamName);
+            obj.put("team_logo", Config.getString("team-logo-url") + 0 + ".png");
+            json.put("away_team",obj);
+        } else {
+            json.put("away_team",awayTeam.toJsonSimple());
+        }
+
         json.put("home_team_goals",homeTeamGoals);
         json.put("away_team_goals",awayTeamGoals);
         json.put("status", status.toJson());

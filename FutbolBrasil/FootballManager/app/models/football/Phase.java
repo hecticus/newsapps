@@ -4,15 +4,13 @@ import com.avaje.ebean.ExpressionList;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
-import models.HecticusModel;
+import models.FootballModel;
 import models.Language;
 import play.data.validation.Constraints;
 import play.db.ebean.Model;
 import play.libs.Json;
-import utils.DateAndTime;
 
 import javax.persistence.*;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -20,8 +18,8 @@ import java.util.*;
  * Created by karina on 5/13/14.
  */
 @Entity
-@Table(name="phases")
-public class Phase extends HecticusModel {
+@Table(name="phases", uniqueConstraints = @UniqueConstraint(columnNames = {"id_competitions, ext_id"}))
+public class Phase extends FootballModel {
 
     @Id
     private Long idPhases;

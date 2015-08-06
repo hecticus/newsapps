@@ -5,10 +5,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.hecticus.rackspacecloud.RackspaceDelete;
 import exceptions.BadConfigException;
-import models.Config;
-import models.Language;
-import models.Resolution;
-import models.Resource;
+import models.*;
 import models.football.News;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Whitelist;
@@ -42,6 +39,8 @@ public class PerformNews extends HecticusThread {
     private String performImageHost;
     private String temporalDirectory;
     private Language finalLanguage;
+
+    protected Apps app;
 
     public PerformNews() {
         this.setActTime(System.currentTimeMillis());
@@ -77,6 +76,12 @@ public class PerformNews extends HecticusThread {
             if (args.containsKey("temporal_directory")) {
                 temporalDirectory =  (String) args.get("temporal_directory");
             } else throw new BadConfigException("es necesario configurar el parametro temporal_directory");
+
+            if (args.containsKey("app")) {
+                app = Apps.findId(Integer.parseInt((String) args.get("app")));
+                if(app == null)
+                    throw new BadConfigException("el app configurado no existente");
+            } else throw new BadConfigException("es necesario configurar el parametro app");
 
             ObjectNode news = getNews();
             processNews(news);
@@ -136,7 +141,7 @@ public class PerformNews extends HecticusThread {
                 id = next.get("id").asText();
                 toInsert = News.finder.where().eq("externalId", id).findUnique();
                 if (toInsert == null) {
-                    toInsert = new News(title, summary, category, keyword, author, story, sf.format(publishedDate), source, lastUpdateTime, id, getApp(), finalLanguage);
+                    toInsert = new News(title, summary, category, keyword, author, story, sf.format(publishedDate), source, lastUpdateTime, id, app, finalLanguage);
                     if(next.has("links")) {
                         processMedia(next.get("links").elements(), toInsert, resolutions);
                     }
@@ -216,7 +221,7 @@ public class PerformNews extends HecticusThread {
                                 if (remoteLocation == null) {
                                     continue;
                                 }
-                                resource = new Resource(name, filename, remoteLocation, insertedTime, insertedTime, type, status, externalId, getApp(), news, genericName, description, res, md5, resolution);
+                                resource = new Resource(name, filename, remoteLocation, insertedTime, insertedTime, type, status, externalId, app, news, genericName, description, res, md5, resolution);
                                 news.addResource(resource);
                             } else {
                                 if (!resource.getMd5().equalsIgnoreCase(md5)) {
