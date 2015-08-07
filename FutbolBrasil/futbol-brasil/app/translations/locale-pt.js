@@ -244,7 +244,13 @@
             "TITLE" : "Predições",
             "SUBTITLE": "Data desatualizado",
             "MSG": "A data de partida está desatualizado"
-        }
+        },
+        
+        "FB_SHARE" : {
+            "TITLE" : "News Share",
+            "SUBTITLE": "Warning",
+            "MSG": "In order to share news you have to be logged in with facebook"
+          }
 
     },
 

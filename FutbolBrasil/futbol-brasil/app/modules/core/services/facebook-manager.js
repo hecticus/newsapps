@@ -7,8 +7,8 @@
  */
 angular
     .module('core')
-    .factory('FacebookManager',['$localStorage', '$http', 'Client',
-        function($localStorage, $http, Client) {
+    .factory('FacebookManager',['$localStorage', '$http', 'Client','Notification','$rootScope',
+        function($localStorage, $http, Client, Notification, $rootScope) {
             var INTERVAL_FRIENDS_LOADER_TIMER = 30000;
             var FILE_KEY_FB_USER_ID = "APPDATAFBUSERID";
             var FILE_KEY_FB_FRIENDS = "APPDATAFBFRIENDS";
@@ -71,6 +71,27 @@ angular
                         typeof callback == 'function' && callback(getLocalFriends());
                     }
                 });
+            };
+            
+            var postToFeed = function(link, caption, picture){
+               var options = {};
+                options.method = "share";
+                options.href = link;
+                options.link = link;
+                options.caption = caption;
+                options.picture = picture;
+                options.display = "page";
+                
+                console.log("postToFeed options:",options);
+                //$('#screen-block').hide();
+                facebookConnectPlugin.showDialog(options, 
+                    function(response){
+                        console.log("FacebookManager. Success posting to FB");
+                    }, 
+                    function(response){
+                        console.log("FacebookManager. Failure posting to FB:" + response);
+                    }
+                );
             };
 
             return {
@@ -153,6 +174,7 @@ angular
                     console.log("FacebookManager. getStatus.");
                     facebookConnectPlugin.getLoginStatus(
                         function (result) {
+                            console.log("getLoginStatus:", result);
                             typeof callback == 'function' && callback(result);
                         },
                         function (error) {
@@ -187,7 +209,21 @@ angular
                     );
                 },
 
-                getLocalFriends : getLocalFriends
+                getLocalFriends : getLocalFriends,
+                
+                post: function(link, caption, picture) {                     
+                    $('#screen-block').show();
+                    this.getStatus(function(response){                        
+                        if(response.status !== 'undefined' && response.status == 'connected'){
+                            console.log("post getStatus response:", response);
+                            postToFeed(link, caption, picture);
+                        } else {                            
+                            Notification.showQuestionFacebookDialog();                      
+                            console.log("FacebookManager. Not connected...");
+                        }
+                        $('#screen-block').hide();                        
+                    });              
+                }
             }
         }
     ]);
