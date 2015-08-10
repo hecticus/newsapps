@@ -1,8 +1,8 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.upstreamsystems.timpalpites" version="0.17" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://cordova.apache.org/ns/1.0">
-    <name>TIM Palpites</name>
+<widget id="com.upstreamsystems.palpites" version="0.17" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://cordova.apache.org/ns/1.0">
+    <name>Palpites</name>
     <description>
-      TIM Palpites App.
+      Palpites App.
 	  </description>
     <author email="contact@hecticus.com" href="http://www.hecticus.com">
 		Hecticus Software Inc
