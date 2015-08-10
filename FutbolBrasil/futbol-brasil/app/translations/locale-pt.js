@@ -136,7 +136,7 @@
     },
 
     "TERMS" : {
-        "MESSAGE" : "Por favor, leia os Termos e Condições no site http://www.tim.com.br/.  Ao usar o aplicativo o usuário concorda com todos os Termos e Condições."
+        "MESSAGE" : "Por favor, leia os Termos e Condições no site http://www.google.com/.  Ao usar o aplicativo o usuário concorda com todos os Termos e Condições."
     },
 
     "ALERT": {
@@ -237,7 +237,7 @@
        "LOCKED_SECTION_USER_NOT_ELIGIBLE" : {
           "TITLE" : "Usuário não elegíveis",
           "SUBTITLE": "Usuário não elegíveis",
-          "MSG": "Usuário não elegíveis, deve ser um cliente TIM Brasil"
+          "MSG": "Usuário não elegíveis, deve ser um cliente BRAND"
         },
 
         "SET_BET" : {
