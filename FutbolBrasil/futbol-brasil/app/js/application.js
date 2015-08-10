@@ -99,7 +99,7 @@ angular
                         }, CordovaApp.errorStartApp);
                     } else {
 
-                        if (toState.data.state === 'friends') {
+                        /*if (toState.data.state === 'friends') {
 
 
                           if(!!window.facebookConnectPlugin) {
@@ -111,7 +111,7 @@ angular
                                   }
                               });
                           }
-                        };
+                        };*/
 
                     }
 
