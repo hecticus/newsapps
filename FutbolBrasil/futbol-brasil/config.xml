@@ -1,8 +1,8 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="claro.hecticus.guru" version="0.12" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://cordova.apache.org/ns/1.0">
-    <name>Gurú del Fútbol</name>
+<widget id="claro.hecticus.predicciones" version="0.17" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://cordova.apache.org/ns/1.0">
+    <name>Predicciones - Claro</name>
     <description>
-      Gurú del Fútbol App.
+      Predicciones - Claro App.
 	  </description>
     <author email="contact@hecticus.com" href="http://www.hecticus.com">
 		Hecticus Software Inc

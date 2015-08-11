@@ -66,7 +66,7 @@ angular
                 } else if(Client.getLanguage()){
                     return Client.getLanguage().id_language;
                 } else {
-                    return 405;
+                    return 300;
                 }
             }
 

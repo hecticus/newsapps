@@ -89,7 +89,7 @@ angular
 
                 var jData = {
                     country : 3,
-                    language: lang? lang.id_language : 405,
+                    language: lang? lang.id_language : 300,
                     device_id : CordovaDevice.getDeviceId(),
                     upstreamChannel : CordovaDevice.getUpstreamChannel()
                 };
