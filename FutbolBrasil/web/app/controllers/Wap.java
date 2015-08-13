@@ -24,6 +24,8 @@ import org.apache.commons.lang3.ArrayUtils;
 import java.text.MessageFormat;
 import play.i18n.Messages;
 import java.lang.*;
+import java.lang.Object;
+import java.net.URLEncoder;
 
 public class Wap extends Loading {
 
@@ -159,6 +161,8 @@ public class Wap extends Loading {
 
             String sDomain = URL_FOOTBALL_MANAGER + "newsapi/" + VERSION + "/news/scroll/1/" + LANGUAGE
                     + "?timezoneName=" + getGMTParam() + getSecuretyTokenParam("&");
+
+            System.out.println("sDomain -> index ->" + sDomain);
 
             Promise<WSResponse> wsResponse = WS.url(sDomain).get();
             JsonNode jResponse = wsResponse.get(10000).asJson();
@@ -451,9 +455,64 @@ public class Wap extends Loading {
         return "GMT-0300";
     }
 
-    public static String getSecuretyTokenParam(String prefix) {
+   /* public static String getSecuretyTokenParam(String prefix) {
         return prefix + "upstreamChannel=" + UPSTREAM_CHANNEL + "&api_password=" + jLoading.get("upstream_guest_auth_token").asText();
     }
+*/
+
+    public static String getSecuretyTokenParam(String prefix) {
+
+        char _charAtBuildVersion = jLoading.get("build_version").asText().charAt(0);
+        char _charAtServerVersion = jLoading.get("server_version").asText().charAt(0);
+        String token = jLoading.get("company_name").asText();
+        token += getAppender(_charAtBuildVersion);
+        token += jLoading.get("build_version").asText();
+        token += getAppender(_charAtServerVersion);
+        token += jLoading.get("server_version").asText();
+
+        try {
+            return prefix + "upstreamChannel=" + UPSTREAM_CHANNEL + "&api_password=" + URLEncoder.encode(token, "UTF-8");
+        } catch (Exception e) {
+            return prefix + "upstreamChannel=" + UPSTREAM_CHANNEL + "&api_password=" + token;
+        }
+
+    }
+
+    public static String getAppender(char _index) {
+
+        String _return = "";
+
+        switch (_index) {
+            case '1':
+                _return = "|";
+                break;
+            case '2': _return = "@";
+                break;
+            case '3': _return = "#";
+                break;
+            case '4': _return = "$";
+                break;
+            case '5': _return = "%";
+                break;
+            case '6': _return =  "&";
+                break;
+            case '7': _return =  "/";
+                break;
+            case '8': _return =  "(";
+                break;
+            case '9': _return =  ")";
+                break;
+            case '0': _return =  "=";
+                break;
+            default: _return =  "-";
+        }
+
+        return  _return;
+
+    }
+
+
+
 
 }
 

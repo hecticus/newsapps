@@ -14,8 +14,6 @@ angular
 //                console.log('Analytics.init: ' + !!$window.analytics);
                 if(!!$window.analytics) {
                     $window.analytics.startTrackerWithId('UA-60801639-1');
-                } else {
-                    console.log('init. $window.analytics Plugin not available. Are you directly on a browser?');
                 }
             }
 
@@ -23,8 +21,6 @@ angular
                 if(!!$window.analytics){
                     $window.analytics.trackView(title);
                     console.log('trackView: ' + title);
-                } else {
-                    console.log("Couldn't report 'trackView' event. $window.analytics Plugin not available.");
                 }
             }
 
