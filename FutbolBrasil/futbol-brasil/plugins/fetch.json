@@ -48,12 +48,6 @@
             "id": "org.apache.cordova.console"
         }
     },
-    "nl.x-services.plugins.socialsharing": {
-        "source": {
-            "type": "registry",
-            "id": "nl.x-services.plugins.socialsharing"
-        }
-    },
     "com.xmartlabs.cordova.market": {
         "source": {
             "type": "git",
