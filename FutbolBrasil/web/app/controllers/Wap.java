@@ -30,22 +30,39 @@ import java.net.URLEncoder;
 public class Wap extends Loading {
 
     public static JsonNode jLoading = new Loading().getJLoading();
+    public static HandsetDetection HD =  new HandsetDetection();
+
+    public static Boolean resolveAccessHTML5() {
+
+        String sUserAgent = request().getHeader("User-Agent");
+        boolean bOpera = false;
+
+        if (sUserAgent.toLowerCase().contains("opr")
+                || sUserAgent.toLowerCase().contains("opera")) {
+            return false;
+        }
+
+        if ((HD.getLevelSupport() == null)
+                || (HD.getLevelSupport() >= HandsetDetection.HTML4_AJAX)) {
+            return true;
+        }
+
+        return false;
+
+    }
+
 
     public static Result getLogin() {
-
-        HandsetDetection HD = new HandsetDetection();
-        if (HD.getLevelSupport() == HandsetDetection.HTML4_AJAX)
-            return redirect(URL_HTML5);
-
+        //HandsetDetection HD = new HandsetDetection();
+        if (resolveAccessHTML5()) return redirect(URL_HTML5);
         if (HD.getStatus() != 0) return ok(Messages.get("ERROR_DEFAULT"));
         return ok(login.render(form,HD,0));
     }
 
     public static Result getPassword() {
         
-        HandsetDetection HD = new HandsetDetection();
-        if (HD.getLevelSupport() == HandsetDetection.HTML4_AJAX)
-            return redirect(URL_HTML5);
+        //HandsetDetection HD = new HandsetDetection();
+        if (resolveAccessHTML5()) return redirect(URL_HTML5);
 
         if (HD.getStatus() != 0) return ok(Messages.get("ERROR_DEFAULT"));
 
@@ -97,9 +114,8 @@ public class Wap extends Loading {
 
     public static Result createClient() {
         
-        HandsetDetection HD = new HandsetDetection();
-        if (HD.getLevelSupport() == HandsetDetection.HTML4_AJAX)
-            return redirect(URL_HTML5);
+        //HandsetDetection HD = new HandsetDetection();
+        if (resolveAccessHTML5()) return redirect(URL_HTML5);
         if (HD.getStatus() != 0) return ok(Messages.get("ERROR_DEFAULT"));
 
         try {
@@ -148,9 +164,8 @@ public class Wap extends Loading {
 
     public static Result index() {
         
-        HandsetDetection HD = new HandsetDetection();
-        if (HD.getLevelSupport() == HandsetDetection.HTML4_AJAX)
-            return redirect(URL_HTML5);
+        //HandsetDetection HD = new HandsetDetection();
+        if (resolveAccessHTML5()) return redirect(URL_HTML5);
         if (HD.getStatus() != 0) return ok(Messages.get("ERROR_DEFAULT"));
 
         try {
@@ -183,9 +198,8 @@ public class Wap extends Loading {
 
     public static Result news(Integer idNews) {
         
-        HandsetDetection HD = new HandsetDetection();
-        if (HD.getLevelSupport() == HandsetDetection.HTML4_AJAX)
-            return redirect(URL_HTML5);
+        //HandsetDetection HD = new HandsetDetection();
+        if (resolveAccessHTML5()) return redirect(URL_HTML5);
         if (HD.getStatus() != 0) return ok(Messages.get("ERROR_DEFAULT"));
 
         try {
@@ -216,9 +230,8 @@ public class Wap extends Loading {
 
     public static Result competitions(String route) {
         
-        HandsetDetection HD = new HandsetDetection();
-        if (HD.getLevelSupport() == HandsetDetection.HTML4_AJAX)
-            return redirect(URL_HTML5);
+        //HandsetDetection HD = new HandsetDetection();
+        if (resolveAccessHTML5()) return redirect(URL_HTML5);
         if (HD.getStatus() != 0) return ok(Messages.get("ERROR_NEWS"));
 
         try {
@@ -236,9 +249,8 @@ public class Wap extends Loading {
 
     public static Result matches(Integer idCompetition, Integer page) {
         
-        HandsetDetection HD = new HandsetDetection();
-        if (HD.getLevelSupport() == HandsetDetection.HTML4_AJAX)
-            return redirect(URL_HTML5);
+        //HandsetDetection HD = new HandsetDetection();
+        if (resolveAccessHTML5()) return redirect(URL_HTML5);
         if (HD.getStatus() != 0) return ok(Messages.get("ERROR_NEWS"));
 
         try {
@@ -283,9 +295,8 @@ public class Wap extends Loading {
 
     public static Result mtm(Integer idCompetition, Integer idMatch, Integer idEvent) {
         
-        HandsetDetection HD = new HandsetDetection();
-        if (HD.getLevelSupport() == HandsetDetection.HTML4_AJAX)
-            return redirect(URL_HTML5);
+        //HandsetDetection HD = new HandsetDetection();
+        if (resolveAccessHTML5()) return redirect(URL_HTML5);
         if (HD.getStatus() != 0) return ok(Messages.get("ERROR_NEWS"));
 
         try {
@@ -329,9 +340,8 @@ public class Wap extends Loading {
 
     public static Result scorers(Integer idCompetition) {
         
-        HandsetDetection HD = new HandsetDetection();
-       if (HD.getLevelSupport() == HandsetDetection.HTML4_AJAX)
-            return redirect(URL_HTML5);
+        //HandsetDetection HD = new HandsetDetection();
+        if (resolveAccessHTML5()) return redirect(URL_HTML5);
         if (HD.getStatus() != 0) return ok(Messages.get("ERROR_NEWS"));
 
         try {
@@ -364,7 +374,7 @@ public class Wap extends Loading {
 
     public static JsonNode getCompetition () {
 
-        HandsetDetection HD = new HandsetDetection();
+        //HandsetDetection HD = new HandsetDetection();
         JsonNode jCompetitions = (JsonNode) Cache.get("competitions");
         String sDomain = URL_FOOTBALL_MANAGER + "footballapi/" + VERSION + "/competitions/list/1/" + LANGUAGE
                 + "?timezoneName=" + getGMTParam() + getSecuretyTokenParam("&");
@@ -380,7 +390,7 @@ public class Wap extends Loading {
     }
 
     public static String getNameCompetition (Integer idCompetition) {
-        HandsetDetection HD = new HandsetDetection();
+        //HandsetDetection HD = new HandsetDetection();
         JsonNode jCompetitions = getCompetition();
         Iterator<JsonNode> iJsonCompetitions = jCompetitions.get("competitions").iterator();
         String nameCompetition = "";
@@ -455,10 +465,6 @@ public class Wap extends Loading {
         return "GMT-0300";
     }
 
-   /* public static String getSecuretyTokenParam(String prefix) {
-        return prefix + "upstreamChannel=" + UPSTREAM_CHANNEL + "&api_password=" + jLoading.get("upstream_guest_auth_token").asText();
-    }
-*/
 
     public static String getSecuretyTokenParam(String prefix) {
 
