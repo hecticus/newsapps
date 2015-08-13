@@ -80,7 +80,20 @@ public class HandsetDetection  extends Controller {
                 this.general_model = jHdSpecs.get("general_model").asText();
 
 
-                Promise<WSResponse> wsResponse = WS.url("http://brazil.footballmanager.hecticus.com/futbolbrasil/v1/localimages/h_high.jpg/"+ jDisplay.get("resolution_width").asText()).get();
+                /*
+                Corte 1 o resolución baja: 200px de ancho
+                Corte 2 o resolución media: 400px de ancho
+                Corte 3 o resolución alta: 800px de ancho
+                */
+
+                String _zizeBanner = "h_small.jpg";
+                if (jDisplay.get("resolution_width").asInt() >= 200) {
+                    _zizeBanner = "h_medium.jpg";
+                }  else if (jDisplay.get("resolution_width").asInt() >= 400) {
+                    _zizeBanner = "h_hight.jpg";
+                }
+
+                Promise<WSResponse> wsResponse = WS.url("http://brazil.footballmanager.hecticus.com/futbolbrasil/v1/localimages/" + _zizeBanner + "/"+ jDisplay.get("resolution_width").asText()).get();
                 JsonNode jResponse = wsResponse.get(10000).asJson();
                 Integer iError = jResponse.get("error").asInt();
                 JsonNode jBanner = jResponse.get("response");
