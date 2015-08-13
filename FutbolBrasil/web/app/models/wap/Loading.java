@@ -19,7 +19,7 @@ public class Loading  extends Controller {
     public static Integer MAX_LENGTH_MSISDN = 11;
     public static Integer COUNTRY = 1; //Brasil
     public static Integer LANGUAGE = 405; //Portuguese
-    public static String UPSTREAM_CHANNEL = "Web";
+    public static String UPSTREAM_CHANNEL = "WEB";
     public static String UPSTREAM_EVENT_LOGIN = "LOGIN";
     public static Form<Client> form = form(Client.class);
 
@@ -30,7 +30,7 @@ public class Loading  extends Controller {
 
     private JsonNode jLoading;
 
-    public Loading()  {
+    public Loading() {
         ctx().changeLang("pt");
         String sDomain = URL_FOOTBALL_MANAGER_BRAZIL + "api/loading/0/0/" + VERSION + "/wap";
         F.Promise<WSResponse> wsResponse = WS.url(sDomain).get();
@@ -39,8 +39,12 @@ public class Loading  extends Controller {
         String sDescription = jResponse.get("description").asText();
         jResponse = jResponse.get("response");
         //System.out.println("jResponse -> " + jResponse.toString());
+
         this.jLoading = jResponse;
+
     }
+
+
 
 
     public JsonNode getJLoading(){
@@ -50,4 +54,10 @@ public class Loading  extends Controller {
     public void setJLoading(JsonNode jLoading) {
         this.jLoading = jLoading;
     }
+
+
+
+
+
+
 }

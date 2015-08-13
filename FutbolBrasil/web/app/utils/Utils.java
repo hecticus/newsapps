@@ -284,4 +284,13 @@ public class Utils extends JobCoreUtils{
             return false;
         }
     }
+
+    public static boolean acceptHeader() {
+        try {
+            int intSecured = Config.getInt("accept-header");
+            return intSecured == 0 ? false : true;
+        } catch (Exception e){
+            return false;
+        }
+    }
 }
