@@ -150,6 +150,7 @@ public class Global extends GlobalSettings {
         String ipString = request.remoteAddress();
         String invoker = actionMethod.getDeclaringClass().getName();
         String[] octetos = ipString.split("\\.");
+        Logger.of("request").trace("ipString = " + ipString  + " request.path() = " + request.path() + " invoker = " + invoker);
         if(invoker.startsWith("controllers.news") ||
                 invoker.startsWith("controllers.footballapi") ||
                 invoker.startsWith("controllers.Application") ||

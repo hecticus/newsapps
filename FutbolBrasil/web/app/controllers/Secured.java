@@ -60,7 +60,7 @@ public class Secured extends Security.Authenticator {
 
     private String getApiPassword(Http.Request request) {
         String apiPassword = request.getQueryString(AUTH_QUERY_STRING);
-        if(apiPassword == null || apiPassword.isEmpty()) {
+        if(Utils.acceptHeader() && (apiPassword == null || apiPassword.isEmpty())) {
             apiPassword = request.getHeader(AUTH_TOKEN_HEADER);
         }
         return apiPassword;
