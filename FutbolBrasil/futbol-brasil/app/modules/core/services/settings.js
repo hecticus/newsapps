@@ -41,39 +41,39 @@ angular
                         var errorCode = data.error;
                         var response = data.response;
                         if(errorCode == 0 && response != null){
-                            console.log('saveSettingsToServer.success: ');
-                            console.log(response);
-                            console.log("Configuracion guardada con éxito en el servidor. ");
+                            //console.log('saveSettingsToServer.success: ');
+                            //console.log(response);
+                            //console.log("Configuracion guardada con éxito en el servidor. ");
                             persistSettings();
                         }else{
-                            console.log("Error guardando nuevos favoritos");
+                            //console.log("Error guardando nuevos favoritos");
                         }
                     })
                     .error (function(data, status) {
-                    console.log("error save favorite");
+                    //console.log("error save favorite");
                 });
             };
-            
+
             var loadSettings = function (pushAlerts){
                 try{
-                    console.log("loadSettings");
+                    //console.log("loadSettings");
                     loadPersistedSettings();
-                    
-                    pushAlerts.forEach( function(item) {                    
+
+                    pushAlerts.forEach( function(item) {
                         switch(item.push_alert.name){
                             case "news":
                                 settings[KEY_NEWS_PUSH] = item.status;
                                 break;
                             case "bets":
                                 settings[KEY_BETS_PUSH] = item.status;
-                                break;                    
-                        }                    
+                                break;
+                        }
                     });
-                    
+
                     persistSettings();
                 } catch(e){
-                   console.log("Error seteando pushAlerts settings");
-                }         
+                   //console.log("Error seteando pushAlerts settings");
+                }
             };
 
             return {
@@ -100,28 +100,28 @@ angular
                 },
 
                 toggleBetsPush : function(state){
-                    console.log('toggleBetsPush: ' + state);
+                    //console.log('toggleBetsPush: ' + state);
                     settings[KEY_BETS_PUSH] = state;
                     saveSettingsToServer();
                 },
 
                 toggleNewsPush : function(state){
-                    console.log('toggleNewsPush: ' + state);
+                    //console.log('toggleNewsPush: ' + state);
                     settings[KEY_NEWS_PUSH] = state;
                     saveSettingsToServer();
                 },
 
                 toggleMtmPush : function(state){
-                    console.log('toggleMtmPush: ' + state);
+                    //console.log('toggleMtmPush: ' + state);
                     settings[KEY_MTM_PUSH] = state;
                     saveSettingsToServer();
                 },
-                
+
                 setMtmStatus : function(state){
                     settings[KEY_MTM_PUSH] = state;
                     persistSettings();
                 },
-                
+
                 loadSettings: loadSettings
             };
         }

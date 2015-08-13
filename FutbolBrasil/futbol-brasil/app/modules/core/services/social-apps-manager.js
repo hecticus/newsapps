@@ -7,8 +7,8 @@
  */
 angular
     .module('core')
-    .factory('SocialAppsManager', ['$rootScope', '$window', '$fb','$twt', 'CordovaDevice', 'Utilities',
-        function($rootScope, $window, $fb, $twt, CordovaDevice, Utilities) {
+    .factory('SocialAppsManager', ['$rootScope', '$window', '$fb','$twt', 'CordovaDevice', 'Utilities', 'FacebookManager','Notification',
+        function($rootScope, $window, $fb, $twt, CordovaDevice, Utilities, FacebookManager, Notification) {
 
             init();
 
@@ -26,7 +26,9 @@ angular
                  * @param {string} link Shared content URL
                  * @methodOf core.Services.SocialAppsManager
                  */
-                share : share
+                share : share,
+                fbPost: fbPost,
+                showShareModal: showShareModal
 
             };
 
@@ -60,6 +62,16 @@ angular
                 if(info.image) { post.picture = info.image; }
 
                 $fb.feed(post);
+            }
+            
+            function fbPost(link, caption, picture) {
+                if(!window.facebookConnectPlugin){ 
+                    console.log("SocialAppsManager. facebookConnectPlugin not found");                    
+                    //Notification.showFBShareError();            
+                    return; 
+                }
+                
+                FacebookManager.post(link, caption, picture);
             }
 
             function twitterShare(info) {

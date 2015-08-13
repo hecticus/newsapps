@@ -7,8 +7,8 @@
  */
 angular
     .module('core')
-    .factory('WebManager',['$http', '$localStorage', 'CordovaDevice', 'TeamsManager', 'Domain', 'Client', 'App',
-        function($http, $localStorage, CordovaDevice, TeamsManager, Domain, Client, App) {
+    .factory('WebManager',['$http', '$q', '$localStorage', 'CordovaDevice', 'TeamsManager', 'Domain', 'Client', 'App',
+        function($http, $q, $localStorage, CordovaDevice, TeamsManager, Domain, Client, App) {
 
             /**
              * @ngdoc function
@@ -97,20 +97,20 @@ angular
             }
 
             function loadServerConfigs(){
-
+                var deferred = $q.defer();
                 var platform = CordovaDevice.getPlatform();
                 var version = App.getBundleVersion();
                 var width = CordovaDevice.getRealWidth();
                 var height = CordovaDevice.getRealHeight();
 
                 return $http.get(Domain.loading(width , height, version, platform))
-                    .success(function(data) {
-                        $localStorage['LOADING'] = JSON.stringify(data.response);
-                        return data.response;
-                    }).error(function(){
-                        console.log("Couldn't get config from server");
-                        return null;
-                    });
+                .success(function(data) {
+                    $localStorage['LOADING'] = JSON.stringify(data.response);
+                    deferred.resolve('request successful');
+                }).error(function(){
+                    deferred.reject('ERROR');
+                });
+                return deferred.promise;
             }
 
             function getFavoritesConfig(isFilterActive){

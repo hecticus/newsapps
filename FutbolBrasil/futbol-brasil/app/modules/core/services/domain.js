@@ -7,14 +7,54 @@
  */
 angular
     .module('core')
-    .factory('Domain', ['Client','CordovaDevice',
-        function(Client,CordovaDevice){
+    .factory('Domain', ['$localStorage', 'App','Client','CordovaDevice',
+        function($localStorage, App, Client,CordovaDevice){
 
             var football_manager_url = 'http://footballmanager.hecticus.com/';
             var brazil_football_manager_url = 'http://brazil.footballmanager.hecticus.com/';
             var appId = '1';
             var apiVersion = 'v1';
             var provisionalLang = null;
+
+
+            function getAppender(index) {
+                switch (index) {
+                    case '1': return '|';
+                    case '2': return '@';
+                    case '3': return '#';
+                    case '4': return '$';
+                    case '5': return '%';
+                    case '6': return '&';
+                    case '7': return '/';
+                    case '8': return '(';
+                    case '9': return ')';
+                    case '0': return '=';
+                    default: return '-';
+                }
+            }
+
+            function getHeadersAuth() {
+
+                var companyName = App.getCompanyName();
+                var buildVersion = App.getBuildVersion();
+                var serverVersion = App.getServerVersion();
+
+                if ($localStorage['LOADING']) {
+                  var jLoading = JSON.parse($localStorage['LOADING']);
+                  companyName = jLoading.company_name;
+                  buildVersion = jLoading.build_version;
+                  serverVersion = jLoading.server_version;
+                }
+
+
+                var auth = companyName;
+                auth += getAppender(buildVersion.charAt(0));
+                auth += buildVersion;
+                auth += getAppender(serverVersion.charAt(0));
+                auth += serverVersion;
+
+                return auth;
+            }
 
            function getGMT(prefix){
               return prefix + 'timezoneName=' + moment().format('[GMT]ZZ').replace(/\s/g, '');
@@ -40,7 +80,7 @@ angular
 
             function getSecurityToken(prefix){
                 return prefix + 'upstreamChannel=' + CordovaDevice.getUpstreamChannel()
-                + '&api_password=' + Client.getUpstreamAuthToken();
+                + '&api_password=' + getHeadersAuth();
             }
 
             return {
@@ -48,39 +88,56 @@ angular
                 setProvisionalLanguage : setProvisionalLanguage,
 
                 loading: function (width, height, appVersion, platform) {
+                    //console.log('client->loading');
                     return brazil_football_manager_url + 'api/loading/'
-                        + width + '/' + height + '/' + appVersion + '/' + platform + getSecurityToken('?');
-
+                        + width + '/' + height + '/' + appVersion + '/' + platform;
                 },
 
                 upstream: function () {
-                  return brazil_football_manager_url + 'futbolbrasil/v2/client/' + getClientId() + '/upstream' + getSecurityToken('?');
+                  var ClientId = getClientId();
+                  if (ClientId) return brazil_football_manager_url + 'futbolbrasil/v2/client/' + getClientId() + '/upstream' + getSecurityToken('?');
+                  return false;
                 },
 
-                languages: brazil_football_manager_url + 'futbolbrasil/'
-                    + apiVersion + '/languages' + getSecurityToken('?'),
+                languages:  function () {
+                  return brazil_football_manager_url + 'futbolbrasil/' + apiVersion + '/languages'  + getSecurityToken('?');
+                },
 
                 client: {
-                    create: brazil_football_manager_url + 'futbolbrasil/'
-                        + apiVersion + '/clients/create' + getSecurityToken('?'),
+                    create: function () {
+                      //console.log('client->create');
+                      return brazil_football_manager_url + 'futbolbrasil/' + apiVersion + '/clients/create' + getSecurityToken('?');
+                    },
                     update: function () {
+                        //console.log('client->update');
                         return brazil_football_manager_url + 'futbolbrasil/'
                             + apiVersion + '/clients/update/' + getClientId() + getSecurityToken('?');
                     },
                     get: function (clientId, upstreamChannel) {
+                          //console.log('client->get');
                         return brazil_football_manager_url + 'futbolbrasil/'
                             + apiVersion + '/clients/get/'
                             + clientId + '/' + upstreamChannel + getSecurityToken('?');
                     }
                 },
 
-                competitions: football_manager_url + 'footballapi/'
-                    + apiVersion + '/competitions/list/' + appId + '/' + getLang() + getSecurityToken('?'),
+                competitions: function () {
+                 return football_manager_url + 'footballapi/'
+                        + apiVersion + '/competitions/list/'
+                        + appId + '/'
+                        + getLang()
+                        + getSecurityToken('?');
+                },
 
                 competitionsPrediction:  function (clientId) {
+
+                    //console.log('domain -> competitionsPrediction');
+
                     return brazil_football_manager_url + 'futbolbrasil/'
                     + apiVersion + '/clients/dashboard/' +  clientId + '/' + getLang()
                     +  getGMT('?') + getSecurityToken('&') ;
+
+
                 },
 
                 news: {

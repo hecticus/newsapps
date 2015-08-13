@@ -1357,8 +1357,21 @@ function initBasicApp(){
 								//$.li+='<img src="img/icon/flecha.png" style="width:10px; height:auto; margin-top:5px; margin-left:5px;" />';
 								$.li+='</div>';
 																								
-								$.li+='<div class="headline"><span class="title">'+$.news.headline+'</span><br /><span class="date">'+$.news.date+'</span></div>';
+								//$.li+='<div class="headline"><span class="title">'+$.news.headline+'</span><br /><span class="date">'+$.news.date+'</span><span ><img alt="video" src="img/playvideo.png"  style="width:25px; height:25px;" /></span></div>';
 								
+								
+								
+								$.li+='<div class="headline">';
+								$.li+='<span class="title">'+$.news.headline+'</span><br />';
+								$.li+='<span class="date">'+$.news.date+'</span><br />';
+								
+								if ($.news.video.length >= 1) {
+									$.li+='<img alt="video" src="img/playvideo.png"  style="width:20px; height:20px;" />';
+								}
+								
+								$.li+='</div>';
+
+																								
 								$.li+='</li>';
 																								
 								$($.category +'-news1').append($.li);
