@@ -35,10 +35,9 @@ public class Wap extends Loading {
     public static Boolean resolveAccessHTML5() {
 
         String sUserAgent = request().getHeader("User-Agent");
-        boolean bOpera = false;
 
-        if (sUserAgent.toLowerCase().contains("opr")
-                || sUserAgent.toLowerCase().contains("opera")) {
+
+        if (sUserAgent.toLowerCase().contains("opera")) {
             return false;
         }
 

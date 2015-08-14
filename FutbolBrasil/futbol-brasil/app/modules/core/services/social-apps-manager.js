@@ -34,11 +34,11 @@ angular
 
             function share(info){
 
-                if(CordovaDevice.isWebPlatform()){
+                /*if(CordovaDevice.isWebPlatform()){
                     showShareModal(info);
                 } else {
-                    /**console.log("MAjor version:",Utilities.getMajorVersion(CordovaDevice.getOsVersion()));
-                    console.log("Share info:",info);**/
+                    //console.log("MAjor version:",Utilities.getMajorVersion(CordovaDevice.getOsVersion()));
+                    //console.log("Share info:",info);
 
                     if( CordovaDevice.isAndroidPlatform()){
                         delete info.image;
@@ -49,7 +49,7 @@ angular
                     } else {
                         console.log('$window.plugins.socialsharing Plugin not available. Are you directly on a browser?');
                     }
-                }
+                }*/
             }
 
             function fbShare(info) {
