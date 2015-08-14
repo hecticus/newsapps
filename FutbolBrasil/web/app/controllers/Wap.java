@@ -36,8 +36,8 @@ public class Wap extends Loading {
 
         String sUserAgent = request().getHeader("User-Agent");
 
-        if (sUserAgent.toLowerCase().contains("opr")
-                || sUserAgent.toLowerCase().contains("opera")) {
+
+        if (sUserAgent.toLowerCase().contains("opera")) {
             return false;
         }
 
