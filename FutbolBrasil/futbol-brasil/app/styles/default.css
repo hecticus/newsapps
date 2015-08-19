@@ -601,6 +601,10 @@ body.content-mtm .row-back {
 
 }
 
+.page .search-list-pager li span {
+ box-shadow:none !important;
+}
+
 /*Settings*/
 
 .settings-wrapper {
