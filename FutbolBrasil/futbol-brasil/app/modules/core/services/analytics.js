@@ -13,7 +13,7 @@ angular
             function init(){
 //                console.log('Analytics.init: ' + !!$window.analytics);
                 if(!!$window.analytics) {
-                    $window.analytics.startTrackerWithId('UA-60801639-1');
+                    $window.analytics.startTrackerWithId('UA-48149750-11');
                 }
             }
 
