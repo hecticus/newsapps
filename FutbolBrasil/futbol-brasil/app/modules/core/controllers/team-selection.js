@@ -31,7 +31,7 @@ angular
             $scope.searchQuery = '';
             $scope.hasTeams = true;
             $scope.teamSelected = teamSelected;
-
+            $scope.refreshScroll = refreshScroll;
 
             //////////////////////////////////////////////////////////////
 
@@ -39,6 +39,10 @@ angular
               TeamsManager.addFavoriteTeam(team, function(){
                 $state.go('settings',{newClient:$stateParams.newClient});
               });
+            }
+
+            function refreshScroll(){
+            $scope.scrollL.scrollTo(0,0,0);
             }
 
             function getTeamClass(team){
