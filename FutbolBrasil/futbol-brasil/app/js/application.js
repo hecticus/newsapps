@@ -6,8 +6,8 @@ angular
 
 angular
     .module(ApplicationConfiguration.applicationModuleName)
-    .config(['$locationProvider', '$httpProvider', '$translateProvider', '$fbProvider', '$twtProvider',
-        function($locationProvider, $httpProvider, $translateProvider, $fbProvider, $twtProvider) {
+    .config(['$locationProvider', '$httpProvider', '$translateProvider', '$fbProvider', '$twtProvider', 'AnalyticsProvider',
+        function($locationProvider, $httpProvider, $translateProvider, $fbProvider, $twtProvider, AnalyticsProvider) {
             $locationProvider.hashPrefix('!');
             $httpProvider.defaults.useXDomain = true;
             $httpProvider.interceptors.push(['$q', '$location', '$injector',
@@ -23,6 +23,21 @@ angular
             ]);
 
             if(!window.cordova) {
+              alert('!window.cordova');
+              // Set analytics account
+              AnalyticsProvider.setAccount('UA-60801639-2');
+              // Track all routes (or not)
+              AnalyticsProvider.trackPages(true);
+
+              // Track all URL query params (default is false)
+              AnalyticsProvider.trackUrlParams(true);
+
+              // Optional set domain (Use 'none' for testing on localhost)
+              //AnalyticsProvider.setDomainName('none');
+
+              // Use display features plugin
+              AnalyticsProvider.useDisplayFeatures(true);
+
                 $fbProvider.init(320314531485580);
                 $twtProvider.init().trimText(true);
             }
@@ -47,9 +62,9 @@ angular
         }
     ])
     .run(['$rootScope', '$localStorage', '$state', '$translate', 'CordovaApp', 'ClientManager', 'Client',
-        'Notification', 'Analytics', '$templateCache','FacebookManager', 'WebManager','App','i18n','Upstream', 'News',
+        'Notification', 'hAnalytics', '$templateCache','FacebookManager', 'WebManager','App','i18n','Upstream', 'News',
         function($rootScope, $localStorage, $state, $translate, CordovaApp, ClientManager, Client,
-                 Notification, Analytics, $templateCache, FacebookManager, WebManager,App,i18n,Upstream,News) {
+                 Notification, hAnalytics, $templateCache, FacebookManager, WebManager,App,i18n,Upstream,News) {
 
 
             WebManager.loadServerConfigs().then(
@@ -161,7 +176,7 @@ angular
                     $rootScope.contentClass = toState.data.contentClass;
                 }
 
-                Analytics.trackView(toState.name);
+                hAnalytics.trackView(toState.name);
             });
         }
     ]);

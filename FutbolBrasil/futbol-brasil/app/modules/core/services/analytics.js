@@ -7,7 +7,7 @@
  */
 angular
     .module('core')
-    .factory('Analytics',['$window',
+    .factory('hAnalytics',['$window',
         function($window) {
 
             function init(){
