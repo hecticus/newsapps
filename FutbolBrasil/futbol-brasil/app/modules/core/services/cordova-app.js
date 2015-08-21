@@ -9,9 +9,9 @@ angular
     .module('core')
     .factory('CordovaApp',['$rootScope', '$state', '$window', '$timeout', '$translate',
         'CordovaDevice', 'WebManager', 'ClientManager', 'PushManager', 'FacebookManager',
-        'Settings', 'Competitions', 'App', 'Update', 'Upstream', 'Analytics', 'i18n', 'News',
+        'Settings', 'Competitions', 'App', 'Update', 'Upstream', 'hAnalytics', 'i18n', 'News',
         function($rootScope, $state, $window, $timeout, $translate, CordovaDevice, WebManager, ClientManager,
-                 PushManager, FacebookManager, Settings, Competitions, App, Update, Upstream, Analytics, i18n, News) {
+                 PushManager, FacebookManager, Settings, Competitions, App, Update, Upstream, hAnalytics, i18n, News) {
 
             var currentSection = '';
             var prevSection = '';
@@ -259,7 +259,7 @@ angular
             function initAllAppData() {
 
                 getVersion();
-                Analytics.init();
+                hAnalytics.init();
 
 
                 if(CordovaDevice.phonegapIsOnline()){
