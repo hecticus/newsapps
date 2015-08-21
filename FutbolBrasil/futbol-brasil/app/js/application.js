@@ -23,7 +23,7 @@ angular
             ]);
 
             if(!window.cordova) {
-              alert('!window.cordova');
+
               // Set analytics account
               AnalyticsProvider.setAccount('UA-60801639-2');
               // Track all routes (or not)
