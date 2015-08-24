@@ -77,7 +77,7 @@
 <div id="wrapperH" class="page" style="left: 100%;" >
   <div id="scroller" ng-style="getTotalWidth()">
     <ul>
-      <li ng-style="getWidth()" ng-repeat="league in leagues track by league.id_competitions"  >
+      <li ng-style="getWidth()" ng-repeat="league in leagues"  >
         <div class="container">
 
           <div class="row h-header green">
@@ -113,7 +113,7 @@
 
                   <div class="row">
                   <div class="col-xs-12"
-                       ng-repeat="fixture in league.fixtures track by fixture.date"
+                       ng-repeat="fixture in league.fixtures"
                        on-last-repeat>
 
                     <table class="table" >
