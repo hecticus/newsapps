@@ -23,23 +23,22 @@ angular
             ]);
 
             if(!window.cordova) {
+                console.log('AnalyticsProvider.setAccount -> UA-60801639-2');
+                // Setup your account
+                AnalyticsProvider.setAccount('UA-60801639-2');
+                // Automatic route tracking (default: true)
+                AnalyticsProvider.trackPages(true);
+                // Use display features plugin
+                AnalyticsProvider.useDisplayFeatures(true);
+                // Use analytics.js instead of ga.js
+                AnalyticsProvider.useAnalytics(true);
+                // Change the default page event name. This is useful for ui-router, which fires $stateChangeSuccess instead of $routeChangeSuccess
+                AnalyticsProvider.setPageEvent('$stateChangeSuccess');
 
-              // Set analytics account
-              AnalyticsProvider.setAccount('UA-60801639-2');
-              // Track all routes (or not)
-              AnalyticsProvider.trackPages(true);
-
-              // Track all URL query params (default is false)
-              AnalyticsProvider.trackUrlParams(true);
-
-              // Optional set domain (Use 'none' for testing on localhost)
-              //AnalyticsProvider.setDomainName('none');
-
-              // Use display features plugin
-              AnalyticsProvider.useDisplayFeatures(true);
 
                 $fbProvider.init(320314531485580);
                 $twtProvider.init().trimText(true);
+
             }
 
 //            // Translations from Server
@@ -62,9 +61,9 @@ angular
         }
     ])
     .run(['$rootScope', '$localStorage', '$state', '$translate', 'CordovaApp', 'ClientManager', 'Client',
-        'Notification', 'hAnalytics', '$templateCache','FacebookManager', 'WebManager','App','i18n','Upstream', 'News',
+        'Notification', 'hAnalytics', '$templateCache','FacebookManager', 'WebManager','App','i18n','Upstream', 'News', 'Analytics',
         function($rootScope, $localStorage, $state, $translate, CordovaApp, ClientManager, Client,
-                 Notification, hAnalytics, $templateCache, FacebookManager, WebManager,App,i18n,Upstream,News) {
+                 Notification, hAnalytics, $templateCache, FacebookManager, WebManager,App,i18n,Upstream,News, Analytics) {
 
 
             WebManager.loadServerConfigs().then(
@@ -130,7 +129,7 @@ angular
 
                     }
 
-                    /*if((Client.isGuest() || !Client.isActiveClient()) && CordovaApp.isBlockedSection(toState.name)){
+                    if((Client.isGuest() || !Client.isActiveClient()) && CordovaApp.isBlockedSection(toState.name)){
 
                         if(Client.isGuest()){
                             Notification.showLockedSectionDialog();
@@ -140,7 +139,7 @@ angular
 
                         event.preventDefault();
                         $rootScope.hideLoading();
-                    }*/
+                    }
 
                     $rootScope.isActiveButton = 'active';
 
@@ -177,6 +176,12 @@ angular
                 }
 
                 hAnalytics.trackView(toState.name);
+                if(!window.cordova) {
+                  console.log('Analytics.trackPage -> ' + toState.name);
+                  Analytics.trackPage(toState.name);
+                }
+
+
             });
         }
     ]);
