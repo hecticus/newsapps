@@ -8,23 +8,7 @@
   <div style="position:absolute; top: 150px; background: #ffffff; width: 100%; height:2px;"></div>
 
 
-  <div  style="position:absolute;
-              top: 100px;
-              left:0;
-              right: 0;
-              display:block;
-              width:100px;
-              height: 100px;
-              line-height: 25px;
-              background-color: rgb(122,184,0)  !important;
-              border-radius: 50%;
-              text-align:center;
-              color:   rgb(0,40,120);
-              font-size:1.8em;
-              margin: 0 auto  !important;
-              border-style: solid;
-              border-width: 2px;
-              border-color: #ffffff;">
+  <div class="field-circle">
 
     <div style="height:35px; position: absolute; top: 0; left: 0; bottom: 0; right: 0; margin: auto; color:#ffffff; ">
       <span ng-bind="points"  style="text-transform: uppercase; font-size:2em !important; display:block;" ></span>
@@ -41,7 +25,7 @@
   <div class="scroller">
     <div class="container"  ng-show="hasCompetition">
 
-      <div class="row h-header yellow"  >
+      <div class="row h-header black"  >
         <div class="col-xs-6" style="text-align:left;">
           <span style="margin-left: 5px;" translate>LEADERBOARD.TOURNAMENT</span>
         </div>
@@ -59,7 +43,7 @@
           <img class="h-shield" ng-src="{{getCompetitionShield(league.competiton_type.competition_logo)}}" onerror="this.src='img/shield-1.png'">
           <span class="h-headline">{{league.competiton_type.name}}</span>
 
-          <div style="float:right; color: rgb(122,184,0) !important; ">
+          <div style="float:right; color: #766a62 !important; ">
             <span class="h-headline" ng-bind="getEndOfTime(league.match.date)" style="font-size:1.2em; text-transform: capitalize; "></span>
             <i class=" mdi-navigation-chevron-right" style="font-size:1.4em; vertical-align:middle;"></i>
           </div>

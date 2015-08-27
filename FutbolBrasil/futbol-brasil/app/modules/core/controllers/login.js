@@ -145,8 +145,8 @@ angular
                     $state.go('settings',{newClient:true});
                 } else {
                     //console.log('existing client. going to news');
-                    $state.go('tutorial');
-                    //$state.go('prediction');
+                    //$state.go('tutorial');
+                    $state.go('prediction');
                 }
             }
 

@@ -1,8 +1,8 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.upstreamsystems.timpalpites" version="0.19" xmlns="http://www.w3.org/ns/widgets" xmlns:android="http://schemas.android.com/apk/res/android" xmlns:gap="http://cordova.apache.org/ns/1.0">
-    <name>TIM Palpites</name>
+<widget id="com.upstreamsystems.nextelpalpites" version="0.19" xmlns="http://www.w3.org/ns/widgets" xmlns:android="http://schemas.android.com/apk/res/android" xmlns:gap="http://cordova.apache.org/ns/1.0">
+    <name>NEXTEL Palpites</name>
     <description>
-      TIM Palpites App.
+      NEXTEL Palpites App.
 	  </description>
     <author email="contact@hecticus.com" href="http://www.hecticus.com">
 		Hecticus Software Inc

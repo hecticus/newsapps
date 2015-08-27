@@ -37,7 +37,7 @@
         <div class="container">
 
           <div class="row">
-            <div class="col-xs-12 h-header green h-ellipsis-truncate">
+            <div class="col-xs-12 h-header black h-ellipsis-truncate">
               <img class="h-shield h-tree" ng-src="{{getCompetitionShield(item.competition.competiton_type.competition_logo)}}" onerror="this.src='img/shield-1.png'">
               <span class="h-headline" ng-bind="item.competition.competiton_type.name"></span>
             </div>
@@ -73,7 +73,7 @@
         <div class="container">
 
           <div class="row">
-            <div class="col-xs-12 h-header red h-ellipsis-truncate">
+            <div class="col-xs-12 h-header black h-ellipsis-truncate">
               <img class="h-shield h-tree" ng-src="{{getCompetitionShield(item.competition.competiton_type.competition_logo)}}" onerror="this.src='img/shield-1.png'">
               <span class="h-headline" ng-bind="item.competition.competiton_type.name"></span>
               <span>-</span>
@@ -90,7 +90,7 @@
                     <table class="table">
                       <thead>
                       <tr>
-                        <th colspan="8" class="h-header light-blue">
+                        <th colspan="8" class="h-header light-gray">
                           <span>{{fromNow(ranking.date)}}</span>
                         </th>
                       </tr>
@@ -131,8 +131,8 @@
                 </div>
 
 
-                <div class="row h-source" style="border-top: solid 1pt rgb(254,209,0);">
-                  <div class="col-xs-12" style="padding: 15px  !important; text-align:left; ">
+                <div class="row h-source" ng-show="showSource">
+                  <div class="col-xs-12" style="padding: 15px !important; text-align:left;">
                     {{'NEWS.SOURCE' | translate}} <span>: Perform Group</span>
                   </div>
                 </div>
@@ -145,31 +145,31 @@
                     <table class="table h-table">
                       <thead>
                       <tr>
-                        <th colspan="8" class="h-header green">
+                        <th colspan="8" class="h-header gray">
                           <span ng-bind="rankings.group_name"></span>
                         </th>
                       </tr>
-                      <tr>
-                        <th class="h-header light-blue"></th>
-                        <th class="h-header light-blue" style="text-align: left;" translate>
+                      <tr class="h-header light-gray">
+                        <th ></th>
+                        <th  style="text-align: left;" translate>
                           STANDINGS.TEAM
                         </th>
-                        <th class="h-header light-blue" translate>
+                        <th  translate>
                           STANDINGS.TABLE.POINTS
                         </th>
-                        <th class="h-header light-blue" translate>
+                        <th translate>
                           STANDINGS.TABLE.MATCHES
                         </th>
-                        <th class="h-header light-blue" translate>
+                        <th translate>
                           STANDINGS.TABLE.MATCHES_WON
                         </th>
-                        <th class="h-header light-blue" translate>
+                        <th translate>
                           STANDINGS.TABLE.MATCHES_DRAWN
                         </th>
-                        <th class="h-header light-blue" translate>
+                        <th translate>
                           STANDINGS.TABLE.MATCHES_LOST
                         </th>
-                        <th class="h-header light-blue" translate>
+                        <th translate>
                           STANDINGS.TABLE.GOALS_FOR
                         </th>
                       </tr>
@@ -218,8 +218,8 @@
                 </div>
 
 
-                <div class="row h-source" ng-show="showSource" style="border-top: solid 1pt rgb(254,209,0);">
-                  <div class="col-xs-12" style="padding: 15px  !important; text-align:left; ">
+                <div class="row h-source" ng-show="showSource">
+                  <div class="col-xs-12" style="padding: 15px !important; text-align:left;">
                     {{'NEWS.SOURCE' | translate}} <span>: Perform Group</span>
                   </div>
                 </div>
