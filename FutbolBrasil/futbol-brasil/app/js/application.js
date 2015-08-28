@@ -41,7 +41,7 @@ angular
                 
                 ezfbProvider.setInitParams({
                     /******CAMBIAR POR APPID DE PRODUCCION******/
-                    appId: '320314531485580'
+                    appId: '1379325579064871'
                 }); 
 
             }
