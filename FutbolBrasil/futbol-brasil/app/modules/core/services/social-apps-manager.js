@@ -64,13 +64,7 @@ angular
                 $fb.feed(post);
             }
             
-            function fbPost(link, caption, picture) {
-                if(!window.facebookConnectPlugin){ 
-                    console.log("SocialAppsManager. facebookConnectPlugin not found");                    
-                    //Notification.showFBShareError();            
-                    return; 
-                }
-                
+            function fbPost(link, caption, picture) {              
                 FacebookManager.post(link, caption, picture);
             }
 

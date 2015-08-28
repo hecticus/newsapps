@@ -136,14 +136,14 @@ angular
             }
 
             function getFbFriends(){
-                if(!!$window.facebookConnectPlugin){
+                //if(!!$window.facebookConnectPlugin){
                     FacebookManager.getFriends(function(friends){
                         $scope.hasFriends = friends && (Client.getFriendsIds().length > 0);
                     });
                     config.params.friends = Client.getFriendsIds();
-                } else {
+               /* } else {
                     console.log('facebookconnectPlugin Object not available. Are you directly on a browser?');
-                }
+                }*/
             }
 
             function getCompetitions(){

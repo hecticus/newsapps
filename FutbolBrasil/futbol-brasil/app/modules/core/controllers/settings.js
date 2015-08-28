@@ -112,8 +112,6 @@ angular
 
             $scope.onFbButtonClick = function(){
 
-
-                if(!window.facebookConnectPlugin){ return; }
                 if(Client.isGuest() || !Client.isActiveClient()){
                     Notification.showLockedSectionDialog();
                 } else {
@@ -122,26 +120,22 @@ angular
                     $scope.fbObject.fbButtonMsg = strings['SET_LOADING'];
 
                     if($scope.fbObject.fbStatus === 'connected'){
-                       facebookConnectPlugin.logout(function(){
+                       FacebookManager.logout(function(){
                           $scope.fbObject.class = 'btn-info';
                           getStatus();
                        });
                     } else if($scope.fbObject.fbStatus !== 'connected') {
-                      facebookConnectPlugin.login(
-                        ["email", "user_friends", "public_profile", "user_friends"]
-                        , function (response) {
-                            FacebookManager.login2(response);
-                            if (response.status === 'connected') {
+                      FacebookManager.login(function(response){
+                          console.log("FB login:", response);
+                          if (response.status === 'connected') {
+                              console.log("Setting FB status");
                               ClientManager.createOrUpdateClient({'msisdn' : Client.getMsisdn()}, false);
                               $scope.fbObject.class = 'btn-success';
                             };
                             getStatus();
-                        }
-                      );
+                      });
+                      
                     }
-
-
-
                 }
             };
 
@@ -191,20 +185,20 @@ angular
             }
 
             function getStatus(){
-                if(!!window.facebookConnectPlugin) {
+                //if(!!window.facebookConnectPlugin) {
                     FacebookManager.getStatus(function (result) {
                         if (result) {
                             $scope.fbObject.fbStatus = result.status;
                             $scope.setFbButtonMsg();
                         }
                     });
-                } else {
+                /*} else {
                     $scope.setFbButtonMsg();
                     //$timeout(function(){
                         //$scope.fbObject.fbStatus = 'connected';
                         //$scope.setFbButtonMsg();
                     //}, 1000);
-                }
+                }*/
             }
 
             function getClientLanguage(){
