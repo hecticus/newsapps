@@ -17,6 +17,17 @@
  * under the License.
  */    
 
+var enabledAdMob = true; // easily enable/disable AdMob
+var admobid = {};
+if( /(android)/i.test(navigator.userAgent) ) 
+{ 
+    admobid = { // for Android
+    banner: "/6253334/dfp_example_ad/banner",
+    interstitial: '/6253334/dfp_example_ad/interstitial'
+    };
+}     
+
+
 var json_yo_informo = {term_slug:'',message:'',addres:'',latitude:8.537981, longitude:-80.782127,mobile:'',first_name:'',last_name:'',email:'',photo:'',img:''};
 var info_app = 'Sobre este APP';
 var yo_informo = 'Yo Informo';
@@ -816,6 +827,7 @@ function initBasicApp(){
 						fYoInformo(-1);
     				} else {
     					
+    					AdMob.showInterstitial();
 	    				trendingview=false;
 	    				$('#screen-block').addClass('hidden');		
 	    				$('#header-title').html(arrCategory[$(this).data('position')].title);
@@ -940,7 +952,9 @@ function initBasicApp(){
 }								
 			
 			function goToNewsPage(){
-
+				
+				AdMob.showInterstitial();
+				
 				var manager = new NewsManager();
 				manager.loadNewsByIDFromBD(newsDatacontent,successGetNewsDataContentFromBD,noConnectionForNews);
 				
@@ -951,8 +965,7 @@ function initBasicApp(){
 				$($(this).data('news')).show();								
 				$('.position').html('1');
 				$('#datacontent').attr('class','page transition left');
-					
-									
+													
 			}
 			
 			function goToNewsPageFromPush(newsArray){
@@ -2393,7 +2406,17 @@ var app = {
     initialize: function() {this.bindEvents();},
     bindEvents: function() {document.addEventListener('deviceready', this.onDeviceReady, false);},
     onDeviceReady: function() {
-  
+    	
+    	
+		AdMob.createBanner({
+		    adId: admobid.banner,
+		    position: AdMob.AD_POSITION.BOTTOM_CENTER,
+		    adSize: AdMob.AD_SIZE.SMART_BANNER,
+		    autoShow: true
+		});
+		
+    	AdMob.prepareInterstitial( {adId:admobid.interstitial, autoShow:false});
+    	
     	
    		//Google Analytics
 		initGA();

@@ -243,12 +243,19 @@ module.exports = [
         ]
     },
     {
+        "file": "plugins/com.google.cordova.admob/www/AdMob.js",
+        "id": "com.google.cordova.admob.AdMob",
+        "clobbers": [
+            "window.AdMob"
+        ]
+    },
+    {
     	"file": "plugins/com.adobe.plugins.GAPlugin/www/GAPlugin.js",
     	"id": "com.adobe.plugins.GAPlugin.GAPlugin",
     	"clobbers": [
     		"GAPlugin"
     	]
-	}
+	}    
 ];
 module.exports.metadata = 
 // TOP OF METADATA
@@ -263,7 +270,10 @@ module.exports.metadata =
     "org.apache.cordova.file-transfer": "0.4.0",
     "org.apache.cordova.geolocation": "0.3.6",
     "org.apache.cordova.inappbrowser": "0.4.0",
-    "org.apache.cordova.camera": "0.2.9"
+    "org.apache.cordova.camera": "0.2.9",
+    "com.google.cordova.admob": "2.7.8",
+    "com.rjfun.cordova.extension": "1.1.4",
+    "com.google.playservices": "19.0.0"
 }
 // BOTTOM OF METADATA
 });
