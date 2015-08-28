@@ -280,6 +280,7 @@ angular
                     Settings.init();
                     Competitions.init();
                     getTranslations();
+                    FacebookManager.init();
 
 
 

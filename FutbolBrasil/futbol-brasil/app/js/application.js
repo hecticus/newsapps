@@ -6,8 +6,8 @@ angular
 
 angular
     .module(ApplicationConfiguration.applicationModuleName)
-    .config(['$locationProvider', '$httpProvider', '$translateProvider', '$fbProvider', '$twtProvider', 'AnalyticsProvider',
-        function($locationProvider, $httpProvider, $translateProvider, $fbProvider, $twtProvider, AnalyticsProvider) {
+    .config(['$locationProvider', '$httpProvider', '$translateProvider', '$fbProvider', '$twtProvider', 'AnalyticsProvider', 'ezfbProvider',
+        function($locationProvider, $httpProvider, $translateProvider, $fbProvider, $twtProvider, AnalyticsProvider, ezfbProvider) {
             $locationProvider.hashPrefix('!');
             $httpProvider.defaults.useXDomain = true;
             $httpProvider.interceptors.push(['$q', '$location', '$injector',
@@ -38,6 +38,11 @@ angular
 
                 $fbProvider.init(320314531485580);
                 $twtProvider.init().trimText(true);
+                
+                ezfbProvider.setInitParams({
+                    /******CAMBIAR POR APPID DE PRODUCCION******/
+                    appId: '320314531485580'
+                }); 
 
             }
 
@@ -114,17 +119,13 @@ angular
                     } else {
 
                         if (toState.data.state === 'friends') {
-
-
-                          if(!!window.facebookConnectPlugin) {
-                              FacebookManager.getStatus(function (result) {
-                                  if (result) {
-                                      if (result.status !== 'connected') {
-                                          Notification.showQuestionFacebookDialog();
-                                      }
-                                  }
-                              });
-                          }
+                            FacebookManager.getStatus(function (result) {
+                                if (result) {
+                                    if (result.status !== 'connected') {
+                                        Notification.showQuestionFacebookDialog();
+                                    }
+                                }
+                            });
                         };
 
                     }

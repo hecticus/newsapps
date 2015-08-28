@@ -7,15 +7,17 @@
  */
 angular
     .module('core')
-    .factory('FacebookManager',['$localStorage', '$http', 'Client','Notification','$rootScope',
-        function($localStorage, $http, Client, Notification, $rootScope) {
+    .factory('FacebookManager',['$localStorage', '$http', 'Client','Notification','$rootScope','ezfb', 'CordovaDevice',
+        function($localStorage, $http, Client, Notification, $rootScope, ezfb, CordovaDevice) {
             var INTERVAL_FRIENDS_LOADER_TIMER = 30000;
             var FILE_KEY_FB_USER_ID = "APPDATAFBUSERID";
             var FILE_KEY_FB_FRIENDS = "APPDATAFBFRIENDS";
             var fbUserId = '';
             var intervalFriendsLoaderId = '';
             var localStorage = $localStorage;
-
+            var plugin = ezfb;
+            var pluginType = 'ezfb';
+            
             var saveUserId = function (_fbUserId) {
                 try{
                     fbUserId = _fbUserId;
@@ -84,14 +86,21 @@ angular
                 
                 console.log("postToFeed options:",options);
                 //$('#screen-block').hide();
-                facebookConnectPlugin.showDialog(options, 
-                    function(response){
-                        console.log("FacebookManager. Success posting to FB");
-                    }, 
-                    function(response){
-                        console.log("FacebookManager. Failure posting to FB:" + response);
-                    }
-                );
+                
+                if( pluginType === 'facebookConnect'){
+                    plugin.showDialog(options, 
+                        function(response){
+                            console.log("FacebookManager. Success posting to FB");
+                        }, 
+                        function(response){
+                            console.log("FacebookManager. Failure posting to FB:" + response);
+                        }
+                    );
+                } else {
+                    plugin.ui(options, function (res){
+                        console.log("FacebookManager, ezfb. posting to FB response:", res);
+                    });
+                }             
             };
 
             return {
@@ -123,24 +132,43 @@ angular
                  * @methodOf core.Services.FacebookManager
                  * @return {boolean} Returns a boolean value
                  */
-                login : function () {
+                login : function (callback) {
                     var that = this;
-
-                    facebookConnectPlugin.login(
-                        ["email", "user_friends", "public_profile", "user_friends"]
-                        , function (response) {
-                            console.log(JSON.stringify(response, undefined, 1));
+                    
+                    if(pluginType === 'facebookConnect'){
+                        console.log('facebookConnect login');
+                        plugin.login(
+                            ["email", "user_friends", "public_profile", "user_friends"]
+                            , function (response) {
+                                console.log("FB login response:",JSON.stringify(response, undefined, 1));
+                                processResponse(response);
+                                callback(response);
+                            }
+                            , function (response) {
+                                console.log("FacebookManager. login. Error: "
+                                    + JSON.stringify(response, undefined, 1));
+                                callback(response);
+                            }
+                        );
+                    } else {
+                        console.log('ezfb login');
+                        plugin.login(function (response){
+                            console.log('FB login response:', response);
+                            processResponse(response);
+                            callback(response);
+                            
+                        },  {scope: 'email,user_friends,public_profile'});
+                    }
+                    
+                    function processResponse(response){
+                        if(response.authResponse){                                
                             var authResponse = response.authResponse;
                             fbUserId = authResponse.userID;
                             saveUserId(fbUserId);
                             that.setIntervalFriendsLoader();
-                            that.getFriends();
+                            that.getFriends();                                
                         }
-                        , function (response) {
-                            console.log("FacebookManager. login. Error: "
-                                + JSON.stringify(response, undefined, 1));
-                        }
-                    );
+                    };
                 },
 
                 login2 : function (response) {
@@ -152,10 +180,8 @@ angular
                     that.getFriends();
                 },
 
-
-
                 logout: function (successCallback, errorCallback) {
-                    facebookConnectPlugin.logout(successCallback, errorCallback);
+                    plugin.logout(successCallback, errorCallback);
                 },
 
 
@@ -172,7 +198,7 @@ angular
                 */
                 getStatus : function (callback){
                     console.log("FacebookManager. getStatus.");
-                    facebookConnectPlugin.getLoginStatus(
+                    plugin.getLoginStatus(
                         function (result) {
                             console.log("getLoginStatus:", result);
                             typeof callback == 'function' && callback(result);
@@ -184,29 +210,43 @@ angular
                 },
 
                 getFriends : function (callback) {
-                    facebookConnectPlugin.api('/me/friends?fields=picture,name'
-                        , ["public_profile", "user_friends"],
-                        function (result) {
-                            var friends = result.data;
-                            console.log('FacebookManager.getFriends. result: ');
-                            console.log(friends);
-                            saveFriends(friends);
-                            var more = result.paging.hasOwnProperty('next');
-                            console.log('more: ' + more);
-                            if(more == true){
-                                console.log('more. true');
-                                getMoreFriends(result.paging.next, callback);
-                            } else if (more == false){
-                                console.log('getFriends: more. false. calling callback: ' + (typeof callback == 'function'));
-                                typeof callback == 'function' && callback(friends);
+                    if(pluginType === 'facebookConnect'){
+                        plugin.api('/me/friends?fields=picture,name'
+                            , ["public_profile", "user_friends"],
+                            function (result) {
+                                processData(result);
+                            },
+                            function (error) {
+                                console.log("FacebookManager. getFriends. Error: "
+                                    + JSON.stringify(error, undefined, 1));
+                                typeof callback == 'function' && callback(null);
                             }
-                        },
-                        function (error) {
-                            console.log("FacebookManager. getFriends. Error: "
-                                + JSON.stringify(error, undefined, 1));
+                        );
+                    } else {
+                         plugin.api('/me/friends?fields=picture,name',processData);
+                    }
+                    
+                    function processData(result){
+                        console.log('FacebookManager.getFriends. result: ', result);
+                        console.log(' Result.error:',result.error);
+                        if(angular.isDefined(result.error)){
+                            console.log(" FacebookManager. getFriends. Error");
                             typeof callback == 'function' && callback(null);
+                            return;
                         }
-                    );
+                        var friends = result.data;
+                        console.log(friends);
+                        saveFriends(friends);
+                        var more = result.paging.hasOwnProperty('next');
+                        console.log('more: ' + more);
+                        if(more == true){
+                            console.log('more. true');
+                            getMoreFriends(result.paging.next, callback);
+                        } else if (more == false){
+                            console.log('getFriends: more. false. calling callback: ' + (typeof callback == 'function'));
+                            typeof callback == 'function' && callback(friends);
+                        }
+                    };
                 },
 
                 getLocalFriends : getLocalFriends,
@@ -223,7 +263,21 @@ angular
                         }
                         $('#screen-block').hide();                        
                     });              
+                },
+                
+                init: function(){
+                    console.log("Init FacebookManager...");
+                    if(CordovaDevice.isWebPlatform()){
+                        pluginType = 'ezfb';
+                        plugin = ezfb;
+                    } else {
+                        pluginType = 'facebookConnect';
+                        plugin = facebookConnectPlugin;
+                    }              
+                    console.log("Facebook Manager plugin type:", pluginType);
+                    console.log("Facebook Manager plugin:", plugin);
                 }
+
             }
         }
     ]);
