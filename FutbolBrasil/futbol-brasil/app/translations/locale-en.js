@@ -136,7 +136,7 @@
     },
 
     "TERMS" : {
-        "MESSAGE" : "Please read the Terms & Conditions on the website http://www.tim.com.br/. By using the application the user agrees to all the Terms & Conditions."
+        "MESSAGE" : "Please read the Terms & Conditions on the website http://www.google.com. By using the application the user agrees to all the Terms & Conditions."
     },
 
     "ALERT": {
@@ -245,7 +245,7 @@
             "SUBTITLE": "Outdated event",
             "MSG": "The match date is outdated"
           },
-          
+
           "FB_SHARE" : {
             "TITLE" : "News Share",
             "SUBTITLE": "Warning",

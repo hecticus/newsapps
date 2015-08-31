@@ -136,7 +136,7 @@
     },
 
     "TERMS" : {
-        "MESSAGE" : "Por favor, leia os Termos e Condições no site http://www.tim.com.br/.  Ao usar o aplicativo o usuário concorda com todos os Termos e Condições."
+        "MESSAGE" : "Por favor, leia os Termos e Condições no site http://www.google.com/.  Ao usar o aplicativo o usuário concorda com todos os Termos e Condições."
     },
 
     "ALERT": {
@@ -245,7 +245,7 @@
             "SUBTITLE": "Data desatualizado",
             "MSG": "A data de partida está desatualizado"
         },
-        
+
         "FB_SHARE" : {
             "TITLE" : "News Share",
             "SUBTITLE": "Warning",

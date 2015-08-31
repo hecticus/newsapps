@@ -89,7 +89,7 @@ angular
             }
 
             function init(){
-                try {
+                /*try {
 
                     if($window.plugins){
                         pushNotification = $window.plugins.pushNotification;
@@ -134,7 +134,7 @@ angular
                     }
                 } catch(err) {
                     console.log("PushManager. init. Error. " + err);
-                }
+                }*/
             }
 
             return {
