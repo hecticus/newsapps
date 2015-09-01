@@ -1,6 +1,6 @@
 import play.PlayJava
 
-name := "futbolBrasil"
+name := "futboltmp"
 
 version := "1.0-SNAPSHOT"
 
