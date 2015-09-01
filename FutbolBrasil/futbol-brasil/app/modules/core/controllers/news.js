@@ -44,8 +44,8 @@ angular
               });*/
               
               //console.log("NewsCtrl. Fbpost!!");
-              var img = "http://c2c966812fafaea61977-4a4dad4d6fcba0b5d30b97c30da42673.r19.cf1.rackcdn.com/logo-timfutebol-200x200.png";
-              SocialAppsManager.fbPost('http://timfutebol.hecticus.com/#!/news/' + _news.idNews, _news.title, img);
+              var img = "http://c2c966812fafaea61977-4a4dad4d6fcba0b5d30b97c30da42673.r19.cf1.rackcdn.com/logo-nextelfutebol-200x200.png";
+              SocialAppsManager.fbPost('http://nextelfutebol.hecticus.com/#!/news/' + _news.idNews, _news.title, img);
             }
 
             function fromNow(_date) {
