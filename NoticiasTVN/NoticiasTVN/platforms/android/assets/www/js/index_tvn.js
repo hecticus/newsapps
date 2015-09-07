@@ -17,12 +17,14 @@
  * under the License.
  */    
 
+
+
 var enabledAdMob = true; // easily enable/disable AdMob
 var admobid = {};
 if( /(android)/i.test(navigator.userAgent) ) 
 { 
-    admobid = { // for Android
-    banner: "/6253334/dfp_example_ad/banner",
+    admobid = { // for Android    
+   	banner: "/2259226/noticias_app_hec_home_list",
     interstitial: '/6253334/dfp_example_ad/interstitial'
     };
 }     
@@ -827,7 +829,7 @@ function initBasicApp(){
 						fYoInformo(-1);
     				} else {
     					
-    					AdMob.showInterstitial();
+    					//AdMob.showInterstitial();
 	    				trendingview=false;
 	    				$('#screen-block').addClass('hidden');		
 	    				$('#header-title').html(arrCategory[$(this).data('position')].title);
@@ -953,7 +955,7 @@ function initBasicApp(){
 			
 			function goToNewsPage(){
 				
-				AdMob.showInterstitial();
+				//AdMob.showInterstitial();
 				
 				var manager = new NewsManager();
 				manager.loadNewsByIDFromBD(newsDatacontent,successGetNewsDataContentFromBD,noConnectionForNews);
@@ -2415,7 +2417,7 @@ var app = {
 		    autoShow: true
 		});
 		
-    	AdMob.prepareInterstitial( {adId:admobid.interstitial, autoShow:false});
+    	//AdMob.prepareInterstitial( {adId:admobid.interstitial, autoShow:false});
     	
     	
    		//Google Analytics
