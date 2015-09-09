@@ -12,12 +12,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
+import android.graphics.BitmapFactory;
+import android.graphics.Bitmap;
 
 import com.google.android.gcm.GCMBaseIntentService;
 
 @SuppressLint("NewApi")
 public class GCMIntentService extends GCMBaseIntentService {
-
+	
 	private static final String TAG = "GCMIntentService";
 	
 	public GCMIntentService() {
@@ -81,6 +83,7 @@ public class GCMIntentService extends GCMBaseIntentService {
 
 	public void createNotification(Context context, Bundle extras)
 	{
+		Log.d(TAG, "on createNotification");
 		NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 		String appName = getAppName(this);
 
@@ -98,10 +101,28 @@ public class GCMIntentService extends GCMBaseIntentService {
 			} catch (NumberFormatException e) {}
 		}
 		
+		int smallIcon = 0;
+        Bitmap largeIcon = BitmapFactory.decodeResource(context.getResources(), context.getApplicationInfo().icon);
+		Log.d(TAG, "on createNotification, creating LargeIcon");
+		
+		// For new versions, get a silhouette icon
+		if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+			smallIcon = context.getResources().getIdentifier("notification_icon", "drawable", context.getPackageName());
+			Log.d(TAG, "createNotification: smallIcon lollipop"+ smallIcon);
+		}
+		
+		// If no icon is found, use the app icon
+		if (smallIcon == 0) {
+			smallIcon = context.getApplicationInfo().icon;
+			Log.d(TAG, "createNotification: smallIcon default"+ smallIcon);
+		}
+
+		
 		NotificationCompat.Builder mBuilder =
 			new NotificationCompat.Builder(context)
 				.setDefaults(defaults)
-				.setSmallIcon(context.getApplicationInfo().icon)
+				.setSmallIcon(smallIcon)
+				.setLargeIcon(largeIcon)
 				.setWhen(System.currentTimeMillis())
 				.setContentTitle(extras.getString("title"))
 				.setTicker(extras.getString("title"))
