@@ -36,6 +36,8 @@ module.exports = function(config) {
             'app/lib/angular-translate-loader-url/angular-translate-loader-url.js',
             'app/lib/iscroll/build/iscroll-probe.js',
             'app/lib/Flowtype.js/flowtype.js',
+            'app/lib/angular-google-analytics/dist/angular-google-analytics.min.js',
+            'app/lib/angular-easyfb/angular-easyfb.js',
             <!-- endinjector -->
 
             'app/js/iscroll-probe.js',

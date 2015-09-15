@@ -9,9 +9,9 @@ angular
     .module('core')
     .factory('CordovaApp',['$rootScope', '$state', '$window', '$timeout', '$translate',
         'CordovaDevice', 'WebManager', 'ClientManager', 'PushManager', 'FacebookManager',
-        'Settings', 'Competitions', 'App', 'Update', 'Upstream', 'Analytics', 'i18n', 'News', 'Domain',
+        'Settings', 'Competitions', 'App', 'Update', 'Upstream', 'hAnalytics', 'i18n', 'News',
         function($rootScope, $state, $window, $timeout, $translate, CordovaDevice, WebManager, ClientManager,
-                 PushManager, FacebookManager, Settings, Competitions, App, Update, Upstream, Analytics, i18n, News, Domain) {
+                 PushManager, FacebookManager, Settings, Competitions, App, Update, Upstream, hAnalytics, i18n, News) {
 
             var currentSection = '';
             var prevSection = '';
@@ -74,8 +74,6 @@ angular
                     $window.wizUtils.getBundleIdentifier(function(id){
                         App.setBundleId(id);
                     });
-                }else{
-                    console.log('$window.wizUtils Object not available. Are you directly on a browser?');
                 }
             }
 
@@ -88,8 +86,6 @@ angular
                     navigator.app.exitApp();
                 } else if (!!navigator.device) {
                     navigator.device.exitApp();
-                } else {
-                    console.log("Couldn't close app");
                 }
             }
 
@@ -141,7 +137,6 @@ angular
                               cancel: strings.CANCEL
                           },
                           function(){
-                              console.log('Ok selected');
                               exitApp();
                           },
                           function(){
@@ -215,7 +210,7 @@ angular
                 document.addEventListener('deviceready', onDeviceReady, false);
 
                 if(CordovaDevice.isWebPlatform()){
-                  console.log('bindevents. platform: Web');
+
                     initAllAppData();
                 }
 
@@ -262,14 +257,13 @@ angular
             }
 
             function initAllAppData() {
-                getVersion();
 
-                Analytics.init();
-                ClientManager.init().then(startApp, errorStartApp);
+                getVersion();
+                hAnalytics.init();
+
 
                 if(CordovaDevice.phonegapIsOnline()){
-                    console.log('initAllAppData. $window.StatusBar: ');
-                    console.log($window.StatusBar);
+
                     if(!!$window.StatusBar){
                         if(CordovaDevice.isAndroidPlatform()){
                             console.log('initAllAppData. platform: Android');
@@ -280,40 +274,80 @@ angular
                         } else {
                             console.log('initAllAppData. platform: ' + CordovaDevice.getPlatform());
                         }
-                    }else{
-                        console.log('$window.StatusBar Object not available. Are you directly on a browser?');
                     }
 
                     PushManager.init();
-                    WebManager.loadServerConfigs().then(
-                        function(data){
-                            data = data.data.response;
-                            Upstream.setUp(data).then(Upstream.appLaunchEvent);
+                    Settings.init();
+                    Competitions.init();
+                    getTranslations();
+                    FacebookManager.init();
 
+
+
+                    if(!CordovaDevice.isWebPlatform()){
+                        Update.checkUpdate();
+                    };
+
+                      /*WebManager.loadServerConfigs().then(function(resolve){
+
+                        var data = resolve.data.response;
+                        App.setCompanyName(data.company_name);
+                        App.setBuildVersion(data.build_version);
+                        App.setServerVersion(data.server_version);
+                        App.setUpdateInfo(data.version);
+
+                        i18n.init(data.default_language);
+                        News.setMaxNews(data.max_news);
+                        Settings.init();
+                        Competitions.init();
+                        getTranslations();
+                        Upstream.setUp(data).then(Upstream.appLaunchEvent);
+
+
+                        if(!CordovaDevice.isWebPlatform()){
+                            Update.checkUpdate();
+                        }
+
+                     }, function(reject){
+                        console.log(reject)
+                     });*/
+
+                    /*WebManager.loadServerConfigs().then(
+                        function(data){
+
+                            //console.warn(JSON.stringify(data));
+
+                            data = data.data.response;
                             App.setCompanyName(data.company_name);
                             App.setBuildVersion(data.build_version);
                             App.setServerVersion(data.server_version);
                             App.setUpdateInfo(data.version);
 
-                            Domain.setProvisionalLanguage(data.default_language);
                             i18n.init(data.default_language);
-
                             News.setMaxNews(data.max_news);
-
                             Settings.init();
                             Competitions.init();
                             getTranslations();
+                            Upstream.setUp(data).then(Upstream.appLaunchEvent);
+
 
                             if(!CordovaDevice.isWebPlatform()){
                                 Update.checkUpdate();
                             }
+
                         }, function(){
                             console.log("loadServerConfigs errorCallback. Error retrieving serverConfigs");
                         }
-                    );
+                    );*/
+
+                    ClientManager.init().then(startApp, errorStartApp);
+
                 }else{
                     startAppOffline();
                 }
+
+
+
             }
 
             function init() {

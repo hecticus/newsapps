@@ -8,9 +8,9 @@
 angular
     .module('core')
     .factory('ClientManager',['$http', '$translate', '$q', '$localStorage',  'CordovaDevice', 'WebManager', 'FacebookManager',
-        'TeamsManager', 'Client', 'Domain', 'i18n', 'Settings',
+        'TeamsManager', 'Client', 'Domain', 'i18n', 'Settings', 'App',
         function($http, $translate, $q, $localStorage, CordovaDevice, WebManager, FacebookManager,
-                 TeamsManager, Client, Domain, i18n, Settings) {
+                 TeamsManager, Client, Domain, i18n, Settings, App) {
 
             var arrMsisdnTestClient = ['40766666611','40766666612', '40766666613',
             '40766666614', '40766666615', '40766666616',
@@ -104,7 +104,7 @@ angular
                     device.registration_id = Client.getRegId();
                     devices.push(device);
                 }else{
-                    console.log('createOrUpdateClient. no regId.');
+                    //console.log('createOrUpdateClient. no regId.');
                 }
 
 
@@ -128,13 +128,13 @@ angular
                     url = Domain.client.update();
                     jData.add_devices = devices;
                 } else {
-                    url = Domain.client.create;
+                    url = Domain.client.create();
                     if (jData.device_id == 3) delete jData.device_id;
                     else jData.devices = devices;
                     if(subscribe){ jData.subscribe = true; }
                 }
 
-                console.log('jData -> ' + JSON.stringify(jData));
+                //console.log('jData -> ' + JSON.stringify(jData));
 
                 $http({
                     url : url,
@@ -158,14 +158,14 @@ angular
                                 typeof errorCallback == "function" && errorCallback();
                             }
                         }else{
-                            console.log("Error guardando cliente: " + data.description);
+                            //console.log("Error guardando cliente: " + data.description);
                             typeof errorCallback == "function" && errorCallback();
                         }
                     }, function(data) {
 
-                        console.log("createClient. Error creating client. status: " + data.status);
-                        //console.log(data.data);
-                        
+                        //console.log("createClient. Error creating client. status: " + data.status);
+                        ////console.log(data.data);
+
                          if ((arrMsisdnTestClient.indexOf(client.msisdn) >= 0)
                              && strPasswordTestClient === client.password) {
                              createOrUpdateClient({}, true, successCallback, errorCallback);
@@ -178,7 +178,7 @@ angular
 
 
             function getClientStatus(){
-                console.log("getClientStatus...");
+                //console.log("getClientStatus...");
                 var deferred = $q.defer();
                 var upstreamChannel = CordovaDevice.getUpstreamChannel();
                 var clientId = Client.getClientId();
@@ -197,7 +197,7 @@ angular
                         Client.updateClient(response, null)
                         .then(
                             function(){
-                                console.log("getClientStatus data:",data);
+                                //console.log("getClientStatus data:",data);
                                 var clientData = {
                                     'is_active': Client.setActiveStatus(response.status),
                                     'status' : response.status
@@ -210,12 +210,12 @@ angular
                         );
                     }else{
                         var description = data.description ? data.description:'No Error Description';
-                        console.log("Error. obteniendo status de cliente: " + description);
+                        //console.log("Error. obteniendo status de cliente: " + description);
                         deferred.reject();
                     }
                 })
                 .error(function(data, status) {
-                    console.log("Error. Get status client " + data);
+                    //console.log("Error. Get status client " + data);
                     deferred.reject();
                 });
 
@@ -246,9 +246,9 @@ angular
                 }
                 return lang;
             }
-            
-            function setClientPushAlerts(pushAlerts){ 
-                Settings.loadSettings(pushAlerts);                        
+
+            function setClientPushAlerts(pushAlerts){
+                Settings.loadSettings(pushAlerts);
             }
 
             return service;

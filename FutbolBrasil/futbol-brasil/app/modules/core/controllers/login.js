@@ -131,7 +131,7 @@ angular
 
 
             function loginSuccess(isNewClient){
-                console.log('onLoginSuccess. Login Success.');
+                //console.log('onLoginSuccess. Login Success.');
                 Upstream.loginEvent();
                 if(isNewClient){
                     //TODO i18n-alizar
@@ -152,7 +152,7 @@ angular
 
             function loginError(errorData){
                 if(errorData && errorData.upstream_code){
-                    console.log("errorcode:",errorData);
+                   //console.log("errorcode:",errorData);
                     var errorKey = getUPSResponseCodeString(errorData.upstream_code);
                     Notification.showInfoAlert({
                         title:  strings[errorKey+'_TITLE'],
@@ -172,7 +172,7 @@ angular
             $scope.sendMsisdn = function(){
                 $scope.$emit('load');
                 if($scope.msisdn){
-                    console.log('sendMsisdn. msisdn: ' + $scope.msisdn);
+                    //console.log('sendMsisdn. msisdn: ' + $scope.msisdn);
                     Upstream.clickedSubscriptionPromptEvent();
                     Client.setMsisdn($scope.msisdn,
                         function(){

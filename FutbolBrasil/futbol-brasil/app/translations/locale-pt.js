@@ -51,7 +51,7 @@
             "0" : "Sem Jogar",
             "1" : "Jogado",
             "2" : "Jogar",
-            "3" : "Fixação",
+            "3" : " ",
             "4" : "Cancelado",
             "5" : "Adiado",
             "6" : "Suspenso"
@@ -244,7 +244,13 @@
             "TITLE" : "Predições",
             "SUBTITLE": "Data desatualizado",
             "MSG": "A data de partida está desatualizado"
-        }
+        },
+        
+        "FB_SHARE" : {
+            "TITLE" : "News Share",
+            "SUBTITLE": "Warning",
+            "MSG": "In order to share news you have to be logged in with facebook"
+          }
 
     },
 

@@ -244,7 +244,13 @@
           "TITLE" : "Predicciones",
           "SUBTITLE": "Fecha desfasada",
           "MSG": "La fecha del partido está desfasada"
-      }
+      },
+      
+      "FB_SHARE" : {
+            "TITLE" : "News Share",
+            "SUBTITLE": "Warning",
+            "MSG": "In order to share news you have to be logged in with facebook"
+        }
 
     },
 

@@ -168,7 +168,7 @@ angular
                     body['user_id'] = Client.getClientId();
                 }
 
-                console.log("BODY -> " + JSON.stringify(body));
+                //console.log("BODY -> " + JSON.stringify(body));
                 return body;
             }
 
@@ -192,46 +192,47 @@ angular
                 }
 
                 function error(data){
-                    console.log('Error sending ' + events.app_launch
-                        + ' Event. Result: ' + getAppResponseCodeString(data.result));
+                    //console.log('Error sending ' + events.app_launch + ' Event. Result: ' + getAppResponseCodeString(data.result));
                     return 'error';
                 }
 
                 //return $http.post(eventUrl, data, config).then(success, error)
 
 
-                console.log('<upstream>');
+                /*console.log('<upstream>');
                   console.log('config -> ' + JSON.stringify(config));
                   console.log('sendEvent -> ' + JSON.stringify(data));
-                console.log('</upstream>');
+                console.log('</upstream>');*/
 
-                return $http.post(Domain.upstream(), data, config).then(success, error);
+                if (Domain.upstream()) {
+                  return $http.post(Domain.upstream(), data, config).then(success, error);
+                }
 
                 return false;
             }
 
             function appLaunchEvent (){
-                console.log('Upstream. appLaunchEvent');
+                //console.log('Upstream. appLaunchEvent');
                 return sendEvent(events.app_launch);
             }
 
             function appCloseEvent(){
-                console.log('Upstream. appCloseEvent');
+                //console.log('Upstream. appCloseEvent');
                 return sendEvent(events.app_close);
             }
 
             function loginEvent(){
-                console.log('Upstream. loginEvent');
+                //console.log('Upstream. loginEvent');
                 return sendEvent(events.login);
             }
 
             function viewSubscriptionPromptEvent(){
-                console.log('Upstream. viewSubscriptionPromptEvent');
+                //console.log('Upstream. viewSubscriptionPromptEvent');
                 return sendEvent(events.viewed_subscription);
             }
 
             function clickedSubscriptionPromptEvent(){
-                console.log('Upstream. clickedSubscriptionPromptEvent');
+                //console.log('Upstream. clickedSubscriptionPromptEvent');
                 return sendEvent(events.clicked_subscription);
             }
 

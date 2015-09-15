@@ -7,8 +7,8 @@
  */
 angular
     .module('core')
-    .factory('Notification',['$rootScope', '$state','$translate',
-        function($rootScope, $state, $translate) {
+    .factory('Notification',['$rootScope', '$state','$translate','$timeout',
+        function($rootScope, $state, $translate, $timeout) {
 
             var strings = {};
 
@@ -174,6 +174,43 @@ angular
                     show: false})
                     .modal('show');
             }
+            
+            function showFBShareError(){
+                $translate(['ALERT.FB_SHARE.TITLE',
+                            'ALERT.FB_SHARE.SUBTITLE',
+                            'ALERT.FB_SHARE.MSG'])
+                .then(function(translation){
+                    strings['FB_SHARE_TITLE'] = translation['ALERT.FB_SHARE.TITLE'];
+                    strings['FB_SHARE_SUBTITLE'] = translation['ALERT.FB_SHARE.SUBTITLE'];
+                    strings['FB_SHARE_MSG'] = translation['ALERT.FB_SHARE.MSG'];
+                    
+                    showInfoAlert({
+                        title : strings['FB_SHARE_TITLE'],
+                        subtitle :  strings['FB_SHARE_SUBTITLE'],
+                        message : strings['FB_SHARE_MSG'],
+                        type: 'error'
+                    });
+                });
+                
+                /*var displayInfo = {
+                        title: 'FacebookManager. Not connected...',
+                        subtitle: 'FacebookManager. Not connected...',
+                        message: 'FacebookManager. Not connected...',
+                        type: 'success'
+                };
+                
+                displayInfo.icon = 'mdi-navigation-check text-success';
+                displayInfo.html = '<p class="text-success">' + displayInfo.subtitle + '</p>';
+                displayInfo.html += '<p class="text-muted">' + displayInfo.message + '</p>';
+                $rootScope.displayInfo = displayInfo;
+                
+                $timeout( function() {
+                    $('#info-modal').modal({
+                        backdrop: true,
+                        keyboard: false,
+                        show: false})
+                    .modal('show'); }, 500);*/
+            }
 
             function showNetworkErrorAlert(){
                 getTranslationsNetError();
@@ -218,7 +255,9 @@ angular
 
                 showNetworkErrorAlert : showNetworkErrorAlert,
 
-                showLockedSectionNotEligible : showLockedSectionNotEligible
+                showLockedSectionNotEligible : showLockedSectionNotEligible,
+                
+                showFBShareError: showFBShareError
             };
 
 

@@ -24,26 +24,44 @@ import org.apache.commons.lang3.ArrayUtils;
 import java.text.MessageFormat;
 import play.i18n.Messages;
 import java.lang.*;
+import java.lang.Object;
+import java.net.URLEncoder;
 
 public class Wap extends Loading {
 
     public static JsonNode jLoading = new Loading().getJLoading();
+    //public static HandsetDetection HD =  new HandsetDetection();
+
+    public static Boolean resolveAccessHTML5(HandsetDetection HD) {
+
+        String sUserAgent = request().getHeader("User-Agent");
+
+
+        if (sUserAgent.toLowerCase().contains("opera")) {
+            return false;
+        }
+
+        if ((HD.getLevelSupport() == null)
+                || (HD.getLevelSupport() >= HandsetDetection.HTML4_AJAX)) {
+            return true;
+        }
+
+        return false;
+
+    }
+
 
     public static Result getLogin() {
-
         HandsetDetection HD = new HandsetDetection();
-        if (HD.getLevelSupport() == HandsetDetection.HTML4_AJAX)
-            return redirect(URL_HTML5);
-
+        if (resolveAccessHTML5(HD)) return redirect(URL_HTML5);
         if (HD.getStatus() != 0) return ok(Messages.get("ERROR_DEFAULT"));
         return ok(login.render(form,HD,0));
     }
 
     public static Result getPassword() {
-        
+
         HandsetDetection HD = new HandsetDetection();
-        if (HD.getLevelSupport() == HandsetDetection.HTML4_AJAX)
-            return redirect(URL_HTML5);
+        if (resolveAccessHTML5(HD)) return redirect(URL_HTML5);
 
         if (HD.getStatus() != 0) return ok(Messages.get("ERROR_DEFAULT"));
 
@@ -94,10 +112,9 @@ public class Wap extends Loading {
     }
 
     public static Result createClient() {
-        
+
         HandsetDetection HD = new HandsetDetection();
-        if (HD.getLevelSupport() == HandsetDetection.HTML4_AJAX)
-            return redirect(URL_HTML5);
+        if (resolveAccessHTML5(HD)) return redirect(URL_HTML5);
         if (HD.getStatus() != 0) return ok(Messages.get("ERROR_DEFAULT"));
 
         try {
@@ -145,10 +162,9 @@ public class Wap extends Loading {
 
 
     public static Result index() {
-        
+
         HandsetDetection HD = new HandsetDetection();
-        if (HD.getLevelSupport() == HandsetDetection.HTML4_AJAX)
-            return redirect(URL_HTML5);
+        if (resolveAccessHTML5(HD)) return redirect(URL_HTML5);
         if (HD.getStatus() != 0) return ok(Messages.get("ERROR_DEFAULT"));
 
         try {
@@ -159,6 +175,8 @@ public class Wap extends Loading {
 
             String sDomain = URL_FOOTBALL_MANAGER + "newsapi/" + VERSION + "/news/scroll/1/" + LANGUAGE
                     + "?timezoneName=" + getGMTParam() + getSecuretyTokenParam("&");
+
+            System.out.println("sDomain -> index ->" + sDomain);
 
             Promise<WSResponse> wsResponse = WS.url(sDomain).get();
             JsonNode jResponse = wsResponse.get(10000).asJson();
@@ -178,10 +196,9 @@ public class Wap extends Loading {
     }
 
     public static Result news(Integer idNews) {
-        
+
         HandsetDetection HD = new HandsetDetection();
-        if (HD.getLevelSupport() == HandsetDetection.HTML4_AJAX)
-            return redirect(URL_HTML5);
+        if (resolveAccessHTML5(HD)) return redirect(URL_HTML5);
         if (HD.getStatus() != 0) return ok(Messages.get("ERROR_DEFAULT"));
 
         try {
@@ -211,10 +228,9 @@ public class Wap extends Loading {
     }
 
     public static Result competitions(String route) {
-        
+
         HandsetDetection HD = new HandsetDetection();
-        if (HD.getLevelSupport() == HandsetDetection.HTML4_AJAX)
-            return redirect(URL_HTML5);
+        if (resolveAccessHTML5(HD)) return redirect(URL_HTML5);
         if (HD.getStatus() != 0) return ok(Messages.get("ERROR_NEWS"));
 
         try {
@@ -231,10 +247,9 @@ public class Wap extends Loading {
     }
 
     public static Result matches(Integer idCompetition, Integer page) {
-        
+
         HandsetDetection HD = new HandsetDetection();
-        if (HD.getLevelSupport() == HandsetDetection.HTML4_AJAX)
-            return redirect(URL_HTML5);
+        if (resolveAccessHTML5(HD)) return redirect(URL_HTML5);
         if (HD.getStatus() != 0) return ok(Messages.get("ERROR_NEWS"));
 
         try {
@@ -278,10 +293,9 @@ public class Wap extends Loading {
     }
 
     public static Result mtm(Integer idCompetition, Integer idMatch, Integer idEvent) {
-        
+
         HandsetDetection HD = new HandsetDetection();
-        if (HD.getLevelSupport() == HandsetDetection.HTML4_AJAX)
-            return redirect(URL_HTML5);
+        if (resolveAccessHTML5(HD)) return redirect(URL_HTML5);
         if (HD.getStatus() != 0) return ok(Messages.get("ERROR_NEWS"));
 
         try {
@@ -324,10 +338,9 @@ public class Wap extends Loading {
 
 
     public static Result scorers(Integer idCompetition) {
-        
+
         HandsetDetection HD = new HandsetDetection();
-       if (HD.getLevelSupport() == HandsetDetection.HTML4_AJAX)
-            return redirect(URL_HTML5);
+        if (resolveAccessHTML5(HD)) return redirect(URL_HTML5);
         if (HD.getStatus() != 0) return ok(Messages.get("ERROR_NEWS"));
 
         try {
@@ -382,8 +395,8 @@ public class Wap extends Loading {
         String nameCompetition = "";
         while (iJsonCompetitions.hasNext()) {
             JsonNode jsonCompetition = iJsonCompetitions.next();
-             if (idCompetition == jsonCompetition.get("id_competitions").asInt())
-                 nameCompetition = jsonCompetition.get("name").asText();
+            if (idCompetition == jsonCompetition.get("id_competitions").asInt())
+                nameCompetition = jsonCompetition.get("name").asText();
         }
 
         return nameCompetition;
@@ -411,7 +424,7 @@ public class Wap extends Loading {
     }
 
     public static Boolean getAccessControl () {
-       if ((session("msisdn") != null)
+        if ((session("msisdn") != null)
                 && (session("password") != null)) {
             return true;
         } else if ((request().cookie("msisdn") != null)
@@ -451,9 +464,60 @@ public class Wap extends Loading {
         return "GMT-0300";
     }
 
+
     public static String getSecuretyTokenParam(String prefix) {
-        return prefix + "upstreamChannel=" + UPSTREAM_CHANNEL + "&api_password=" + jLoading.get("upstream_guest_auth_token").asText();
+
+        char _charAtBuildVersion = jLoading.get("build_version").asText().charAt(0);
+        char _charAtServerVersion = jLoading.get("server_version").asText().charAt(0);
+        String token = jLoading.get("company_name").asText();
+        token += getAppender(_charAtBuildVersion);
+        token += jLoading.get("build_version").asText();
+        token += getAppender(_charAtServerVersion);
+        token += jLoading.get("server_version").asText();
+
+        try {
+            return prefix + "upstreamChannel=" + UPSTREAM_CHANNEL + "&api_password=" + URLEncoder.encode(token, "UTF-8");
+        } catch (Exception e) {
+            return prefix + "upstreamChannel=" + UPSTREAM_CHANNEL + "&api_password=" + token;
+        }
+
     }
+
+    public static String getAppender(char _index) {
+
+        String _return = "";
+
+        switch (_index) {
+            case '1':
+                _return = "|";
+                break;
+            case '2': _return = "@";
+                break;
+            case '3': _return = "#";
+                break;
+            case '4': _return = "$";
+                break;
+            case '5': _return = "%";
+                break;
+            case '6': _return =  "&";
+                break;
+            case '7': _return =  "/";
+                break;
+            case '8': _return =  "(";
+                break;
+            case '9': _return =  ")";
+                break;
+            case '0': _return =  "=";
+                break;
+            default: _return =  "-";
+        }
+
+        return  _return;
+
+    }
+
+
+
 
 }
 

@@ -7,15 +7,13 @@
  */
 angular
     .module('core')
-    .factory('Analytics',['$window',
+    .factory('hAnalytics',['$window',
         function($window) {
 
             function init(){
 //                console.log('Analytics.init: ' + !!$window.analytics);
                 if(!!$window.analytics) {
-                    $window.analytics.startTrackerWithId('UA-60801639-1');
-                } else {
-                    console.log('init. $window.analytics Plugin not available. Are you directly on a browser?');
+                    $window.analytics.startTrackerWithId('UA-48149750-11');
                 }
             }
 
@@ -23,8 +21,6 @@ angular
                 if(!!$window.analytics){
                     $window.analytics.trackView(title);
                     console.log('trackView: ' + title);
-                } else {
-                    console.log("Couldn't report 'trackView' event. $window.analytics Plugin not available.");
                 }
             }
 

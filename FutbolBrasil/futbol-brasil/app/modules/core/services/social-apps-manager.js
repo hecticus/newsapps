@@ -7,8 +7,8 @@
  */
 angular
     .module('core')
-    .factory('SocialAppsManager', ['$rootScope', '$window', '$fb','$twt', 'CordovaDevice', 'Utilities',
-        function($rootScope, $window, $fb, $twt, CordovaDevice, Utilities) {
+    .factory('SocialAppsManager', ['$rootScope', '$window', '$fb','$twt', 'CordovaDevice', 'Utilities', 'FacebookManager','Notification',
+        function($rootScope, $window, $fb, $twt, CordovaDevice, Utilities, FacebookManager, Notification) {
 
             init();
 
@@ -26,17 +26,19 @@ angular
                  * @param {string} link Shared content URL
                  * @methodOf core.Services.SocialAppsManager
                  */
-                share : share
+                share : share,
+                fbPost: fbPost,
+                showShareModal: showShareModal
 
             };
 
             function share(info){
 
-                if(CordovaDevice.isWebPlatform()){
+                /*if(CordovaDevice.isWebPlatform()){
                     showShareModal(info);
                 } else {
-                    /**console.log("MAjor version:",Utilities.getMajorVersion(CordovaDevice.getOsVersion()));
-                    console.log("Share info:",info);**/
+                    //console.log("MAjor version:",Utilities.getMajorVersion(CordovaDevice.getOsVersion()));
+                    //console.log("Share info:",info);
 
                     if( CordovaDevice.isAndroidPlatform()){
                         delete info.image;
@@ -47,7 +49,7 @@ angular
                     } else {
                         console.log('$window.plugins.socialsharing Plugin not available. Are you directly on a browser?');
                     }
-                }
+                }*/
             }
 
             function fbShare(info) {
@@ -60,6 +62,10 @@ angular
                 if(info.image) { post.picture = info.image; }
 
                 $fb.feed(post);
+            }
+            
+            function fbPost(link, caption, picture) {              
+                FacebookManager.post(link, caption, picture);
             }
 
             function twitterShare(info) {
