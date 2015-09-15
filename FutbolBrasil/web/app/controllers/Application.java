@@ -15,8 +15,6 @@ import com.feth.play.module.pa.user.AuthUser;
 
 import models.Config;
 import models.basic.Language;
-import models.news.News;
-import models.news.Resource;
 import org.apache.commons.codec.binary.Base64;
 import play.*;
 import play.data.Form;
@@ -139,14 +137,6 @@ public class Application extends Controller {
 		return new SimpleDateFormat("yyyy-dd-MM HH:mm:ss").format(new Date(t));
 	}    
     
-    //NEWS VIEW
-    public static Result getNewsById(Long id) {
-        News objNews = News.getNewsById(id);
-        List<Resource> lstResource = Resource.getAllResourcesAvailable();
-        //List<Resource> lstResource = Resource.getAllResource();
-        return ok(summary.render(objNews, lstResource));
-    }
-
     //Initial load settings WS for the Mobile App
     public static Result getAppSettings(Integer width, Integer height, String version, String so){
         try {
