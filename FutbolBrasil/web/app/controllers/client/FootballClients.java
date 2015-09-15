@@ -112,7 +112,7 @@ public class FootballClients extends Clients {
                     metadata.put("points", Json.toJson(pointsList));
                     event.put("event_type", "APP_LAUNCH");
                     event.put("metadata", metadata);
-                    F.Promise<WSResponse> result = WS.url("http://" + Config.getHost() + "/futbolbrasil/v2/client/" + client.getIdClient() + "/upstream").post(event);
+                    F.Promise<WSResponse> result = WS.url("http://" + Config.getHost() + "/sportsapi/v2/client/" + client.getIdClient() + "/upstream").post(event);
                     ObjectNode response = (ObjectNode) result.get(Config.getLong("ws-timeout-millis"), TimeUnit.MILLISECONDS).asJson();
                 } catch (Exception e) {
                     Utils.printToLog(FootballClients.class, "Error manejando clients", "error creando el client con params " + clientData, false, e, "support-level-1", Config.LOGGER_ERROR);
