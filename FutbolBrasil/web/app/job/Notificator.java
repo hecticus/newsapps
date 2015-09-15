@@ -125,7 +125,7 @@ public class Notificator  extends HecticusThread {
             metadata.put("points", Json.toJson(pointsList));
             event.put("event_type", "UPD_POINTS");
             event.put("metadata", metadata);
-            F.Promise<WSResponse> result = WS.url("http://" + Config.getHost() + "/futbolbrasil/v2/client/" + client.getIdClient() + "/upstream").post(event);
+            F.Promise<WSResponse> result = WS.url("http://" + Config.getHost() + "/sportsapi/v2/client/" + client.getIdClient() + "/upstream").post(event);
             ObjectNode response = (ObjectNode)result.get(Config.getLong("ws-timeout-millis"), TimeUnit.MILLISECONDS).asJson();
             return response.get("error").asInt() == 0;
         } catch (Exception e){

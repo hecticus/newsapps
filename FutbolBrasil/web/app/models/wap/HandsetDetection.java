@@ -93,7 +93,7 @@ public class HandsetDetection  extends Controller {
                     _zizeBanner = "h_hight.jpg";
                 }
 
-                Promise<WSResponse> wsResponse = WS.url("http://brazil.footballmanager.hecticus.com/futbolbrasil/v1/localimages/" + _zizeBanner + "/"+ jDisplay.get("resolution_width").asText()).get();
+                Promise<WSResponse> wsResponse = WS.url("http://brazil.footballmanager.hecticus.com/sportsapi/v1/localimages/" + _zizeBanner + "/"+ jDisplay.get("resolution_width").asText()).get();
                 JsonNode jResponse = wsResponse.get(10000).asJson();
                 Integer iError = jResponse.get("error").asInt();
                 JsonNode jBanner = jResponse.get("response");
