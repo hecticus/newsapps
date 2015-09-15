@@ -3,6 +3,8 @@ package models.news;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+
 import com.avaje.ebean.Ebean;
 import com.avaje.ebean.EbeanServer;
 import models.HecticusModel;
@@ -46,7 +48,11 @@ public class Category extends HecticusModel{
     private Boolean hidden;
 
     private String iconClass;
-	
+
+
+    @Transient
+    public Long idTrending;
+
 	public static Model.Finder<Long,Category> finder =
 			  new Model.Finder<Long, Category>(Long.class, Category.class);
 

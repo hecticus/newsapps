@@ -12,6 +12,7 @@ import providers.MyUsernamePasswordAuthProvider;
 import providers.MyUsernamePasswordAuthProvider.MyIdentity;
 import providers.MyUsernamePasswordAuthUser;
 import views.html.account.signup.*;
+import views.html.users.*;
 
 import com.feth.play.module.pa.PlayAuthenticate;
 
@@ -106,8 +107,8 @@ public class Signup extends Controller {
 				}
 			}
 
-			//return redirect(routes.Application.index(0,"","",""));
-			return ok("index");
+//			return redirect(routes.Application.index());
+            return redirect(routes.UsersView.list(0, "name", "asc", ""));
 		}
 	}
 
@@ -180,8 +181,7 @@ public class Signup extends Controller {
 				flash(Application.FLASH_MESSAGE_KEY,
 						Messages.get("playauthenticate.reset_password.message.success.manual_login"));
 			}
-			//return redirect(routes.Application.login());
-			return ok("login");
+			return redirect(routes.Application.login());
 		}
 	}
 
@@ -206,11 +206,9 @@ public class Signup extends Controller {
 		flash(Application.FLASH_MESSAGE_KEY,
 				Messages.get("playauthenticate.verify_email.success", email));
 		if (Application.getLocalUser(session()) != null) {
-			//return redirect(routes.Application.index(0,"","",""));
-			return ok("index");
+			return redirect(routes.Application.index());
 		} else {
-			//return redirect(routes.Application.login());
-			return ok("login");
+			return redirect(routes.Application.login());
 		}
 	}
 }

@@ -22,6 +22,7 @@ import utils.Utils;
 import javax.persistence.*;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -201,16 +202,154 @@ public class News extends HecticusModel{
         }
 
         if (data.has("Image2")) {
-            image = data.get("Image").asText();
+            image2 = data.get("Image2").asText();
         }
         if (data.has("Image3")) {
-            image = data.get("Image").asText();
+            image3 = data.get("Image3").asText();
         }
         if (data.has("Image4")) {
-            image = data.get("Image").asText();
+            image4 = data.get("Image4").asText();
         }
         if (data.has("Image5")) {
-            image = data.get("Image").asText();
+            image5 = data.get("Image5").asText();
+        }
+
+        //auto generated values
+        generated = false;
+        crc = Utils.createMd5(title);
+        insertedTime = Utils.currentTimeStamp(Utils.APP_TIMEZONE);
+        //0 nunca se ha generado
+        generationTime = 0l;
+    }
+
+    /**
+     * Why? then again, for the glory of Satan, of course
+     * @param data  Trending Topic Info
+     * @param uselessParamThatIHate for the lols
+     * @throws UnsupportedEncodingException
+     * @throws NewsException
+     */
+    public News(JsonNode data, boolean uselessParamThatIHate) throws UnsupportedEncodingException, NewsException {
+        //contruct obj from json
+        if (data.has("Body")) {
+            body = encode(data.get("Body").asText());
+        } else {
+            throw new NewsException("body faltante");
+        }
+
+        if (data.has("Categories")) {
+            categories = data.get("Categories").asText();
+        } else {
+            throw new NewsException("categories faltante");
+        }
+
+        if (data.has("Date")) {
+            pubDate = data.get("Date").asText();
+            //Limpiamos el datestring por si tiene doble espacio:
+            pubDate = pubDate.replace("  ", " ");
+            pubDateFormated = Utils.formatDateLongFromStringNew(pubDate);
+        } else {
+            throw new NewsException("Date faltante");
+        }
+
+        if (data.has("Destacada")) {
+            featured = data.get("Destacada").asBoolean();
+        } else {
+            throw new NewsException("Destacada faltante");
+        }
+
+        if (data.has("FirstVideo")) {
+            firstVideo = data.get("FirstVideo").asText();
+        } else {
+            throw new NewsException("FirstVideo faltante");
+        }
+
+        //hitCounter not used
+
+        if (data.has("ID")) {
+            externalId = data.get("ID").asLong();
+        } else {
+            throw new NewsException("externalId faltante");
+        }
+
+        if (data.has("Image")) {
+            image = encode(data.get("Image").asText());
+            if (image.equalsIgnoreCase("null")) image = null;
+        } else {
+            throw new NewsException("image faltante");
+        }
+
+        if (data.has("PortalImage")) {
+            portalImage = data.get("PortalImage").asText();
+            if (portalImage.equalsIgnoreCase("null")) portalImage = null;
+        } else {
+            throw new NewsException("PortalImage faltante");
+        }
+
+        if (data.has("PortalImageDescription")) {
+            portalImageDesc = data.get("PortalImageDescription").asText();
+        } else {
+            throw new NewsException("PortalImageDescription faltante");
+        }
+
+        if (data.has("PublishingDateTime")) {
+            pubTime = data.get("PublishingDateTime").asText();
+            //Limpiamos el datestring por si tiene doble espacio:
+            pubTime = pubTime.replace("  ", " ");
+        } else {
+            throw new NewsException("PublishingDateTime faltante");
+        }
+
+        if (data.has("PushNotifications")) {
+            pushNotifications = data.get("PushNotifications").asBoolean();
+        } else {
+            throw new NewsException("PushNotifications faltante");
+        }
+
+        if (data.has("SecondVideo")) {
+            secondVideo = data.get("SecondVideo").asText();
+        } else {
+            throw new NewsException("secondVideo faltante");
+        }
+
+        //size
+        //startDate
+
+        if (data.has("Title")) {
+            title = encode(data.get("Title").asText());
+        } else {
+            throw new NewsException("Title faltante");
+        }
+
+        if (data.has("URL")) {
+            url = data.get("URL").asText();
+        } else {
+            throw new NewsException("URL faltante");
+        }
+
+        if (data.has("idCategory")) {
+            idCategory = data.get("idCategory").asLong();
+        }
+
+        if (data.has("idTrending")){
+            idTrending = data.get("idTrending").asLong();
+        }
+
+        if (data.has("Image2")) {
+            image2 = data.get("Image2").asText();
+            if (image2.equalsIgnoreCase("null")) image2 = null;
+        }
+        if (data.has("Image3")) {
+            image3 = data.get("Image3").asText();
+            if (image3.equalsIgnoreCase("null")) image3 = null;
+        }
+        if (data.has("Image4")) {
+            image4 = data.get("Image4").asText();
+            if (image4.equalsIgnoreCase("null")) image4 = null;
+        }
+        if (data.has("Image5")) {
+            image5 = data.get("Image5").asText();
+            if (image5.equalsIgnoreCase("null")) image5 = null;
         }
 
         //auto generated values
@@ -315,9 +454,43 @@ public class News extends HecticusModel{
         return tr;
     }
 
+    public ObjectNode toJson2() throws Exception {
+        ObjectNode tr = Json.newObject();
+        tr.put("id", idNews);
+        tr.put("Body", URLEncoder.encode(body,"UTF-8"));
+        tr.put("Categories", URLEncoder.encode(categories,"UTF-8"));
+        tr.put("Date", pubDate);
+        tr.put("Destacada", featured);
+        tr.put("FirstVideo", firstVideo);
+        //hit counter
+        tr.put("ID", externalId);
+        tr.put("Image", encode(image));
+        tr.put("Image2", encode(image2));
+        tr.put("Image3", encode(image3));
+        tr.put("Image4", encode(image4));
+        tr.put("Image5", encode(image5));
+        tr.put("PortalImage", encode(portalImage));
+        tr.put("PortalImageDescription", URLEncoder.encode(portalImageDesc, "UTF-8"));
+        tr.put("PublishingDateTime", pubTime);
+        tr.put("PushNotifications", pushNotifications);
+        tr.put("SecondVideo", secondVideo);
+        tr.put("Size", size);
+        //tr.put("StartDate", null);
+        tr.put("Title", URLEncoder.encode(title, "UTF-8"));
+        tr.put("URL", encode(url));
+        return tr;
+    }
+
     public ObjectNode idToJson(){
         ObjectNode tr = Json.newObject();
         tr.put("id", externalId);
+        return tr;
+    }
+
+    public ObjectNode toJsonKraken() throws UnsupportedEncodingException {
+        ObjectNode tr = Json.newObject();
+        tr.put("id", externalId);
+        tr.put("title", URLEncoder.encode(title, "UTF-8"));
         return tr;
     }
 
@@ -418,6 +591,10 @@ public class News extends HecticusModel{
 
     public static News getNewsByDateAndNotPushed(){
         return finder.where().eq("push_notifications", true).eq("generation_time", 0).orderBy("pub_date_formated desc").setMaxRows(1).findUnique();
+    }
+
+    public static List<News> getAllNewsByDateAndNotPushed(){
+        return finder.where().eq("push_notifications", true).eq("generation_time", 0).orderBy("pub_date_formated desc").findList();
     }
 
     public static int getNewsByDateAndNotPushedCount(long generationDate){
@@ -531,7 +708,7 @@ public class News extends HecticusModel{
     }
 
     public String getImage() {
-        return image;
+        return decode(image);
     }
 
     public void setImage(String image) {
@@ -539,7 +716,7 @@ public class News extends HecticusModel{
     }
 
     public String getPortalImage() {
-        return portalImage;
+        return decode(portalImage);
     }
 
     public void setPortalImage(String portalImage) {
@@ -659,7 +836,7 @@ public class News extends HecticusModel{
     }
 
     public String getImage2() {
-        return image2;
+        return decode(image2);
     }
 
     public void setImage2(String image2) {
@@ -667,7 +844,7 @@ public class News extends HecticusModel{
     }
 
     public String getImage3() {
-        return image3;
+        return decode(image3);
     }
 
     public void setImage3(String image3) {
@@ -675,7 +852,7 @@ public class News extends HecticusModel{
     }
 
     public String getImage4() {
-        return image4;
+        return decode(image4);
     }
 
     public void setImage4(String image4) {
@@ -683,7 +860,7 @@ public class News extends HecticusModel{
     }
 
     public String getImage5() {
-        return image5;
+        return decode(image5);
     }
 
     public void setImage5(String image5) {

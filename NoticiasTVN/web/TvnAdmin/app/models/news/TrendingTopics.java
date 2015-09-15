@@ -56,6 +56,64 @@ public class TrendingTopics extends HecticusModel{
         }
 	}
 
+    /**
+     * Why? for the glory of Satan, of course
+     * @param data  Trending Topic Info
+     * @param uselessParamThatIHate for the lols
+     * @throws TrendingTopicException
+     */
+    public TrendingTopics(JsonNode data, boolean uselessParamThatIHate) throws TrendingTopicException{
+
+        if (data.has("ID")) {
+            category = data.get("ID").asText();
+        } else {
+            throw new TrendingTopicException("categoria faltante");
+        }
+
+        if (data.has("Title")) {
+            title = data.get("Title").asText();
+        } else {
+            throw new TrendingTopicException("titulo faltante");
+        }
+
+        image = "";
+        if (data.has("ImageUrl")) {
+            image = data.get("ImageUrl").asText();
+        }
+    }
+
+    public Long getIdTrendingTopics() {
+        return idTrendingTopics;
+    }
+
+    public void setIdTrendingTopics(Long idTrendingTopics) {
+        this.idTrendingTopics = idTrendingTopics;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
     @Override
     public ObjectNode toJson() {
         ObjectNode tr = Json.newObject();

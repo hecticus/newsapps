@@ -1,99 +1,113 @@
 
-import akka.actor.ActorSystem;
-import akka.actor.Cancellable;
-import job.HecticusThread;
-import job.ThreadSupervisor;
+import backend.ServerInstance;
+import exceptions.CouldNotCreateInstanceException;
 import models.Config;
-import models.basic.Instance;
-import play.*;
-import scala.concurrent.duration.Duration;
+import play.Application;
+import play.GlobalSettings;
+import play.Logger;
+import play.libs.F;
+import play.mvc.Action;
+import play.mvc.Http;
+import play.mvc.Result;
 import utils.Utils;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.util.concurrent.atomic.AtomicBoolean;
-
-import static java.util.concurrent.TimeUnit.MINUTES;
-import static java.util.concurrent.TimeUnit.SECONDS;
+import java.lang.reflect.Method;
 
 
 public class Global extends GlobalSettings {
 
-    public static AtomicBoolean run = null;
-    HecticusThread supervisor = null;
-    private static boolean isMaster = false;
-
 	@Override
 	public void onStart(Application app) {
         super.onStart(app);
-        Logger.info("Application has started HECTICUS");
-        BufferedReader br = null;
-        try {
-            br = new BufferedReader(new FileReader(Config.getString("server-ip-file")));
-            Utils.serverIp = br.readLine();
-            Instance actual = Instance.finder.where().eq("ip",Utils.serverIp).findUnique();
-            if(actual != null) {
-                actual.setRunning(1);
-                Instance.update(actual);
-                Utils.actual = actual;
-                isMaster = actual.isMaster();
-            } else {
-                actual = new Instance(Utils.serverIp, Config.getString("app-name")+"-"+Utils.serverIp, 1);
-                Instance.save(actual);
-                Utils.actual = actual;
-            }
-        } catch (Exception ex) {
-            Utils.serverIp = null;
-            Utils.actual = null;
-            Utils.printToLog(Global.class, "Error cargando el IP del servidor", "Ocurrio un error cargando el IP del servidor desde el archivo. Football Brazil continuara", true, ex, "support-level-1", Config.LOGGER_ERROR);
-        } finally {
-            try {if (br != null)br.close();} catch (Exception ex) {}
-        }
-        if(Utils.actual == null) {
-            Utils.printToLog(Global.class, null, "Arrancando " + Config.getString("app-name") + (Utils.serverIp == null ? "" : "-" + Utils.serverIp), false, null, "support-level-1", Config.LOGGER_INFO);
-        } else {
-            Utils.printToLog(Global.class, null, "Arrancando " + Utils.actual.getName(), false, null, "support-level-1", Config.LOGGER_INFO);
-        }
-        ActorSystem system = ActorSystem.create("application");
-        run = new AtomicBoolean(true);
-        Utils.run = run;
-        if (isMaster) {
-            Utils.printToLog(Global.class, null, "Arrancando ThreadSupervisor", false, null, "support-level-1", Config.LOGGER_INFO);
-            supervisor = new ThreadSupervisor(run, system);
-            Cancellable cancellable = system.scheduler().schedule(Duration.create(1, SECONDS), Duration.create(2, MINUTES), supervisor, system.dispatcher());
-            supervisor.setCancellable(cancellable);
-            Utils.supervisor = (ThreadSupervisor)supervisor;
+        try{
+            ServerInstance.getInstance();
+        } catch (CouldNotCreateInstanceException ex){
+            Utils.printToLog(Global.class, "ERROR CRITICO Apagando " + Config.getString("app-name"), "No se pudo crear la instancia", true, ex, "support-level-1", Config.LOGGER_ERROR);
+            super.onStop(app);
         }
 	}  
 	  
 	@Override
 	public void onStop(Application application) {
-		Logger.info("Application shutdown...");
         try {
-            if(Utils.serverIp != null) {
-                Instance actual = Instance.finder.where().eq("ip", Utils.serverIp).findUnique();
-                if (actual != null) {
-                    actual.setRunning(0);
-                    Instance.update(actual);
-                } else {
-                    actual = new Instance(Utils.serverIp, Config.getString("app-name") + Utils.serverIp, 0);
-                    Instance.save(actual);
-                }
-            }
+            ServerInstance.getInstance().shutdown();
         } catch (Exception ex) {
-            Utils.serverIp = null;
-            Utils.printToLog(Global.class, "Error Actualizando instancia", "Ocurrio un error marcando la instancia como apagada, se continuara con el shutdown", true, ex, "support-level-1", Config.LOGGER_ERROR);
+
         }
         super.onStop(application);
-        run.set(false);
-        if(Utils.actual == null) {
-            Utils.printToLog(Global.class, "Apagando " + Config.getString("app-name"), "Apagando " + Config.getString("app-name")+(Utils.serverIp==null?"":"-"+Utils.serverIp)+", se recibio la señal de shutdown", true, null, "support-level-1", Config.LOGGER_INFO);
-        } else {
-            Utils.printToLog(Global.class, "Apagando " + Config.getString("app-name"), "Apagando " + Utils.actual.getName() + ", se recibio la señal de shutdown", true, null, "support-level-1", Config.LOGGER_INFO);
+	}
+
+    @SuppressWarnings("rawtypes")
+    Action newAction = new Action.Simple() {
+        @Override
+        public F.Promise<Result> call(Http.Context ctx) throws Throwable {
+            F.Promise<String> promiseOfString = F.Promise.promise(
+                    new F.Function0<String>() {
+                        public String apply() {
+                            return "You dont have access to this service, contact the Administrator for more information";
+                        }
+                    }
+            );
+
+            return promiseOfString.map(
+                    new F.Function<String, Result>() {
+                        public Result apply(String i) {
+                            return forbidden(i);
+                        }
+                    }
+            );
         }
-        if(supervisor != null) {
-            supervisor.cancel();
+    };
+
+    private class ActionWrapper extends Action.Simple {
+        public ActionWrapper(Action<?> action) {
+            this.delegate = action;
         }
-	} 
+
+        @Override
+        public F.Promise<Result> call(Http.Context ctx) throws java.lang.Throwable {
+            F.Promise<Result> result = this.delegate.call(ctx);
+            Http.Response response = ctx.response();
+            response.setHeader("Access-Control-Allow-Origin", "*");
+            response.setHeader("Access-Control-Allow-Headers", "Origin, Content-Type, Accept, Authorization, HECTICUS-X-AUTH-TOKEN");
+            return result;
+        }
+    }
+
+    @SuppressWarnings("rawtypes")
+    @Override
+    public Action onRequest(Http.Request request, Method actionMethod) {
+        String ipString = request.remoteAddress();
+        String invoker = actionMethod.getDeclaringClass().getName();
+        String[] octetos = ipString.split("\\.");
+        if(invoker.startsWith("controllers.news") ||
+                invoker.startsWith("controllers.footballapi") ||
+                invoker.startsWith("controllers.Application") ||
+                invoker.startsWith("controllers.events") ||
+                invoker.startsWith("controllers.UsersView") ||
+                invoker.startsWith("controllers.NewsView") ||
+                invoker.startsWith("controllers.Instances") ||
+                invoker.startsWith("controllers.ConfigsView")){
+            if(ipString.equals("127.0.0.1") || ipString.startsWith("10.0.3")
+                    || (ipString.startsWith("10.182.") && Integer.parseInt(octetos[2]) <= 127 )
+                    || ipString.startsWith("10.181.")
+                    || ipString.startsWith("10.208.")
+                    || request.path().equals("190.14.219.174")
+                    || request.path().equals("201.249.204.73")
+                    || request.path().equals("186.74.13.178")){
+                if(!invoker.startsWith("controllers.Application")){
+                    Logger.info("Pass request from " + ipString + " to " + invoker);
+                }
+//                return super.onRequest(request, actionMethod);
+                return new ActionWrapper(super.onRequest(request, actionMethod));
+            }else{
+                Logger.info("Deny request from " + ipString + " to " + invoker);
+                return new ActionWrapper(newAction);
+            }
+        }else{
+            Logger.info("Deny request from " + ipString + " to " + invoker);
+            return new ActionWrapper(newAction);
+        }
+    }
 	
 }

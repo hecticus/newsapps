@@ -171,28 +171,6 @@ generic.list.listing=Listando del
 generic.list.through=al
 generic.list.of=de
 
-configs.list.head=Configuraciones
-configs.list.title={0,choice,0#No hay confguraciones|1#Una configuracion encontrada|1<{0,number,integer} configuraciones encontradas}
-configs.list.filter.name=Filtrar por nombre de la configuracion...
-configs.list.new=Agregar nueva configuracion
-
-configs.create=Crear configuracion
-configs.edit=Editar configuracion
-configs.info=Informacion de la configuracion
-
-configs.key=Clave
-configs.key.help=String para buscar la configuracion
-
-configs.value=Valor
-configs.value.help=Valor de la configuracion
-
-configs.description=Descripcion
-configs.description.help=utilidad de la configuracion
-
-configs.submit.create=Crear esta configuracion
-configs.submit.update=Actualizar esta configuracion
-configs.submit.delete=Eliminar esta configuracion
-
 configs.java.created= La configuracion {0} ha sido creada!
 configs.java.updated= La configuracion {0} ha sido actualizada!
 configs.java.deleted= La configuracion {0} ha sido eliminada!
@@ -254,3 +232,4 @@ users.submit.delete=Eliminar este usuario
 users.java.created= El usuario {0} ha sido creado!
 users.java.updated= El usuario {0} ha sido creado!
 users.java.deleted= El usuario {0} ha sido creado!
+

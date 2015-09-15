@@ -173,33 +173,6 @@ generic.list.listing=Listing from
 generic.list.through=through
 generic.list.of=of
 
-
-configs.list.head=Configurations
-configs.list.title={0,choice,0#There are no configurations|1#One configuration found|1<{0,number,integer} configurations found}
-configs.list.filter.name=Filter by Configuration name...
-configs.list.new=Add new Configuration
-
-configs.create=Create Configuration
-configs.edit=Edit Configuration
-configs.info=Configuration Data
-
-configs.key=Key
-configs.key.help=String used to get the configuration value
-
-configs.value=Value
-configs.value.help=value of this configuration
-
-configs.description=Description
-configs.description.help=usage of this configuration
-
-configs.submit.create=Create this Configuration
-configs.submit.update=Update this Configuration
-configs.submit.delete=Delete this Configuration
-
-configs.java.created= The Configuration {0} has been created!
-configs.java.updated= The Configuration {0} has been updated!
-configs.java.deleted= The Configuration {0} has been deleted!
-
 news.list.head=News
 news.list.title={0,choice,0#There are no news|1#One news found|1<{0,number,integer} news found}
 news.list.filter.name=Filter by news name...
@@ -257,3 +230,5 @@ users.submit.delete=Delete this User
 users.java.created= The User {0} has been created!
 users.java.updated= The User {0} has been updated!
 users.java.deleted= The User {0} has been deleted!
+
+

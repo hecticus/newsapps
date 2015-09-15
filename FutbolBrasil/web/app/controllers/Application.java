@@ -15,8 +15,6 @@ import com.feth.play.module.pa.user.AuthUser;
 
 import models.Config;
 import models.basic.Language;
-import models.news.News;
-import models.news.Resource;
 import org.apache.commons.codec.binary.Base64;
 import play.*;
 import play.data.Form;
@@ -34,6 +32,26 @@ public class Application extends Controller {
 	public static final String FLASH_MESSAGE_KEY = "message";
 	public static final String FLASH_ERROR_KEY = "error";
 	public static final String USER_ROLE = "user";
+    public static final String ADMIN_ROLE = "admin";
+
+    public static Result options(String url){
+        response().setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+        return ok("OK");
+    }
+
+    public static Result index() {
+        return ok(index.render("Your new application is ready."));
+    }
+
+    public static Result checkFile(String name){
+        File file = new File(name);
+        //Logger.info("nameFile "+name+", path "+file.getAbsolutePath());
+        if(file.exists()){
+            return ok("OK");
+        }else{
+            return badRequest("file not found");
+        }
+    }
 	
 	public static ObjectNode getJson(){
         ObjectNode jsonInfo = (ObjectNode) request().body().asJson();
@@ -52,55 +70,47 @@ public class Application extends Controller {
         }
         return jsonInfo;
     }
-	
-    public static Result index(int page, String sortBy, String order, String filter) {
-    	return ok(
-    		index.render(News.page(page, 6, sortBy, order, filter),
-    				sortBy, order, filter)
-    	);    	
+
+     /*Plugin Authenticate*/
+
+    public static User getLocalUser(final Http.Session session) {
+        final AuthUser currentAuthUser = PlayAuthenticate.getUser(session);
+        final User localUser = User.findByAuthUserIdentity(currentAuthUser);
+        return localUser;
     }
-  
-    /*Plugin Authenticate*/    
-    
-    public static User getLocalUser(final Session session) {
-		final AuthUser currentAuthUser = PlayAuthenticate.getUser(session);
-		final User localUser = User.findByAuthUserIdentity(currentAuthUser);
-		return localUser;
-	}
 
-	@Restrict(@Group(Application.USER_ROLE))
-	public static Result restricted() {
-		final User localUser = getLocalUser(session());
-		return ok(restricted.render(localUser));
-	}
+    @Restrict(@Group(Application.USER_ROLE))
+    public static Result restricted() {
+        final User localUser = getLocalUser(session());
+        return ok(restricted.render(localUser));
+    }
 
-	@Restrict(@Group(Application.USER_ROLE))
-	public static Result profile() {
-		final User localUser = getLocalUser(session());
-		return ok(profile.render(localUser));
-	}
+    @Restrict(@Group(Application.USER_ROLE))
+    public static Result profile() {
+        final User localUser = getLocalUser(session());
+        return ok(profile.render(localUser));
+    }
 
-	public static Result login() {
-		return ok(login.render(MyUsernamePasswordAuthProvider.LOGIN_FORM));
-	}
+    public static Result login() {
+        return ok(login.render(MyUsernamePasswordAuthProvider.LOGIN_FORM));
+    }
 
-	public static Result doLogin() {
-		com.feth.play.module.pa.controllers.Authenticate.noCache(response());				
-		final Form<MyLogin> filledForm = MyUsernamePasswordAuthProvider.LOGIN_FORM
-				.bindFromRequest();
-		if (filledForm.hasErrors()) {
-			// User did not fill everything properly
-			System.out.println("AQUI ESTAMOS!!! CON ERROR!");
-			return badRequest(login.render(filledForm));
-		} else {
-			// Everything was filled
-			return UsernamePasswordAuthProvider.handleLogin(ctx());
-		}
-	}
+    public static Result doLogin() {
+        com.feth.play.module.pa.controllers.Authenticate.noCache(response());
+        final Form<MyUsernamePasswordAuthProvider.MyLogin> filledForm = MyUsernamePasswordAuthProvider.LOGIN_FORM
+                .bindFromRequest();
+        if (filledForm.hasErrors()) {
+            // User did not fill everything properly
+            return badRequest(login.render(filledForm));
+        } else {
+            // Everything was filled
+            return UsernamePasswordAuthProvider.handleLogin(ctx());
+        }
+    }
 
-	public static Result signup() {
-		return ok(signup.render(MyUsernamePasswordAuthProvider.SIGNUP_FORM));
-	}
+    public static Result signup() {
+        return ok(signup.render(MyUsernamePasswordAuthProvider.SIGNUP_FORM));
+    }
 
 	public static Result jsRoutes() {
 		return ok(
@@ -109,47 +119,24 @@ public class Application extends Controller {
 	}
 
 	public static Result doSignup() {
-		com.feth.play.module.pa.controllers.Authenticate.noCache(response());
-		final Form<MySignup> filledForm = MyUsernamePasswordAuthProvider.SIGNUP_FORM
-				.bindFromRequest();
-		if (filledForm.hasErrors()) {
-			// User did not fill everything properly
-			return badRequest(signup.render(filledForm));
-		} else {
-			// Everything was filled
-			// do something with your part of the form before handling the user
-			// signup
-			return UsernamePasswordAuthProvider.handleSignup(ctx());
-		}
-	}
+        com.feth.play.module.pa.controllers.Authenticate.noCache(response());
+        final Form<MyUsernamePasswordAuthProvider.MySignup> filledForm = MyUsernamePasswordAuthProvider.SIGNUP_FORM
+                .bindFromRequest();
+        if (filledForm.hasErrors()) {
+            // User did not fill everything properly
+            return badRequest(signup.render(filledForm));
+        } else {
+            // Everything was filled
+            // do something with your part of the form before handling the user
+            // signup
+            return UsernamePasswordAuthProvider.handleSignup(ctx());
+        }
+    }
 
 	public static String formatTimestamp(final long t) {
 		return new SimpleDateFormat("yyyy-dd-MM HH:mm:ss").format(new Date(t));
 	}    
     
-    //NEWS VIEW
-    public static Result getNewsById(Long id) {
-        News objNews = News.getNewsById(id);
-        List<Resource> lstResource = Resource.getAllResourcesAvailable();
-        //List<Resource> lstResource = Resource.getAllResource();
-        return ok(summary.render(objNews, lstResource));
-    }
-
-    public static Result checkFile(String name){
-        File file = new File(name);
-        //Logger.info("nameFile "+name+", path "+file.getAbsolutePath());
-        if(file.exists()){
-            return ok("OK");
-        }else{
-            return badRequest("file not found");
-        }
-    }
-
-    public static Result options(String url){
-        response().setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
-        return ok("OK");
-    }
-
     //Initial load settings WS for the Mobile App
     public static Result getAppSettings(Integer width, Integer height, String version, String so){
         try {
