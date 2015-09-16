@@ -3,6 +3,8 @@ package models.news;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+
 import com.avaje.ebean.Ebean;
 import com.avaje.ebean.EbeanServer;
 import models.HecticusModel;
@@ -46,7 +48,13 @@ public class Category extends HecticusModel{
     private Boolean hidden;
 
     private String iconClass;
-	
+
+    private String dfp;
+    private boolean dfpType;
+
+    @Transient
+    public Long idTrending;
+
 	public static Model.Finder<Long,Category> finder =
 			  new Model.Finder<Long, Category>(Long.class, Category.class);
 
@@ -78,7 +86,8 @@ public class Category extends HecticusModel{
         }else {
             tr.put("iconClass", "icon-default");
         }
-
+        tr.put("dfp", dfp);
+        tr.put("dfp_type", dfpType);
         return tr;
     }
 
@@ -220,5 +229,33 @@ public class Category extends HecticusModel{
 
     public void setIconClass(String iconClass) {
         this.iconClass = iconClass;
+    }
+
+    public boolean isPushable() {
+        return pushable;
+    }
+
+    public String getDfp() {
+        return dfp;
+    }
+
+    public void setDfp(String dfp) {
+        this.dfp = dfp;
+    }
+
+    public Long getIdTrending() {
+        return idTrending;
+    }
+
+    public void setIdTrending(Long idTrending) {
+        this.idTrending = idTrending;
+    }
+
+    public boolean getDfpType() {
+        return dfpType;
+    }
+
+    public void setDfpType(boolean dfpType) {
+        this.dfpType = dfpType;
     }
 }

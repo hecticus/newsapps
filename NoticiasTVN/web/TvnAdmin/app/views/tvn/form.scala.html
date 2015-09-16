@@ -18,11 +18,28 @@
                 '_help -> "Ingrese un nombre válido.",
                 '_error -> categoryForm.globalError
             )
-            
+
             @inputText(
                 categoryForm("feedUrl"),
                 '_label -> "Url",
                 '_help -> "Ingrese una url válida."
+            )
+
+            @inputText(
+                categoryForm("dfp"),
+                '_label -> "DFP",
+                '_help -> "Ingrese un DFP válido.",
+                '_error -> categoryForm.globalError
+            )
+
+            @select(
+                categoryForm("dfpType"),
+                options("false"-> "Banner", "true"-> "Intertsitial"),
+                '_default -> "--- Seleccione ---",
+                '_label -> "Tipo de DFP",
+                '_error -> categoryForm("status").error.map(_.withMessage("Selecciona una opción")),
+                'showConstraints -> true,
+                '_help -> "Requerido."
             )
             
             @select(
