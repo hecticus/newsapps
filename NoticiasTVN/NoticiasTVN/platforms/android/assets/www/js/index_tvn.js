@@ -72,6 +72,21 @@ var newsDatacontent;
 var urlServices = "http://tvn.news.hecticus.com";
 //var urlServices = "http://10.0.3.148:9000";
 
+function AdMobcreateBanner(id) {
+	
+	if (id != null ) {
+		AdMob.createBanner({
+		    adId: id,
+		    position: AdMob.AD_POSITION.BOTTOM_CENTER,
+		    adSize: AdMob.AD_SIZE.SMART_BANNER,
+		    autoShow: true
+		});		
+	} 
+
+	
+}
+
+
 //INIT FUNCTIONS
 //Funcion que permite rellenar el menu por codigo
 function setMenuCategories(){
@@ -569,7 +584,9 @@ function initBasicApp(){
 						gaPlugin.setVariable(successGAHandler, errorGAHandler, 1, arrCategory[this.currPageX].title);
     					gaPlugin.trackEvent(successGAHandler, errorGAHandler, "swype-category", "swype", "section", 1);
     					gaPlugin.trackPage(successGAHandler, errorGAHandler, arrCategory[this.currPageX].title);
-    					
+    					    				
+    					AdMobcreateBanner(arrCategory[this.currPageX].dfp);
+    					    					
 					}
 					
 					this.lastPageX=this.currPageX;
@@ -2006,7 +2023,10 @@ function successGetCategories(results){
 			removeInvalidCategories();
 			//console.log("ARRAY CHANGED: "+JSON.stringify(arrCategory));
 			//endOfAppInitialization();
-			getTrendingIndexesForApp();
+			getTrendingIndexesForApp();			
+			AdMobcreateBanner(arrCategory[0].dfp);
+			
+			
 		}else{
 			console.log("Error CATEGORIES");
 			noConnectionForNewsInit();
@@ -2409,14 +2429,7 @@ var app = {
     bindEvents: function() {document.addEventListener('deviceready', this.onDeviceReady, false);},
     onDeviceReady: function() {
     	
-    	
-		AdMob.createBanner({
-		    adId: admobid.banner,
-		    position: AdMob.AD_POSITION.BOTTOM_CENTER,
-		    adSize: AdMob.AD_SIZE.SMART_BANNER,
-		    autoShow: true
-		});
-		
+    	//AdMobcreateBanner(admobid.banner);
     	//AdMob.prepareInterstitial( {adId:admobid.interstitial, autoShow:false});
     	
     	
