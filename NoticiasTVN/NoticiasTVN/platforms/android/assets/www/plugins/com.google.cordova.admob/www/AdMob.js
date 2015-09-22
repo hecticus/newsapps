@@ -45,11 +45,11 @@ admobExport.AD_POSITION = {
 admobExport.setOptions = function(options, successCallback, failureCallback) {
 	  if(typeof options === 'object') {
 		  cordova.exec( successCallback, failureCallback, 'AdMob', 'setOptions', [options] );
-	  } else {
+	  	} else {
 		  if(typeof failureCallback === 'function') {
 			  failureCallback('options should be specified.');
 		  }
-	  }
+	  	}
 	};
 
 admobExport.createBanner = function(args, successCallback, failureCallback) {

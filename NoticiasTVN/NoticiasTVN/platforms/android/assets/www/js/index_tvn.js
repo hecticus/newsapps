@@ -23,7 +23,7 @@ var enabledAdMob = true; // easily enable/disable AdMob
 var admobid = {};
 if( /(android)/i.test(navigator.userAgent) ) 
 { 
-    admobid = { // for Android    
+    admobid = { // for Android    		     
    	banner: "/2259226/noticias_app_hec_home_list",
     interstitial: '/6253334/dfp_example_ad/interstitial'
     };
@@ -72,16 +72,33 @@ var newsDatacontent;
 var urlServices = "http://tvn.news.hecticus.com";
 //var urlServices = "http://10.0.3.148:9000";
 
-function AdMobcreateBanner(id) {
-	
-	if (id != null ) {
-		AdMob.createBanner({
-		    adId: id,
-		    position: AdMob.AD_POSITION.BOTTOM_CENTER,
-		    adSize: AdMob.AD_SIZE.SMART_BANNER,
-		    autoShow: true
-		});		
-	} 
+function AdMobcreateBanner(id, set) {
+
+	if (id != null ) { 			
+		/*if (set) {			
+			AdMob.hideBanner();
+			AdMob.setOptions({ adId: id }, AdMobSuccess, AdMobError);	
+			AdMob.showBanner(AdMob.AD_POSITION.BOTTOM_CENTER);
+		} else {
+			AdMob.createBanner({
+			    adId: id,
+			    position: AdMob.AD_POSITION.BOTTOM_CENTER,
+			    adSize: AdMob.AD_SIZE.SMART_BANNER,
+			    autoShow: true
+			});			
+		}	*/
+		
+			AdMob.createBanner({
+			    adId: id,
+			    overlap:true, 
+			    offsetTopBar:true,
+			    position: AdMob.AD_POSITION.BOTTOM_CENTER,
+			    adSize: AdMob.AD_SIZE.SMART_BANNER,
+			    autoShow: true
+			});					
+	} else {
+		AdMob.hideBanner();
+	}
 
 	
 }
@@ -261,6 +278,7 @@ function fBack() {
 	$('#screen-block').addClass('hidden');		
 	$('#datacontent,#datatrending,#spage').show();
 	$('#miForm').hide();
+	AdMob.showBanner(AdMob.AD_POSITION.BOTTOM_CENTER);
 }
 	
 var upcoming=0;
@@ -585,7 +603,7 @@ function initBasicApp(){
     					gaPlugin.trackEvent(successGAHandler, errorGAHandler, "swype-category", "swype", "section", 1);
     					gaPlugin.trackPage(successGAHandler, errorGAHandler, arrCategory[this.currPageX].title);
     					    				
-    					AdMobcreateBanner(arrCategory[this.currPageX].dfp);
+    					AdMobcreateBanner(arrCategory[this.currPageX].dfp,true);
     					    					
 					}
 					
@@ -897,6 +915,7 @@ function initBasicApp(){
     				
     				newsDatacontent = $(this).data('id');
     				goToNewsPage();
+    				AdMob.hideBanner();
 
 				}   
     		});
@@ -2024,9 +2043,9 @@ function successGetCategories(results){
 			//console.log("ARRAY CHANGED: "+JSON.stringify(arrCategory));
 			//endOfAppInitialization();
 			getTrendingIndexesForApp();			
-			AdMobcreateBanner(arrCategory[0].dfp);
+			AdMobcreateBanner(arrCategory[0].dfp,false);
 			
-			
+						
 		}else{
 			console.log("Error CATEGORIES");
 			noConnectionForNewsInit();
@@ -2421,6 +2440,15 @@ function sendYoInformoData(){
  		}
 		 		                	
     }, 2);
+}
+
+
+function AdMobSuccess(s) {
+	//alert('AdMobSuccess -> ' + s);
+}
+
+function AdMobError(e) {
+	//alert('AdMobError -> ' + e);
 }
 
 
