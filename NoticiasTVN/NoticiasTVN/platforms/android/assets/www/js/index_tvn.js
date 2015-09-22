@@ -72,7 +72,12 @@ var newsDatacontent;
 var urlServices = "http://tvn.news.hecticus.com";
 //var urlServices = "http://10.0.3.148:9000";
 
-function AdMobcreateBanner(id, set) {
+function AdMobShowBanner() {	
+	AdMob.showBanner(AdMob.AD_POSITION.BOTTOM_CENTER);
+}
+
+
+function AdMobcreateBanner(id, show) {
 
 	if (id != null ) { 			
 		/*if (set) {			
@@ -87,15 +92,16 @@ function AdMobcreateBanner(id, set) {
 			    autoShow: true
 			});			
 		}	*/
-		
+			AdMob.removeBanner();
 			AdMob.createBanner({
 			    adId: id,
 			    overlap:true, 
 			    offsetTopBar:true,
 			    position: AdMob.AD_POSITION.BOTTOM_CENTER,
 			    adSize: AdMob.AD_SIZE.SMART_BANNER,
-			    autoShow: true
-			});					
+			    autoShow: show
+			});
+								
 	} else {
 		AdMob.hideBanner();
 	}
@@ -278,7 +284,7 @@ function fBack() {
 	$('#screen-block').addClass('hidden');		
 	$('#datacontent,#datatrending,#spage').show();
 	$('#miForm').hide();
-	AdMob.showBanner(AdMob.AD_POSITION.BOTTOM_CENTER);
+	AdMobShowBanner();
 }
 	
 var upcoming=0;
@@ -811,10 +817,12 @@ function initBasicApp(){
 				
 				if ($('#menu').hasClass('right')) {
 					$('#menu').attr('class','page transition left');
-					$('#screen-block').addClass('hidden');					
+					$('#screen-block').addClass('hidden');
+					AdMobShowBanner();				
 				} else {
 					$('#menu').attr('class','page transition right');
 					$('#screen-block').removeClass('hidden');
+					AdMob.hideBanner();
 				}
 					
 				
@@ -915,7 +923,7 @@ function initBasicApp(){
     				
     				newsDatacontent = $(this).data('id');
     				goToNewsPage();
-    				AdMob.hideBanner();
+    				
 
 				}   
     		});
@@ -991,7 +999,7 @@ function initBasicApp(){
 			
 			function goToNewsPage(){
 				
-				//AdMob.showInterstitial();
+				AdMob.hideBanner();
 				
 				var manager = new NewsManager();
 				manager.loadNewsByIDFromBD(newsDatacontent,successGetNewsDataContentFromBD,noConnectionForNews);
@@ -2042,8 +2050,8 @@ function successGetCategories(results){
 			removeInvalidCategories();
 			//console.log("ARRAY CHANGED: "+JSON.stringify(arrCategory));
 			//endOfAppInitialization();
-			getTrendingIndexesForApp();			
-			AdMobcreateBanner(arrCategory[0].dfp,false);
+			getTrendingIndexesForApp();
+			AdMobcreateBanner(arrCategory[0].dfp,true);
 			
 						
 		}else{
@@ -2457,10 +2465,9 @@ var app = {
     bindEvents: function() {document.addEventListener('deviceready', this.onDeviceReady, false);},
     onDeviceReady: function() {
     	
-    	//AdMobcreateBanner(admobid.banner);
+    	//AdMobcreateBanner(admobid.banner,true);
     	//AdMob.prepareInterstitial( {adId:admobid.interstitial, autoShow:false});
-    	
-    	
+    	    	
    		//Google Analytics
 		initGA();
 		
