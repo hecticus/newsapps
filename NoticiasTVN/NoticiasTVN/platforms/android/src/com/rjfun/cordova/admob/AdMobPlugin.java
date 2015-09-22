@@ -2,8 +2,6 @@ package com.rjfun.cordova.admob;
 
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Random;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;

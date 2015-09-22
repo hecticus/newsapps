@@ -28,7 +28,7 @@ public class CordovaPluginExt extends CordovaPlugin implements PluginAdapterDele
 		else {
 			// Cordova 3.x, class CordovaWebView extends WebView, -> AbsoluteLayout -> ViewGroup -> View -> Object
 			if(View.class.isAssignableFrom(CordovaWebView.class)) {
-				return (View) webView;
+				return webView;
 			}
 			
 			// Cordova 4.0.0-dev, interface CordovaWebView { View getView(); }

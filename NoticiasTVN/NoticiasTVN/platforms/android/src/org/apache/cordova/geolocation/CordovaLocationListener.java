@@ -102,7 +102,8 @@ public class CordovaLocationListener implements LocationListener {
      *
      * @param provider
      */
-    public void onProviderDisabled(String provider) {
+    @Override
+	public void onProviderDisabled(String provider) {
         Log.d(TAG, "Location provider '" + provider + "' disabled.");
         this.fail(POSITION_UNAVAILABLE, "GPS provider disabled.");
     }
@@ -112,7 +113,8 @@ public class CordovaLocationListener implements LocationListener {
      *
      * @param provider
      */
-    public void onProviderEnabled(String provider) {
+    @Override
+	public void onProviderEnabled(String provider) {
         Log.d(TAG, "Location provider "+ provider + " has been enabled");
     }
 
@@ -125,7 +127,8 @@ public class CordovaLocationListener implements LocationListener {
      * @param status
      * @param extras
      */
-    public void onStatusChanged(String provider, int status, Bundle extras) {
+    @Override
+	public void onStatusChanged(String provider, int status, Bundle extras) {
         Log.d(TAG, "The status of the provider " + provider + " has changed");
         if (status == 0) {
             Log.d(TAG, provider + " is OUT OF SERVICE");
@@ -144,7 +147,8 @@ public class CordovaLocationListener implements LocationListener {
      *
      * @param location
      */
-    public void onLocationChanged(Location location) {
+    @Override
+	public void onLocationChanged(Location location) {
         Log.d(TAG, "The location has been updated!");
         this.win(location);
     }

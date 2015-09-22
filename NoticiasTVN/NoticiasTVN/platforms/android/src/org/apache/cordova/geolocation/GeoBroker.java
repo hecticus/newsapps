@@ -26,10 +26,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Context;
-import android.content.Intent;
 import android.location.Location;
 import android.location.LocationManager;
-import android.provider.Settings;
 
 /*
  * This class is the interface to the Geolocation.  It's bound to the geo object.
@@ -50,7 +48,8 @@ public class GeoBroker extends CordovaPlugin {
      * @param callbackContext	The callback id used when calling back into JavaScript.
      * @return 			True if the action was valid, or false if not.
      */
-    public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
+    @Override
+	public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
         if (locationManager == null) {
             locationManager = (LocationManager) this.cordova.getActivity().getSystemService(Context.LOCATION_SERVICE);
         }
@@ -123,7 +122,8 @@ public class GeoBroker extends CordovaPlugin {
      * Called when the activity is to be shut down.
      * Stop listener.
      */
-    public void onDestroy() {
+    @Override
+	public void onDestroy() {
         if (this.networkListener != null) {
             this.networkListener.destroy();
             this.networkListener = null;
@@ -138,7 +138,8 @@ public class GeoBroker extends CordovaPlugin {
      * Called when the view navigates.
      * Stop the listeners.
      */
-    public void onReset() {
+    @Override
+	public void onReset() {
         this.onDestroy();
     }
 

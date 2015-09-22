@@ -91,7 +91,8 @@ public class NetworkManager extends CordovaPlugin {
      * @param cordova The context of the main Activity.
      * @param webView The CordovaWebView Cordova is running in.
      */
-    public void initialize(CordovaInterface cordova, CordovaWebView webView) {
+    @Override
+	public void initialize(CordovaInterface cordova, CordovaWebView webView) {
         super.initialize(cordova, webView);
         this.sockMan = (ConnectivityManager) cordova.getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
         this.connectionCallbackContext = null;
@@ -122,7 +123,8 @@ public class NetworkManager extends CordovaPlugin {
      * @param callbackContext   The callback id used when calling back into JavaScript.
      * @return                  True if the action was valid, false otherwise.
      */
-    public boolean execute(String action, JSONArray args, CallbackContext callbackContext) {
+    @Override
+	public boolean execute(String action, JSONArray args, CallbackContext callbackContext) {
         if (action.equals("getConnectionInfo")) {
             this.connectionCallbackContext = callbackContext;
             NetworkInfo info = sockMan.getActiveNetworkInfo();
@@ -137,7 +139,8 @@ public class NetworkManager extends CordovaPlugin {
     /**
      * Stop network receiver.
      */
-    public void onDestroy() {
+    @Override
+	public void onDestroy() {
         if (this.receiver != null && this.registered) {
             try {
                 this.cordova.getActivity().unregisterReceiver(this.receiver);
