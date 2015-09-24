@@ -330,4 +330,38 @@ public class NewsController extends HecticusController {
             return badRequest(buildBasicResponse(-1, "ocurrio un error:" + ex.toString()));
         }
     }
+
+    public static Result pushInsert(){
+        try {
+            ArrayList<News> toInsert = new ArrayList<News>();
+            //get data from post
+            ObjectNode data = getJson();
+            //get data from json
+            if (data.has("news")){
+                Iterator it = data.get("news").elements();
+                if(it == null || !it.hasNext()){
+                    return ok(buildBasicResponse(0,"no news"));
+                }
+                while (it.hasNext()){
+                    JsonNode current = (JsonNode)it.next();
+                    try {
+                        //build obj
+                        News received = new News(current);
+                        //should process the images??
+                        //encode the news
+                        received.encodeNews();
+                        toInsert.add(received);
+                    }catch (Exception ex){
+                        return ok(buildBasicResponse(-3,"Error: "+ex.toString()));
+                        //must continue
+                    }
+                }
+                //insert
+                News.insertUpdateBatch(toInsert);
+            }
+            return ok(buildBasicResponse(0,"OK"));
+        }catch (Exception ex){
+            return badRequest(buildBasicResponse(-1, "ocurrio un error:" + ex.toString()));
+        }
+    }
 }

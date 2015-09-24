@@ -2,9 +2,7 @@ package models.news;
 
 import com.avaje.ebean.Ebean;
 import com.avaje.ebean.EbeanServer;
-import com.avaje.ebean.Expr;
 import com.avaje.ebean.SqlUpdate;
-import com.avaje.ebean.annotation.PrivateOwned;
 import com.hecticus.rackspacecloud.RackspaceDelete;
 import exceptions.NewsException;
 import models.Config;
@@ -21,9 +19,7 @@ import utils.Utils;
 
 import javax.persistence.*;
 import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 @Entity
@@ -70,6 +66,11 @@ public class News extends HecticusModel{
     //hecticus images resources
     @OneToMany (mappedBy = "parent" , cascade=CascadeType.ALL)
     private List<Resource> resources;
+
+    //ALTER TABLE `tvn_admin`.`news`
+    //ADD COLUMN `push_title` VARCHAR(255) NULL DEFAULT NULL AFTER `pub_date_formated`;
+
+    private String pushTitle;
 
     public News(JsonNode data) throws UnsupportedEncodingException, NewsException {
         //contruct obj from json
@@ -196,6 +197,10 @@ public class News extends HecticusModel{
             }
         }
 
+        if (data.has("push_title")){
+            pushTitle = data.get("push_title").asText();
+        }
+
         if (data.has("idTrending")){
             idTrending = data.get("idTrending").asLong();
         }
@@ -254,6 +259,7 @@ public class News extends HecticusModel{
         //tr.put("StartDate", null);
         tr.put("Title", decode(title));
         tr.put("URL", decode(url));
+        tr.put("pushTitle", decode(pushTitle));
 
         //images
 
@@ -286,6 +292,7 @@ public class News extends HecticusModel{
         //tr.put("StartDate", null);
         tr.put("Title", decode(title));
         tr.put("URL", decode(url));
+        tr.put("pushTitle", decode(pushTitle));
         //resources
         if (resources.size()> 0){
             ObjectNode hec = Json.newObject();
@@ -425,7 +432,7 @@ public class News extends HecticusModel{
     }
 
     public News getExistingNews()  {
-        return finder.where().eq("external_id", externalId).findUnique();
+        return finder.where().eq("external_id", externalId).setMaxRows(1).findUnique();
     }
 
     public static void batchInsertUpdate(ArrayList<News> list) throws Exception {
@@ -458,6 +465,57 @@ public class News extends HecticusModel{
         } finally {
             server.endTransaction();
         }
+    }
+
+    public static void insertUpdateBatch(ArrayList<News> list) throws Exception {
+        EbeanServer server = Ebean.getServer("default");
+        try {
+            server.beginTransaction();
+            for (int i = 0; i < list.size(); i++) {
+                //if exist update or skip
+                News current = list.get(i);
+                News exist = current.getExistingNews();
+                if (exist != null) {
+                    //exists so must update
+                    //update
+                    //remove resources? or update status 0
+                    //update News and insert new resources
+                    current.setIdNews(exist.getIdNews());
+                    current.setInsertedTime(exist.insertedTime);
+                    current.setGenerated(exist.generated);
+                    current.setGenerationTime(exist.generationTime);
+                    if (current.getIdCategory()!= null && current.getIdCategory() == 0){
+                        current.setIdCategory(exist.idCategory);
+                    }
+
+                    server.update(current);
+                }else {
+                    //must insert new
+                    server.insert(current);
+                }
+            }
+            server.commitTransaction();
+        } catch (Exception ex) {
+            server.rollbackTransaction();
+            throw ex;
+        } finally {
+            server.endTransaction();
+        }
+    }
+
+    public void encodeNews(){
+        setBody(encode(body));
+        setCategories(encode(categories));
+        setImage(encode(image));
+        setImage2(encode(image2));
+        setImage3(encode(image3));
+        setImage4(encode(image4));
+        setImage5(encode(image5));
+        setPortalImage(encode(portalImage));
+        setPortalImageDesc(encode(portalImageDesc));
+        setTitle(encode(title));
+        setUrl(encode(url));
+        setPushTitle(encode(pushTitle));
     }
 
     public static List<News> getNewsForNewsCleaner(String date){
@@ -704,5 +762,13 @@ public class News extends HecticusModel{
 
     public void setResources(List<Resource> resources) {
         this.resources = resources;
+    }
+
+    public String getPushTitle() {
+        return pushTitle;
+    }
+
+    public void setPushTitle(String pushTitle) {
+        this.pushTitle = pushTitle;
     }
 }

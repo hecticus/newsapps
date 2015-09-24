@@ -8,6 +8,7 @@ import play.libs.Json;
 import javax.persistence.MappedSuperclass;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.net.URLEncoder;
 
 /**
  * Created by sorcerer on 2/20/14.
@@ -36,6 +37,15 @@ public abstract class HecticusModel extends Model {
         }
         return tr;
 
+    }
+
+    public String encode(String val){
+        String tr = null;
+        try {
+            tr = URLEncoder.encode(val, "UTF-8");
+        }catch (Exception ex){
+        }
+        return tr;
     }
 
 }

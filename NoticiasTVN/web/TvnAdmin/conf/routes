@@ -24,6 +24,7 @@ POST    /newsapi/v1/news/search/list                    controllers.newsapi.News
 POST    /newsapi/v1/news/insert                         controllers.newsapi.NewsController.insert()
 POST    /newsapi/v1/news/update                         controllers.newsapi.NewsController.update()
 #POST   /newsapi/v1/news/insertTrending                controllers.newsapi.NewsController.insertTrending()
+POST    /newsapi/v1/news/pushinsert                     controllers.newsapi.NewsController.pushInsert()
 
 #update news
 
