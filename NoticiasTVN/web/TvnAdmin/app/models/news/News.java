@@ -197,8 +197,8 @@ public class News extends HecticusModel{
             }
         }
 
-        if (data.has("push_title")){
-            pushTitle = data.get("push_title").asText();
+        if (data.has("pushTitle")){
+            pushTitle = data.get("pushTitle").asText();
         }
 
         if (data.has("idTrending")){
