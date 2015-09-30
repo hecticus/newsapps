@@ -132,7 +132,8 @@ public class SocialSharing extends CordovaPlugin {
   }
 
   // cleanup after ourselves
-  public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+  @Override
+public void onActivityResult(int requestCode, int resultCode, Intent intent) {
     if (tempFile != null) {
       //noinspection ResultOfMethodCallIgnored
       tempFile.delete();

@@ -20,17 +20,13 @@
 package com.tvn.app.mobile.TVNNoticias;
 
 import android.content.Context;
-import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.graphics.Point;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.view.Display;
 
 import org.apache.cordova.*;
 
-import com.google.analytics.tracking.android.Log;
 import com.tvn.app.mobile.TVNNoticias.R;
 
 public class NoticiasTVN extends CordovaActivity 
