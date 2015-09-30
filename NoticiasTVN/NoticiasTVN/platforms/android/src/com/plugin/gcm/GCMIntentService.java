@@ -1,7 +1,5 @@
 package com.plugin.gcm;
 
-import java.util.List;
-
 import com.google.android.gcm.GCMBaseIntentService;
 import com.google.android.gcm.GCMRegistrar;
 import com.tvn.app.mobile.TVNNoticias.R;
@@ -9,10 +7,7 @@ import com.tvn.app.mobile.TVNNoticias.R;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.R.string;
 import android.annotation.SuppressLint;
-import android.app.ActivityManager;
-import android.app.ActivityManager.RunningTaskInfo;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -147,13 +142,13 @@ public class GCMIntentService extends GCMBaseIntentService {
 		//se puede hacer que solo se alerte la primera vez y si no se ha visto la alerta no vuelva a sonar
 		//mBuilder.setOnlyAlertOnce(true);
 		
-		mNotificationManager.notify((String) appName, NOTIFICATION_ID, mBuilder.build());
+		mNotificationManager.notify(appName, NOTIFICATION_ID, mBuilder.build());
 	}
 	
 	public static void cancelNotification(Context context)
 	{
 		NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-		mNotificationManager.cancel((String)getAppName(context), NOTIFICATION_ID);	
+		mNotificationManager.cancel(getAppName(context), NOTIFICATION_ID);	
 	}
 	
 	private static String getAppName(Context context)

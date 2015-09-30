@@ -1,0 +1,29 @@
+{
+    "com.google.cordova.admob": {
+        "source": {
+            "type": "registry",
+            "id": "com.google.cordova.admob"
+        }
+    },
+    "com.rjfun.cordova.extension": {
+        "source": {
+            "type": "registry",
+            "id": "com.rjfun.cordova.extension"
+        }
+    },
+    "com.google.playservices": {
+        "source": {
+            "type": "git",
+            "url": "https://github.com/floatinghotpot/google-play-services",
+            "subdir": ".",
+            "ref": "r19"
+        }
+    },
+    "com.adobe.plugins.GAPlugin": {
+        "source": {
+            "type": "git",
+            "url": "https://github.com/phonegap-build/GAPlugin",
+            "subdir": "."
+        }
+    }
+}

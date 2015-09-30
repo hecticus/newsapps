@@ -8,6 +8,8 @@ var createCategoryQuery = 'CREATE TABLE IF NOT EXISTS CATEGORY_TVN (category_tvn
 'category_trending INTEGER DEFAULT NULL,'+
 'category_hidden INTEGER DEFAULT NULL,'+
 'category_iconClass TEXT DEFAULT NULL,'+
+'category_dfp TEXT DEFAULT NULL,'+
+'category_dfp_type INTEGER DEFAULT NULL,'+
 'PRIMARY KEY (category_tvn_id))';
 
 //declaring the constructor
@@ -127,7 +129,7 @@ CategoryManager.prototype = {
 			trending: false,
 			sort: 0*/
 
-			var insertStatement = 'INSERT INTO CATEGORY_TVN(category_tvn_id,category_name,category_shortName,category_feedUrl,category_internalUrl,category_pushable,category_trending,category_hidden,category_iconClass)'+
+			var insertStatement = 'INSERT INTO CATEGORY_TVN(category_tvn_id,category_name,category_shortName,category_feedUrl,category_internalUrl,category_pushable,category_trending,category_hidden,category_iconClass,category_dfp,category_dfp_type)'+
 			'VALUES ('+insertObj.id+','+
 			'"'+encodeURIComponent(insertObj.name)+'",'+
 			'"'+encodeURIComponent(insertObj.shortName)+'",'+
@@ -136,7 +138,9 @@ CategoryManager.prototype = {
 			''+(insertObj.pushable?1:0)+','+
 			''+(insertObj.trending?1:0)+','+
 			''+(insertObj.hidden?1:0)+','+			
-			'"'+encodeURIComponent(insertObj.iconClass)+'"'+			
+			'"'+encodeURIComponent(insertObj.iconClass)+'",'+
+			'"'+encodeURIComponent(insertObj.dfp)+'",'+
+			''+(insertObj.dfp_type?1:0)+''+						
 			');';
 	    	//console.log("INSERT: "+insertStatement);
 			printToLog("saveAllCategoryToDB 1.5 "+insertStatement);
@@ -158,7 +162,9 @@ function decodeCategory(encodedResult){
 	result["pushable"] = encodedResult.category_pushable;
 	result["trending"] = encodedResult.category_trending;
 	result["hidden"] = encodedResult.category_hidden;
-	result["iconClass"] = decodeURIComponent(encodedResult.category_iconClass);
+	result["iconClass"] = decodeURIComponent(encodedResult.category_iconClass);	
+	result["dfp"] = decodeURIComponent(encodedResult.category_dfp);
+	result["dfp_type"] = decodeURIComponent(encodedResult.category_dfp_type);	
 	return result;
 }
 

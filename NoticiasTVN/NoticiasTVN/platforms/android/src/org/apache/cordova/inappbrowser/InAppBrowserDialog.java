@@ -18,13 +18,8 @@
 */
 package org.apache.cordova.inappbrowser;
 
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
-import android.util.Log;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 /**
  * Created by Oliver on 22/11/2013.
@@ -42,7 +37,8 @@ public class InAppBrowserDialog extends Dialog {
         this.inAppBrowser = browser;
     }
 
-    public void onBackPressed () {
+    @Override
+	public void onBackPressed () {
         if (this.inAppBrowser == null) {
             this.dismiss();
         } else {

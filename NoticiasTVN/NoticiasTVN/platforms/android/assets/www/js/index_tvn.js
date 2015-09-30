@@ -17,6 +17,19 @@
  * under the License.
  */    
 
+
+
+var enabledAdMob = true; // easily enable/disable AdMob
+var admobid = {};
+if( /(android)/i.test(navigator.userAgent) ) 
+{ 
+    admobid = { // for Android    		     
+   	banner: "/2259226/noticias_app_hec_home_list",
+    interstitial: '/6253334/dfp_example_ad/interstitial'
+    };
+}     
+
+
 var json_yo_informo = {term_slug:'',message:'',addres:'',latitude:8.537981, longitude:-80.782127,mobile:'',first_name:'',last_name:'',email:'',photo:'',img:''};
 var info_app = 'Sobre este APP';
 var yo_informo = 'Yo Informo';
@@ -58,6 +71,44 @@ var newsDatacontent;
 
 var urlServices = "http://tvn.news.hecticus.com";
 //var urlServices = "http://10.0.3.148:9000";
+
+function AdMobShowBanner() {	
+	AdMob.showBanner(AdMob.AD_POSITION.BOTTOM_CENTER);
+}
+
+
+function AdMobcreateBanner(id, show) {
+
+	if (id != null ) { 			
+		/*if (set) {			
+			AdMob.hideBanner();
+			AdMob.setOptions({ adId: id }, AdMobSuccess, AdMobError);	
+			AdMob.showBanner(AdMob.AD_POSITION.BOTTOM_CENTER);
+		} else {
+			AdMob.createBanner({
+			    adId: id,
+			    position: AdMob.AD_POSITION.BOTTOM_CENTER,
+			    adSize: AdMob.AD_SIZE.SMART_BANNER,
+			    autoShow: true
+			});			
+		}	*/
+			AdMob.removeBanner();
+			AdMob.createBanner({
+			    adId: id,
+			    overlap:true, 
+			    offsetTopBar:true,
+			    position: AdMob.AD_POSITION.BOTTOM_CENTER,
+			    adSize: AdMob.AD_SIZE.SMART_BANNER,
+			    autoShow: show
+			});
+								
+	} else {
+		AdMob.hideBanner();
+	}
+
+	
+}
+
 
 //INIT FUNCTIONS
 //Funcion que permite rellenar el menu por codigo
@@ -233,6 +284,7 @@ function fBack() {
 	$('#screen-block').addClass('hidden');		
 	$('#datacontent,#datatrending,#spage').show();
 	$('#miForm').hide();
+	AdMobShowBanner();
 }
 	
 var upcoming=0;
@@ -556,7 +608,9 @@ function initBasicApp(){
 						gaPlugin.setVariable(successGAHandler, errorGAHandler, 1, arrCategory[this.currPageX].title);
     					gaPlugin.trackEvent(successGAHandler, errorGAHandler, "swype-category", "swype", "section", 1);
     					gaPlugin.trackPage(successGAHandler, errorGAHandler, arrCategory[this.currPageX].title);
-    					
+    					    				
+    					AdMobcreateBanner(arrCategory[this.currPageX].dfp,true);
+    					    					
 					}
 					
 					this.lastPageX=this.currPageX;
@@ -763,10 +817,12 @@ function initBasicApp(){
 				
 				if ($('#menu').hasClass('right')) {
 					$('#menu').attr('class','page transition left');
-					$('#screen-block').addClass('hidden');					
+					$('#screen-block').addClass('hidden');
+					AdMobShowBanner();				
 				} else {
 					$('#menu').attr('class','page transition right');
 					$('#screen-block').removeClass('hidden');
+					AdMob.hideBanner();
 				}
 					
 				
@@ -816,6 +872,7 @@ function initBasicApp(){
 						fYoInformo(-1);
     				} else {
     					
+    					//AdMob.showInterstitial();
 	    				trendingview=false;
 	    				$('#screen-block').addClass('hidden');		
 	    				$('#header-title').html(arrCategory[$(this).data('position')].title);
@@ -866,6 +923,7 @@ function initBasicApp(){
     				
     				newsDatacontent = $(this).data('id');
     				goToNewsPage();
+    				
 
 				}   
     		});
@@ -940,7 +998,9 @@ function initBasicApp(){
 }								
 			
 			function goToNewsPage(){
-
+				
+				AdMob.hideBanner();
+				
 				var manager = new NewsManager();
 				manager.loadNewsByIDFromBD(newsDatacontent,successGetNewsDataContentFromBD,noConnectionForNews);
 				
@@ -951,8 +1011,7 @@ function initBasicApp(){
 				$($(this).data('news')).show();								
 				$('.position').html('1');
 				$('#datacontent').attr('class','page transition left');
-					
-									
+													
 			}
 			
 			function goToNewsPageFromPush(newsArray){
@@ -1992,6 +2051,9 @@ function successGetCategories(results){
 			//console.log("ARRAY CHANGED: "+JSON.stringify(arrCategory));
 			//endOfAppInitialization();
 			getTrendingIndexesForApp();
+			AdMobcreateBanner(arrCategory[0].dfp,true);
+			
+						
 		}else{
 			console.log("Error CATEGORIES");
 			noConnectionForNewsInit();
@@ -2389,12 +2451,23 @@ function sendYoInformoData(){
 }
 
 
+function AdMobSuccess(s) {
+	//alert('AdMobSuccess -> ' + s);
+}
+
+function AdMobError(e) {
+	//alert('AdMobError -> ' + e);
+}
+
+
 var app = {
     initialize: function() {this.bindEvents();},
     bindEvents: function() {document.addEventListener('deviceready', this.onDeviceReady, false);},
     onDeviceReady: function() {
-  
     	
+    	//AdMobcreateBanner(admobid.banner,true);
+    	//AdMob.prepareInterstitial( {adId:admobid.interstitial, autoShow:false});
+    	    	
    		//Google Analytics
 		initGA();
 		

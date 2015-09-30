@@ -50,8 +50,11 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.provider.BaseColumns;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
+import android.provider.MediaStore.Images.ImageColumns;
+import android.provider.MediaStore.MediaColumns;
 import android.util.Base64;
 import android.util.Log;
 
@@ -109,7 +112,8 @@ public class CameraLauncher extends CordovaPlugin implements MediaScannerConnect
      * @param callbackContext   The callback id used when calling back into JavaScript.
      * @return                  A PluginResult object with a status and message.
      */
-    public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
+    @Override
+	public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
         this.callbackContext = callbackContext;
 
         if (action.equals("takePicture")) {
@@ -216,7 +220,7 @@ public class CameraLauncher extends CordovaPlugin implements MediaScannerConnect
         this.imageUri = Uri.fromFile(photo);
 
         if (this.cordova != null) {
-            this.cordova.startActivityForResult((CordovaPlugin) this, intent, (CAMERA + 1) * 16 + returnType + 1);
+            this.cordova.startActivityForResult(this, intent, (CAMERA + 1) * 16 + returnType + 1);
         }
 //        else
 //            LOG.d(LOG_TAG, "ERROR: You must use the CordovaInterface for this to work correctly. Please implement it in your activity");
@@ -290,7 +294,7 @@ public class CameraLauncher extends CordovaPlugin implements MediaScannerConnect
           intent.addCategory(Intent.CATEGORY_OPENABLE);
         }
         if (this.cordova != null) {
-            this.cordova.startActivityForResult((CordovaPlugin) this, Intent.createChooser(intent,
+            this.cordova.startActivityForResult(this, Intent.createChooser(intent,
                     new String(title)), (srcType + 1) * 16 + returnType + 1);
         }
     }
@@ -323,7 +327,7 @@ public class CameraLauncher extends CordovaPlugin implements MediaScannerConnect
       // start the activity - we handle returning in onActivityResult
 
       if (this.cordova != null) {
-        this.cordova.startActivityForResult((CordovaPlugin) this,
+        this.cordova.startActivityForResult(this,
             cropIntent, CROP_CAMERA);
       }
     } catch (ActivityNotFoundException anfe) {
@@ -579,7 +583,8 @@ private String ouputModifiedBitmap(Bitmap bitmap, Uri uri) throws IOException {
      * @param resultCode        The integer result code returned by the child activity through its setResult().
      * @param intent            An Intent, which can return result data to the caller (various data can be attached to Intent "extras").
      */
-    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+    @Override
+	public void onActivityResult(int requestCode, int resultCode, Intent intent) {
 
         // Get src and dest types from request code
         int srcType = (requestCode / 16) - 1;
@@ -667,7 +672,7 @@ private String ouputModifiedBitmap(Bitmap bitmap, Uri uri) throws IOException {
 
     private int getImageOrientation(Uri uri) {
         int rotate = 0;
-        String[] cols = { MediaStore.Images.Media.ORIENTATION };
+        String[] cols = { ImageColumns.ORIENTATION };
         try {
             Cursor cursor = cordova.getActivity().getContentResolver().query(uri,
                     cols, null, null, null);
@@ -743,7 +748,7 @@ private String ouputModifiedBitmap(Bitmap bitmap, Uri uri) throws IOException {
      */
     private Uri getUriFromMediaStore() {
         ContentValues values = new ContentValues();
-        values.put(android.provider.MediaStore.Images.Media.MIME_TYPE, "image/jpeg");
+        values.put(MediaColumns.MIME_TYPE, "image/jpeg");
         Uri uri;
         try {
             uri = this.cordova.getActivity().getContentResolver().insert(android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
@@ -873,7 +878,7 @@ private String ouputModifiedBitmap(Bitmap bitmap, Uri uri) throws IOException {
     private Cursor queryImgDB(Uri contentStore) {
         return this.cordova.getActivity().getContentResolver().query(
                 contentStore,
-                new String[] { MediaStore.Images.Media._ID },
+                new String[] { BaseColumns._ID },
                 null,
                 null,
                 null);
@@ -920,7 +925,7 @@ private String ouputModifiedBitmap(Bitmap bitmap, Uri uri) throws IOException {
         // delete the duplicate file if the difference is 2 for file URI or 1 for Data URL
         if ((currentNumOfImages - numPics) == diff) {
             cursor.moveToLast();
-            int id = Integer.valueOf(cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media._ID)));
+            int id = Integer.valueOf(cursor.getString(cursor.getColumnIndex(BaseColumns._ID)));
             if (diff == 2) {
                 id--;
             }
@@ -983,7 +988,8 @@ private String ouputModifiedBitmap(Bitmap bitmap, Uri uri) throws IOException {
         conn.connect();
     }
 
-    public void onMediaScannerConnected() {
+    @Override
+	public void onMediaScannerConnected() {
         try{
             this.conn.scanFile(this.scanMe.toString(), "image/*");
         } catch (java.lang.IllegalStateException e){
@@ -992,7 +998,8 @@ private String ouputModifiedBitmap(Bitmap bitmap, Uri uri) throws IOException {
 
     }
 
-    public void onScanCompleted(String path, Uri uri) {
+    @Override
+	public void onScanCompleted(String path, Uri uri) {
         this.conn.disconnect();
     }
     
