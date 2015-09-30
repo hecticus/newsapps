@@ -132,7 +132,8 @@ public class FileTransfer extends CordovaPlugin {
         super(gzin);
         this.gzin = gzin;
       }
-      public long getTotalRawBytesRead() {
+      @Override
+	public long getTotalRawBytesRead() {
         return gzin.getInflater().getBytesRead();
       }
   }
@@ -168,7 +169,8 @@ public class FileTransfer extends CordovaPlugin {
             return updateBytesRead(super.read(bytes, offset, count));
         }
 
-        public long getTotalRawBytesRead() {
+        @Override
+		public long getTotalRawBytesRead() {
           return bytesRead;
         }
     }
@@ -280,7 +282,8 @@ public class FileTransfer extends CordovaPlugin {
         }
         
         cordova.getThreadPool().execute(new Runnable() {
-            public void run() {
+            @Override
+			public void run() {
                 if (context.aborted) {
                     return;
                 }
@@ -530,21 +533,25 @@ public class FileTransfer extends CordovaPlugin {
 
     // always verify the host - don't check for certificate
     private static final HostnameVerifier DO_NOT_VERIFY = new HostnameVerifier() {
-        public boolean verify(String hostname, SSLSession session) {
+        @Override
+		public boolean verify(String hostname, SSLSession session) {
             return true;
         }
     };
     // Create a trust manager that does not validate certificate chains
     private static final TrustManager[] trustAllCerts = new TrustManager[] { new X509TrustManager() {
-        public java.security.cert.X509Certificate[] getAcceptedIssuers() {
+        @Override
+		public java.security.cert.X509Certificate[] getAcceptedIssuers() {
             return new java.security.cert.X509Certificate[] {};
         }
         
-        public void checkClientTrusted(X509Certificate[] chain,
+        @Override
+		public void checkClientTrusted(X509Certificate[] chain,
                 String authType) throws CertificateException {
         }
         
-        public void checkServerTrusted(X509Certificate[] chain,
+        @Override
+		public void checkServerTrusted(X509Certificate[] chain,
                 String authType) throws CertificateException {
         }
     } };
@@ -694,7 +701,8 @@ public class FileTransfer extends CordovaPlugin {
         }
         
         cordova.getThreadPool().execute(new Runnable() {
-            public void run() {
+            @Override
+			public void run() {
                 if (context.aborted) {
                     return;
                 }
@@ -861,7 +869,8 @@ public class FileTransfer extends CordovaPlugin {
             }
             // Closing the streams can block, so execute on a background thread.
             cordova.getThreadPool().execute(new Runnable() {
-                public void run() {
+                @Override
+				public void run() {
                     synchronized (context) {
                         safeClose(context.currentInputStream);
                         safeClose(context.currentOutputStream);

@@ -28,6 +28,7 @@
         <icon density="port-hdpi" src="res/android/drawable-hdpi/icon.png" />
         <icon density="xhdpi" src="res/android/drawable-xhdpi/icon.png" />
         <icon density="port-xhdpi" src="res/android/drawable-xhdpi/icon.png" />
+        <hook type="after_prepare" src="hooks/custom_task/androidResourcesCpy.js" />
     </platform>
     <platform name="ios">
         <framework src="SystemConfiguration.framework" />
