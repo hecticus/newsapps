@@ -250,12 +250,12 @@ module.exports = [
         ]
     },
     {
-    	"file": "plugins/com.adobe.plugins.GAPlugin/www/GAPlugin.js",
-    	"id": "com.adobe.plugins.GAPlugin.GAPlugin",
-    	"clobbers": [
-    		"GAPlugin"
-    	]
-	}    
+        "file": "plugins/com.xmartlabs.cordova.market/www/market.js",
+        "id": "com.xmartlabs.cordova.market.Market",
+        "clobbers": [
+            "cordova.plugins.market"
+        ]
+    }
 ];
 module.exports.metadata = 
 // TOP OF METADATA
@@ -272,6 +272,7 @@ module.exports.metadata =
     "org.apache.cordova.inappbrowser": "0.4.0",
     "org.apache.cordova.camera": "0.2.9",
     "com.google.cordova.admob": "2.7.8",
+    "com.xmartlabs.cordova.market": "1.1",
     "com.rjfun.cordova.extension": "1.1.4",
     "com.google.playservices": "19.0.0"
 }

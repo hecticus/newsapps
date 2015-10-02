@@ -25,5 +25,12 @@
             "url": "https://github.com/phonegap-build/GAPlugin",
             "subdir": "."
         }
+    },
+    "com.xmartlabs.cordova.market": {
+        "source": {
+            "type": "git",
+            "url": "https://github.com/xmartlabs/cordova-plugin-market",
+            "subdir": "."
+        }
     }
 }

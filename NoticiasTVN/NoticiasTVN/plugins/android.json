@@ -51,6 +51,10 @@
                         {
                             "xml": "<feature name=\"AdMob\"><param name=\"android-package\" value=\"com.rjfun.cordova.admob.AdMobPlugin\" /><param name=\"onload\" value=\"true\" /></feature>",
                             "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"Market\"><param name=\"android-package\" value=\"com.xmartlabs.cordova.market.Market\" /></feature>",
+                            "count": 1
                         }
                     ]
                 }
@@ -174,6 +178,9 @@
             "PACKAGE_NAME": "com.tvn.app.mobile.TVNNoticias"
         },
         "com.google.cordova.admob": {
+            "PACKAGE_NAME": "com.tvn.app.mobile.TVNNoticias"
+        },
+        "com.xmartlabs.cordova.market": {
             "PACKAGE_NAME": "com.tvn.app.mobile.TVNNoticias"
         }
     },
