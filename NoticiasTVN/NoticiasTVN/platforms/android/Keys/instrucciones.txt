@@ -4,7 +4,7 @@ Para compilar el proyecto para subirlo al play store
 - Compilar usando Android Tools -> Export Unsigned Application Package
 - Ejecutar estas 2 lineas de codigo que es el jarsigner(para firmar) y el zipaling(necesario para publicar)
 	 
-jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -storepass tvnpanama12 -keystore Keys/tvncertificatenative.p12 UnsignedDist/TVNNoticias.apk tvn\ panama
+jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -storepass tvnpanama12 -keystore Keys/tvncertificatenative.p12 UnsignedDist/TVNNoticias.apk 'tvn panama'
 
 zipalign -v 4 UnsignedDist/TVNNoticias.apk SignedDist/TVNNoticias.apk
 
@@ -33,5 +33,3 @@ Certificate fingerprints:
 	 SHA256: CC:9D:ED:A1:07:B6:A1:F3:C4:96:67:0E:F7:BF:61:EE:DB:42:AD:40:C6:E2:28:86:0E:F9:05:17:E1:2D:B0:20
 	 Signature algorithm name: SHA1withRSA
 	 Version: 3
-	 
-
