@@ -2,11 +2,11 @@ package com.plugin.gcm;
 
 import com.google.android.gcm.GCMBaseIntentService;
 import com.google.android.gcm.GCMRegistrar;
-import com.tvn.app.mobile.TVNNoticias.R;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import air.com.tvn.app.mobile.TVNNoticias.R;
 import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.app.NotificationManager;
